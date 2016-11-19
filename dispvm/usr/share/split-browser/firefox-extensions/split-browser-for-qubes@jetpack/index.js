@@ -12,6 +12,8 @@
                     .FileUtils.File(env.SPLIT_BROWSER_REQ_SOCKET);
   const TransportService = Cc["@mozilla.org/network/socket-transport-service;1"]
                            .getService(Ci.nsISocketTransportService);
+  const ObserverService  = Cc["@mozilla.org/observer-service;1"]
+                           .getService(Ci.nsIObserverService);
   const FieldSep  = "\t";
   const RecordSep = "\n";
   const BadByte = new RegExp([FieldSep, RecordSep, "\0"].join("|"), "g");
@@ -56,10 +58,16 @@
   }
 
   function restart() {
-    sendReq(["restart"]);
+    var cancel = Cc["@mozilla.org/supports-PRBool;1"]
+                 .createInstance(Ci.nsISupportsPRBool);
+    ObserverService.notifyObservers(cancel, "quit-application-requested", null);
 
-    Cc["@mozilla.org/toolkit/app-startup;1"].getService(Ci.nsIAppStartup)
-    .quit(Ci.nsIAppStartup.eForceQuit);
+    if (!cancel.data) {
+      sendReq(["restart"]);
+
+      Cc["@mozilla.org/toolkit/app-startup;1"].getService(Ci.nsIAppStartup)
+      .quit(Ci.nsIAppStartup.eAttemptQuit);
+    }
   }
 
   function moveDownloads() {
