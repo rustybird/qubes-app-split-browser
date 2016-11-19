@@ -1,0 +1,25 @@
+#!/usr/bin/awk -f
+
+BEGIN {
+    FS = "\t"
+
+    date_len  = ENVIRON["SPLIT_BROWSER_BOOKMARK_PRETTY_DATE_LEN"]
+    title_len = ENVIRON["SPLIT_BROWSER_BOOKMARK_PRETTY_TITLE_LEN"]
+    prefix    = ENVIRON["SPLIT_BROWSER_BOOKMARK_PRETTY_PREFIX"]
+    fs        = ENVIRON["SPLIT_BROWSER_BOOKMARK_PRETTY_FS"]
+    trunc     = ENVIRON["SPLIT_BROWSER_BOOKMARK_PRETTY_TRUNC"]
+}
+
+{
+    date  = $1
+    url   = $2
+    title = $3
+
+    printf prefix "%s" fs "%-" title_len "s" fs "%s\n",
+           substr(date, 1, date_len),
+           (length(title) >  title_len ?
+            substr(title, 1, title_len - length(trunc)) trunc :
+            title),
+           url
+    fflush()
+}

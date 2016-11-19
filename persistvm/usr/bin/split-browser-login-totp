@@ -1,0 +1,12 @@
+#!/bin/bash
+set -e -o pipefail
+
+if [[ -s oath-key-hex ]]; then
+    key=$(cat oath-key-hex)
+    otp=$(oathtool --totp -- "${key:?}")
+else
+    key=$(cat oath-key-base32)
+    otp=$(oathtool --totp --base32 -- "${key:?}")
+fi
+
+split-browser-cmd helper xdotool type "$otp" $'\r'

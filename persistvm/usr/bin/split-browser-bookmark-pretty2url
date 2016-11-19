@@ -1,0 +1,13 @@
+#!/usr/bin/awk -f
+
+BEGIN {
+    date_len  = ENVIRON["SPLIT_BROWSER_BOOKMARK_PRETTY_DATE_LEN"]
+    title_len = ENVIRON["SPLIT_BROWSER_BOOKMARK_PRETTY_TITLE_LEN"]
+    prefix    = ENVIRON["SPLIT_BROWSER_BOOKMARK_PRETTY_PREFIX"]
+    fs        = ENVIRON["SPLIT_BROWSER_BOOKMARK_PRETTY_FS"]
+}
+
+{
+    print substr($0, 1 + length(prefix) + date_len + title_len + 2*length(fs))
+    fflush()
+}

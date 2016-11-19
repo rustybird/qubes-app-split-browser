@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=Split Browser (Security Slider: High)
+GenericName=Web Browser
+Comment=Disposable browser with persistent yet isolated bookmarks and passwords
+Keywords=Firefox;Tor
+Categories=Network;WebBrowser;Security
+Icon=web-browser
+Type=Application
+Exec=split-browser --high %u
+Terminal=false
+StartupNotify=false

@@ -1,0 +1,33 @@
+#!/bin/bash
+set -e -o pipefail
+shopt -s nullglob
+
+for f in /etc/split-browser/disp/*.bash; do source "$f"; done
+
+exec 2>>"$SPLIT_BROWSER_LOG_FILE"
+export SPLIT_BROWSER_REQ_SOCKET
+
+
+socat "UNIX-LISTEN:$SPLIT_BROWSER_REQ_SOCKET,fork,max-children=1" - &
+
+while IFS=$'\t' read -r -a cmd; do
+    case "${cmd[0]}" in
+        setup)
+            (
+                split_browser_cd_firefox_profile
+                mkdir -p extensions
+                ln -s /usr/share/split-browser/firefox-extensions/* extensions
+                printf '%s\n' "${cmd[@]:1}" >>prefs.js
+            )
+        ;;
+        master)
+            (
+                "${cmd[@]:1}" || true
+                kill -9 $! $$
+            ) &
+        ;;
+        helper)
+            "${cmd[@]:1}"
+        ;;
+    esac
+done >&2

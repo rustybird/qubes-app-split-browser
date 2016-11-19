@@ -1,0 +1,9 @@
+#!/bin/bash
+set -e -o pipefail
+
+user=$(cat user)
+pass=$(cat pass)
+
+# can't transmit tab literals yet
+split-browser-cmd helper \
+bash -c "xdotool type \"\$0\" \$'\t' \"\$1\" \$'\r'" "${user:?}" "${pass:?}"

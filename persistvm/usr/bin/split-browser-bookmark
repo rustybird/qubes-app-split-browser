@@ -1,0 +1,65 @@
+#!/bin/bash
+set -e -o pipefail
+shopt -s nullglob
+
+for f in {,/usr/local}/etc/split-browser/persist/*.bash; do source "$f"; done
+
+
+notify() {
+   local summary=$1
+   local body=$2
+
+   body=${body//&/&amp;}  # Yeah I don't like this either.
+   body=${body//</&lt;}   # What kind of protocol doesn't allow
+   body=${body//>/&gt;}   # clients to pass a string as plain text?
+
+   notify-send --expire-time=4000 "$summary" "$body"
+}
+
+
+case "$1" in
+    get)
+        [[ $# == 1 ]]
+
+        export SPLIT_BROWSER_BOOKMARK_PRETTY_DATE_LEN \
+               SPLIT_BROWSER_BOOKMARK_PRETTY_TITLE_LEN \
+               SPLIT_BROWSER_BOOKMARK_PRETTY_FS="  " \
+               SPLIT_BROWSER_BOOKMARK_PRETTY_PREFIX="$SPLIT_BROWSER_STAR " \
+               SPLIT_BROWSER_BOOKMARK_PRETTY_TRUNC="$SPLIT_BROWSER_ELLIPSIS"
+
+        {
+            echo  # select an empty line in dmenu initially
+            split-browser-bookmark-pretty <"$SPLIT_BROWSER_BOOKMARK_FILE"
+        } |
+        split_browser_dmenu -i -l 20 |
+        split-browser-bookmark-pretty2url |
+        grep --line-buffered . |
+        while read -r url; do  # dmenu >= 4.6 can select multiple entries
+            split-browser-cmd helper split_browser_firefox --new-tab "$url"
+        done
+    ;;
+    add)
+        [[ $# == 3 ]]
+        url=$2
+        title=$3
+
+        timestamp=$(date --rfc-3339=seconds)
+        mkdir -p -- "$(dirname -- "$SPLIT_BROWSER_BOOKMARK_FILE")"
+        touch -a -- "$SPLIT_BROWSER_BOOKMARK_FILE"
+
+        if cut -f 2 <"$SPLIT_BROWSER_BOOKMARK_FILE" | grep -Fxq "$url"; then
+            notify 'Already bookmarked' "$url"
+        else
+            set -o noclobber
+
+            printf '%s\t%s\t%s\n' "$timestamp" "$url" "$title" |
+            cat -- "$SPLIT_BROWSER_BOOKMARK_FILE" - \
+                  >"$SPLIT_BROWSER_BOOKMARK_FILE".tmp
+
+            mv  -- "$SPLIT_BROWSER_BOOKMARK_FILE".tmp \
+                   "$SPLIT_BROWSER_BOOKMARK_FILE"
+
+            notify "$SPLIT_BROWSER_STAR  Page bookmarked" "$url"$'\n\n'"$title"
+        fi
+    ;;
+esac

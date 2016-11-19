@@ -1,0 +1,3 @@
+#!/bin/sh -ex
+
+sudo cp -pR -- etc usr "$DESTDIR"/

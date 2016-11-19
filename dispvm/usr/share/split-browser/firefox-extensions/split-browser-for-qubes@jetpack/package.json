@@ -1,0 +1,7 @@
+{
+  "title":       "Split Browser for Qubes",
+  "id":          "split-browser-for-qubes@jetpack",
+  "version":     "0",
+  "engines":     { "firefox": ">=45.0" },
+  "permissions": { "private-browsing": true }
+}

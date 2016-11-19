@@ -1,0 +1,9 @@
+#
+# dmenu >= 4.6 is needed for proper Unicode support!
+#
+
+SPLIT_BROWSER_ELLIPSIS=$'\u2026'
+SPLIT_BROWSER_STAR=$'\u2605'
+
+# allow page titles and decoded URLs beyond printable ASCII
+SPLIT_BROWSER_CHARSET=utf-8

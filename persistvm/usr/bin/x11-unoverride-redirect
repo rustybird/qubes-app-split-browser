@@ -1,0 +1,35 @@
+#!/usr/bin/python
+#
+# Run given command; switch OverrideRedirect off on one new X11 window.
+# Useful for working around https://github.com/QubesOS/qubes-issues/issues/2311
+#
+# Example: x11-unoverride-redirect dmenu -i
+
+import sys
+import subprocess
+import xcb
+from xcb.xproto import CW
+
+conn = xcb.connect()
+core = conn.core
+root = conn.get_setup().roots[0].root
+old  = set(core.QueryTree(root).reply().children)
+cmd  = subprocess.Popen(sys.argv[1:], bufsize=0)
+
+while cmd.poll() == None:  # still running
+  new = set(core.QueryTree(root).reply().children)
+  for win in new - old:
+    if core.GetWindowAttributes(win).reply().override_redirect == 1:
+      for cookie in [
+         core.ChangeWindowAttributesChecked(win, CW.OverrideRedirect, [False]),
+         core.UnmapWindowChecked(win),
+         core.MapWindowChecked(win)
+      ]: cookie.check()
+      conn.disconnect()
+      cmd.wait()
+  old = new
+
+status = cmd.returncode
+if status < 0:
+  status = 128 - status
+exit(status)
