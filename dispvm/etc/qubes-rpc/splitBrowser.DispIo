@@ -22,7 +22,7 @@ while IFS=$'\t' read -r -a cmd; do
         ;;
         master)
             (
-                "${cmd[@]:1}" || true
+                "${cmd[@]:1}"
                 kill -9 $! $$
             ) &
         ;;
