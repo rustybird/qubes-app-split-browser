@@ -6,17 +6,19 @@
   const { env }        = require("sdk/system/environment");
   const subprocess     = require("sdk/system/child_process/subprocess");
   const tabs           = require("sdk/tabs");
-  const tab_utils      = require("sdk/tabs/utils");
+  const tabUtils       = require("sdk/tabs/utils");
+
+  const ObserverService  = Cc["@mozilla.org/observer-service;1"]
+                           .getService(Ci.nsIObserverService);
+  const TransportService = Cc["@mozilla.org/network/socket-transport-service;1"]
+                           .getService(Ci.nsISocketTransportService);
 
   const ReqSocket = Cu.import("resource://gre/modules/FileUtils.jsm")
                     .FileUtils.File(env.SPLIT_BROWSER_REQ_SOCKET);
-  const TransportService = Cc["@mozilla.org/network/socket-transport-service;1"]
-                           .getService(Ci.nsISocketTransportService);
-  const ObserverService  = Cc["@mozilla.org/observer-service;1"]
-                           .getService(Ci.nsIObserverService);
   const FieldSep  = "\t";
   const RecordSep = "\n";
-  const BadByte = new RegExp([FieldSep, RecordSep, "\0"].join("|"), "g");
+  const BadByte   = new RegExp([FieldSep, RecordSep, "\0"].join("|"), "g");
+
 
   function toUtf8(str) {
     return unescape(encodeURIComponent(str));
@@ -36,7 +38,7 @@
 
   function sendReqWithPage(req) {
     var lowLevelTab = viewFor(tabs.activeTab);
-    var browserFrame = tab_utils.getBrowserForTab(lowLevelTab);
+    var browserFrame = tabUtils.getBrowserForTab(lowLevelTab);
     var uri = browserFrame.currentURI;
     if (uri.spec === "about:blank" || uri.spec === "about:newtab")
       return;
@@ -83,12 +85,12 @@
 
   function setHotkeys() {
     Hotkey({
-      combo: "alt-b",  /* Firefox: "Bookmarks" menu */
+      combo: "alt-b",  // Firefox: "Bookmarks" menu
       onPress: function() { sendReq(["bookmark", "get"]); }
     });
 
     Hotkey({
-      combo: "control-d",  /* Firefox: "Bookmark This Page" */
+      combo: "control-d",  // Firefox: "Bookmark This Page"
       onPress: function() { sendReqWithPage(["bookmark", "add"]); }
     });
 
@@ -103,7 +105,7 @@
     });
 
     Hotkey({
-      combo: "control-shift-u",  /* Torbutton: "New Identity" */
+      combo: "control-shift-u",  // Torbutton: "New Identity"
       onPress: restart
     });
   }
