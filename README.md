@@ -81,6 +81,8 @@ TODO: propose (to tbb-dev upstream) freezing *all* extensions for each Tor Brows
 
 - Keep in mind that DisposableVMs know the name of the VM which spawned them. That's a potential privacy and GUI spoofing issue.
 
+- If things don't work, there are log files at `/run/split-browser/log.txt` in both the persistent VM and the DisposableVM.
+
 
 ## Installation
 
