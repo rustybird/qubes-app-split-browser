@@ -1,14 +1,14 @@
 # Split Browser for Qubes (PRE-RELEASE)
 
-Everyone loves the Whonix approach of running Tor Browser and the tor daemon in two separate VMs, e.g. anon-whonix and sys-whonix. Let's take it one step further and **run Tor Browser in a series of DisposableVMs connecting through the tor VM, while storing bookmarks and logins in an isolated, persistent VM** - with carefully restricted data flow.
+Everyone loves the Whonix approach of running Tor Browser and the tor daemon in two separate VMs, e.g. anon-whonix and sys-whonix. Let's take it one step further and **run Tor Browser in a series of DisposableVMs connecting through the tor VM, while storing bookmarks and logins in a persistent VM** - with carefully restricted data flow.
 
-In this setup, the DisposableVM's Tor Browser can (via [a small Firefox extension](dispvm/usr/share/split-browser/firefox-extensions/split-browser-for-qubes@jetpack/index.js)) send various requests to the persistent VM:
+In this setup, the DisposableVM's Tor Browser can send various requests to the persistent VM:
 
 - Bookmark the current page
 - Let the user choose a bookmark to load
 - Let the user authorize logging into the current page
 
-**But if the browser is exploited, it won't be able to read all your bookmarks or login credentials and send them to the attacker.** And you can restart the browser DisposableVM frequently (which shouldn't take more than 10-15 seconds) to "shake off" such an attacker.
+**But if the browser gets exploited, it won't be able to read all your bookmarks or login credentials and send them to the attacker.** And you can restart the browser DisposableVM frequently (which shouldn't take more than 10-15 seconds) to "shake off" such an attack.
 
 
 ## Keyboard shortcuts
@@ -16,7 +16,7 @@ In this setup, the DisposableVM's Tor Browser can (via [a small Firefox extensio
 The bold ones override standard Firefox/Torbutton shortcuts:
 
 Combination      | Function
------------------|-----------------------------------------------------
+-----------------|--------------------------------------------------------------
 **Alt-b**        | Open bookmarks
 **Ctrl-d**       | Bookmark current page
 Ctrl-Shift-Enter | Log into current page
@@ -26,7 +26,7 @@ Ctrl-Shift-s     | Move (potentially malicious!) downloads to the persistent VM
 
 ## Implementation
 
-Less than 500 nonempty lines, including comments and configuration. (A couple of Bash scripts, JavaScript for the Firefox extension, Awk and Python.) The bookmark and login managers use [dmenu](http://tools.suckless.org/dmenu/).
+Less than 500 nonempty lines total in a couple of Bash scripts, [JavaScript for the Firefox extension](dispvm/usr/share/split-browser/firefox-extensions/split-browser-for-qubes@jetpack/index.js), Awk and Python. The bookmark and login managers use [dmenu](http://tools.suckless.org/dmenu/).
 
 
 ## Bookmarks
@@ -84,7 +84,7 @@ TODO: propose (to tbb-dev upstream) freezing *all* extensions for each Tor Brows
 
 ## Installation
 
-1. Copy `dispvm/` into the DisposableVM template (which ideally should be debian-8 or whonix-ws - there are some fingerprinting concerns with fedora-23-minimal at least) and run `./install` there. Also install the `socat xdotool` packages, then shut down the template.
+1. Copy `dispvm/` into the DisposableVM template (which ideally should be debian-8 or [whonix-ws](https://www.whonix.org/wiki/Qubes/Disposable_VM) - there are some fingerprinting concerns with fedora-23-minimal at least) and run `./install` there. Also install the `socat xdotool` packages, then shut down the template.
 
 2. Copy `persistvm/` into the persistent VM template and run `./install` there. Also install the `socat oathtool pwgen dmenu` packages, then shut down the template. (UTF-8 support and nicer fonts require dmenu >= 4.6, which is available in Fedora >= 24 - `sudo qubes-dom0-update qubes-template-fedora-24` - or Debian >= 9.)
 
