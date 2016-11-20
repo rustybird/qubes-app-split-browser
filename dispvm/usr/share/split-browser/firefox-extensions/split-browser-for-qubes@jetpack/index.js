@@ -8,6 +8,8 @@
   const tabs           = require("sdk/tabs");
   const tabUtils       = require("sdk/tabs/utils");
 
+  const StartupService   = Cc["@mozilla.org/toolkit/app-startup;1"]
+                           .getService(Ci.nsIAppStartup);
   const ObserverService  = Cc["@mozilla.org/observer-service;1"]
                            .getService(Ci.nsIObserverService);
   const TransportService = Cc["@mozilla.org/network/socket-transport-service;1"]
@@ -66,9 +68,7 @@
 
     if (!cancel.data) {
       sendReq(["restart"]);
-
-      Cc["@mozilla.org/toolkit/app-startup;1"].getService(Ci.nsIAppStartup)
-      .quit(Ci.nsIAppStartup.eAttemptQuit);
+      StartupService.quit(Ci.nsIAppStartup.eAttemptQuit);
     }
   }
 
