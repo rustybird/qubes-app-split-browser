@@ -4,7 +4,7 @@ shopt -s nullglob
 
 for f in {,/usr/local}/etc/split-browser/persist/*.bash; do source "$f"; done
 
-[[ -t 2 ]] || exec 2>>"$SPLIT_BROWSER_LOG_FILE"
+[[ -t 2 ]] || exec 2> >(systemd-cat -t split-browser --level-prefix=no)
 : ${SPLIT_BROWSER_CMD_SOCKET:=$SPLIT_BROWSER_CMD_DIR/$$}
 export SPLIT_BROWSER_CMD_SOCKET
 
