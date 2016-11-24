@@ -17,12 +17,12 @@ shorten() {
 }
 
 
+mkdir -p -- "$SPLIT_BROWSER_LOGIN_DIR"
+cd       -- "$SPLIT_BROWSER_LOGIN_DIR"
+
 [[ $1 == get && $# == 3 ]]
 url=$2
 title=$3
-
-mkdir -p -- "$SPLIT_BROWSER_LOGIN_DIR"
-cd       -- "$SPLIT_BROWSER_LOGIN_DIR"
 
 matching_sites=$(
     {

@@ -17,6 +17,9 @@ notify() {
 }
 
 
+mkdir -p -- "$(dirname -- "$SPLIT_BROWSER_BOOKMARK_FILE")"
+touch -a -- "$SPLIT_BROWSER_BOOKMARK_FILE"
+
 case "$1" in
     get)
         [[ $# == 1 ]]
@@ -44,8 +47,6 @@ case "$1" in
         title=$3
 
         timestamp=$(date --rfc-3339=seconds)
-        mkdir -p -- "$(dirname -- "$SPLIT_BROWSER_BOOKMARK_FILE")"
-        touch -a -- "$SPLIT_BROWSER_BOOKMARK_FILE"
 
         if cut -f 2 <"$SPLIT_BROWSER_BOOKMARK_FILE" | grep -Fxq "$url"; then
             notify 'Already bookmarked' "$url"
