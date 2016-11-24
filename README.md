@@ -26,7 +26,7 @@ Ctrl-Shift-s     | Move (potentially malicious!) downloads to the persistent VM
 
 ## Implementation
 
-Less than 500 nonempty lines total in a couple of Bash scripts, [JavaScript for the Firefox extension](dispvm/usr/share/split-browser/firefox-extensions/split-browser-for-qubes@jetpack/index.js), Awk and Python. The bookmark and login managers use [dmenu](http://tools.suckless.org/dmenu/).
+Less than 500 nonempty lines total in a couple of Bash scripts, [JavaScript for the Firefox extension](vm/disp/usr/share/split-browser/firefox-extensions/split-browser-for-qubes@jetpack/index.js), Awk and Python. The bookmark and login managers use [dmenu](http://tools.suckless.org/dmenu/).
 
 
 ## Bookmarks
@@ -68,7 +68,7 @@ Here's an example of how a login directory structure could be organized:
 
 ## Tor Browser updates
 
-[By default](dispvm/etc/split-browser/disp/10-defaults.bash#L2), the directory `/var/cache/tb-binary/.tb/tor-browser/` (containing `Browser/` and `start-tor-browser.desktop`) is where Split Browser expects to find an extracted Tor Browser. Whonix Workstation's `update-torbrowser` command will save it there when called in a TemplateVM.
+[By default](vm/disp/etc/split-browser/disp/10-defaults.bash#L2), the directory `/var/cache/tb-binary/.tb/tor-browser/` (containing `Browser/` and `start-tor-browser.desktop`) is where Split Browser expects to find an extracted Tor Browser. Whonix Workstation's `update-torbrowser` command will save it there when called in a TemplateVM.
 
 **Automatic updates and update notifications are disabled** for Firefox and its extensions. Merely opening the browser should not cause any outgoing connections (though other things in the DisposableVM might, such as time synchronization). It is assumed that you are watching [The Tor Blog](https://blog.torproject.org/), [tor-announce](https://lists.torproject.org/cgi-bin/mailman/listinfo/tor-announce), or even [RecommendedTBBVersions](https://www.torproject.org/projects/torbrowser/RecommendedTBBVersions).
 
@@ -86,9 +86,9 @@ TODO: propose (to tbb-dev upstream) freezing *all* extensions for each Tor Brows
 
 ## Installation
 
-1. Copy `dispvm/` into the DisposableVM template (which ideally should be debian-8 or [whonix-ws](https://www.whonix.org/wiki/Qubes/Disposable_VM) - there are some fingerprinting concerns with fedora-23-minimal at least) and run `./install` there. Also install the `socat xdotool` packages, then shut down the template.
+1. Copy `vm/` into the DisposableVM template (which ideally should be debian-8 or [whonix-ws](https://www.whonix.org/wiki/Qubes/Disposable_VM) - there are some fingerprinting concerns with fedora-23-minimal at least) and run `sudo make install-disp` there. Also install the `socat xdotool` packages, then shut down the template.
 
-2. Copy `persistvm/` into the persistent VM template and run `./install` there. Also install the `socat oathtool pwgen dmenu` packages, then shut down the template. (UTF-8 support and nicer fonts require dmenu >= 4.6, which is available in Fedora >= 24 - `sudo qubes-dom0-update qubes-template-fedora-24` - or Debian >= 9.)
+2. Copy `vm/` into the persistent VM template and run `sudo make install-persist` there. Also install the `socat oathtool pwgen dmenu` packages, then shut down the template. (UTF-8 support and nicer fonts require dmenu >= 4.6, which is available in Fedora >= 24 - `sudo qubes-dom0-update qubes-template-fedora-24` - or Debian >= 9.)
 
 3. Create an AppVM based on the persistent VM template, and configure it to have no network access itself, but to launch DisposableVMs with network access through the tor VM:
 
