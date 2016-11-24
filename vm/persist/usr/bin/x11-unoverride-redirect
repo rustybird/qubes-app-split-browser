@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python2
 #
 # Run given command; switch OverrideRedirect off on one new X11 window.
 # Useful for working around https://github.com/QubesOS/qubes-issues/issues/2311
