@@ -88,6 +88,8 @@ TODO: propose (to tbb-dev upstream) freezing *all* extensions for each Tor Brows
 
 ## Installation
 
+TODO: document included `fedora/` and `debian/` packaging
+
 1. Copy `vm/` into the DisposableVM template (which ideally should be debian-8 or [whonix-ws](https://www.whonix.org/wiki/Qubes/Disposable_VM) - there are some fingerprinting concerns with fedora-23-minimal at least) and run `sudo make install-disp` there. Also install the `socat xdotool` packages, then shut down the template.
 
 2. Copy `vm/` into the persistent VM template and run `sudo make install-persist` there. Also install the `socat oathtool pwgen dmenu` packages, then shut down the template. (UTF-8 support and nicer fonts require dmenu >= 4.6, which is available in Fedora >= 24 - `sudo qubes-dom0-update qubes-template-fedora-24` - or Debian >= 9.)
