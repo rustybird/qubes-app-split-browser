@@ -81,6 +81,8 @@ TODO: propose (to tbb-dev upstream) freezing *all* extensions for each Tor Brows
 
 - Keep in mind that DisposableVMs know the name of the VM which spawned them. That's a potential privacy and GUI spoofing issue.
 
+- Split Browser also works with non Tor Browser versions of Firefox, if they allow unsigned extensions (Firefox ESR, Developer Edition, Nighly or unbranded): Enable [20-other-firefox.bash.EXAMPLE](vm/disp/etc/split-browser/disp/20-other-firefox.bash.EXAMPLE) and disable [20-whonix-gateway.js](vm/persist/etc/split-browser/persist/prefs.js.d/20-whonix-gateway.js).
+
 - The debug log can be read using `sudo journalctl SYSLOG_IDENTIFIER=split-browser` in both the persistent VM and the DisposableVM.
 
 
