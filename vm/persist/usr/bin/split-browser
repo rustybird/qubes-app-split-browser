@@ -86,8 +86,8 @@ fi
         split-browser-cmd master split_browser_firefox "${args[@]}"
         args=()  # on restart, don't load given URLs again
 
-        # 'qrexec-client-vm \$dispvm splitBrowser.DispIo' needs a policy file
-        qvm-run \$dispvm 'exec /etc/qubes-rpc/splitBrowser.DispIo' |
+        # 'qrexec-client-vm \$dispvm splitBrowser' would need a policy file
+        qvm-run \$dispvm 'exec /etc/qubes-rpc/splitBrowser' |
         LC_ALL=C sanitize | {
             restart=
 
