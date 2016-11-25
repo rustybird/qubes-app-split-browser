@@ -1,6 +1,6 @@
 # Split Browser for Qubes (PRE-RELEASE)
 
-Everyone loves the Whonix approach of running Tor Browser and the tor daemon in two separate VMs, e.g. anon-whonix and sys-whonix. Let's take it one step further and **run Tor Browser in a series of DisposableVMs connecting through the tor VM, while storing bookmarks and logins in a persistent VM** - with carefully restricted data flow.
+Everyone loves the Whonix approach of running Tor Browser and the tor daemon in two separate VMs, e.g. anon-whonix and sys-whonix. Let's take it a step further and **run Tor Browser in a DisposableVM connecting through the tor VM, while storing bookmarks and logins in a persistent VM** - with carefully restricted data flow.
 
 In this setup, the DisposableVM's Tor Browser can send various requests to the persistent VM:
 
@@ -33,7 +33,7 @@ Less than 500 nonempty lines total in a couple of Bash scripts, [JavaScript for 
 
 Bookmarks are stored in a text file, `~/.split-browser/bookmarks.tsv`. Each line consists of a timestamp, URL, and title, separated by tabs.
 
-Only printable ASCII characters are allowed by default, but this can be broadened to UTF-8 by removing the `.EXAMPLE` suffix from `/etc/split-browser/persist/20-utf-8.bash.EXAMPLE` (which will apply to _all_ persistent VMs based on the template) or by copying the file to `/usr/local/etc/split-browser/persist/20-utf-8.bash` (which will apply to _one specific_ persistent VM).
+Only printable ASCII characters are allowed by default, but this can be broadened to UTF-8 by removing the `.EXAMPLE` suffix from `/etc/split-browser/persist/20-utf-8.bash.EXAMPLE` (which will apply to _all_ persistent VMs based on the template), or by copying the file to `/usr/local/etc/split-browser/persist/20-utf-8.bash` on a _specific_ persistant VM.
 
 
 ## Logins
@@ -81,7 +81,7 @@ TODO: propose (to tbb-dev upstream) freezing *all* extensions for each Tor Brows
 
 - Keep in mind that DisposableVMs know the name of the VM which spawned them. That's a potential privacy and GUI spoofing issue.
 
-- Split Browser also works with non Tor Browser versions of Firefox, if they allow unsigned extensions (Firefox ESR, Developer Edition, Nighly or unbranded): Enable [20-other-firefox.bash.EXAMPLE](vm/disp/etc/split-browser/disp/20-other-firefox.bash.EXAMPLE) and disable [20-whonix-gateway.js](vm/persist/etc/split-browser/persist/prefs.js.d/20-whonix-gateway.js).
+- Split Browser also works with non Tor Browser versions of Firefox, if they allow unsigned extensions (Firefox ESR, Developer Edition, Nighly, or unbranded): Enable [20-other-firefox.bash](vm/disp/etc/split-browser/disp/20-other-firefox.bash.EXAMPLE) and disable [20-whonix-gateway.js](vm/persist/etc/split-browser/persist/prefs.js.d/20-whonix-gateway.js).
 
 - The debug log can be read using `sudo journalctl SYSLOG_IDENTIFIER=split-browser` in both the persistent VM and the DisposableVM.
 
