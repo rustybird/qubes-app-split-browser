@@ -26,7 +26,7 @@ Ctrl-Shift-s     | Move (potentially malicious!) downloads to the persistent VM
 
 ## Implementation
 
-Less than 500 nonempty lines total in a couple of Bash scripts, [JavaScript for the Firefox extension](vm/disp/usr/share/split-browser/firefox-extensions/split-browser-for-qubes@jetpack/index.js), Awk and Python. The bookmark and login managers use [dmenu](http://tools.suckless.org/dmenu/).
+Less than 500 nonempty lines total, in a couple of Bash scripts, [JavaScript for the Firefox extension](vm/disp/usr/share/split-browser/firefox-extensions/split-browser-for-qubes@jetpack/index.js), Awk, and Python. The bookmark and login managers use [dmenu](http://tools.suckless.org/dmenu/).
 
 
 ## Bookmarks
