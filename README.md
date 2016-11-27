@@ -31,7 +31,7 @@ Less than 500 nonempty lines total, in a couple of Bash scripts, [JavaScript for
 
 ## Bookmarks
 
-Bookmarks are stored in a text file, `~/.split-browser/bookmarks.tsv`. Each line consists of a timestamp, URL, and title, separated by tabs.
+Bookmarks are stored in a text file, `~/.local/share/split-browser/bookmarks.tsv`. Each line consists of a timestamp, URL, and title, separated by tabs.
 
 Only printable ASCII characters are allowed by default, but this can be broadened to UTF-8 by removing the `.EXAMPLE` suffix from `/etc/split-browser/persist/20-utf-8.bash.EXAMPLE` (which will apply to _all_ persistent VMs based on the template), or by copying the file to `/usr/local/etc/split-browser/persist/20-utf-8.bash` on a _specific_ persistant VM.
 
@@ -40,7 +40,7 @@ Only printable ASCII characters are allowed by default, but this can be broadene
 
 (TODO: build some sort of KeePassX bridge?)
 
-Login credentials are stored in an arbitrarily deep directory tree, `~/.split-browser/logins/` (TODO: set up an automounted encrypted filesystem?), where each directory can have a `url-literals` and a `url-regexes` file containing patterns, one per line.
+Login credentials are stored in an arbitrarily deep directory tree, `~/.local/share/split-browser/logins/` (TODO: set up an automounted encrypted filesystem?), where each directory can have a `url-literals` and a `url-regexes` file containing patterns, one per line.
 
 If any of those patterns match the current page URL completely and the login has been authorized, the `login` executable in that directory is called; that's usually a symlink to `split-browser-login-user-pass` or `split-browser-login-totp`. Which then read the `user` and `pass` or `oath-key-hex` and `oath-key-base32` files and send the appropriate fake key presses to the browser.
 
@@ -48,7 +48,7 @@ To get started, just try the login keyboard shortcut (Ctrl-Shift-Enter) on any l
 
 Here's an example of how a login directory structure could be organized:
 
-    ~/.split-browser/logins/
+    ~/.local/share/split-browser/logins/
         rusty/
             github/
                 factor1/
