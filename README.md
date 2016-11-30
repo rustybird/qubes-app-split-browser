@@ -4,7 +4,7 @@ Everyone loves the [Whonix approach](https://www.whonix.org/wiki/Qubes) of runni
 
 Let's take it a step further and **run Tor Browser (or other Firefox versions) in a [DisposableVM](https://www.qubes-os.org/doc/dispvm/) connecting through the tor VM (or through any other NetVM/ProxyVM), while storing bookmarks and logins in a persistent VM** - with carefully restricted data flow.
 
-In this setup, the DisposableVM's Tor Browser can send various requests to the persistent VM:
+In this setup, the DisposableVM's browser can send various requests to the persistent VM:
 
 - Bookmark the current page
 - Let the user choose a bookmark to load
