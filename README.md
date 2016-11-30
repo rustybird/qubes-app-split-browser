@@ -1,4 +1,4 @@
-# Split Browser for Qubes (PRE-RELEASE)
+# Split Browser for Qubes
 
 Everyone loves the [Whonix approach](https://www.whonix.org/wiki/Qubes) of running Tor Browser and the tor daemon in two separate [Qubes](https://www.qubes-os.org/) VMs, e.g. anon-whonix and sys-whonix.
 

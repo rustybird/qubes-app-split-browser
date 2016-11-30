@@ -1,5 +1,5 @@
-qubes-split-browser (0.0.0) unstable; urgency=low
+qubes-split-browser (0.1.0) unstable; urgency=low
 
-  * Pre-release.
+  * Initial release.
 
- -- Rusty Bird <rustybird@openmailbox.org>  Thu, 24 Nov 2016 14:11:25 +0000
+ -- Rusty Bird <rustybird@openmailbox.org>  Wed, 30 Nov 2016 15:51:33 +0000
