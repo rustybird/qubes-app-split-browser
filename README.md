@@ -1,6 +1,8 @@
 # Split Browser for Qubes (PRE-RELEASE)
 
-Everyone loves the [Whonix approach](https://www.whonix.org/wiki/Qubes) of running Tor Browser and the tor daemon in two separate [Qubes](https://www.qubes-os.org/) VMs, e.g. anon-whonix and sys-whonix. Let's take it a step further and **run Tor Browser in a [DisposableVM](https://www.qubes-os.org/doc/dispvm/) connecting through the tor VM, while storing bookmarks and logins in a persistent VM** - with carefully restricted data flow.
+Everyone loves the [Whonix approach](https://www.whonix.org/wiki/Qubes) of running Tor Browser and the tor daemon in two separate [Qubes](https://www.qubes-os.org/) VMs, e.g. anon-whonix and sys-whonix.
+
+Let's take it a step further and **run Tor Browser (or other Firefox versions) in a [DisposableVM](https://www.qubes-os.org/doc/dispvm/) connecting through the tor VM (or through any other NetVM/ProxyVM), while storing bookmarks and logins in a persistent VM** - with carefully restricted data flow.
 
 In this setup, the DisposableVM's Tor Browser can send various requests to the persistent VM:
 
