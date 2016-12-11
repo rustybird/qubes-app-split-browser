@@ -1,0 +1,12 @@
+pkgname=qubes-split-browser
+pkgver=`cat version`
+pkgrel=1
+pkgdesc="run Tor Browser (or other Firefox versions) in a Qubes DisposableVM"
+arch=('any')
+url="https://github.com/rustybird/qubes-split-browser"
+license=('custom:ISC')
+depends=('python' 'python-xcffib' 'dmenu' 'xdotool' 'pwgen' 'oath-toolkit' 'socat' 'systemd')
+
+package() {
+	cp -pR ../vm/*/*/ "$pkgdir"
+}
