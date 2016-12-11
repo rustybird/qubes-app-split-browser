@@ -90,7 +90,7 @@ TODO: propose (to tbb-dev upstream) freezing *all* extensions for each Tor Brows
 
 ## Installation
 
-TODO: document included `fedora/` and `debian/` packaging
+TODO: document included `fedora/`, `debian/`, and `arch/` packaging
 
 1. Copy `vm/` into the DisposableVM template (which ideally should be debian-8 or [whonix-ws](https://www.whonix.org/wiki/Qubes/Disposable_VM) - there are some fingerprinting concerns with fedora-23-minimal at least) and run `sudo make install-disp` there. Also install the `socat xdotool` packages, then shut down the template.
 
