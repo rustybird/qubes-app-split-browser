@@ -11,5 +11,6 @@ Package: qubes-split-browser
 Architecture: all
 Depends: python, python-xpyb, python3, dmenu, xdotool, pwgen, oathtool, socat, systemd, ${misc:Depends}
 Description: Split Browser for Qubes
- Run Tor Browser on Qubes in a series of DisposableVMs connecting through
- the tor VM, while storing bookmarks and logins in a persistent VM.
+ Run Tor Browser (or other Firefox versions) in a Qubes DisposableVM
+ connecting through the tor VM (or through any other NetVM/ProxyVM),
+ while storing bookmarks and logins in a persistent VM.

@@ -11,8 +11,9 @@ URL:		https://github.com/rustybird/qubes-split-browser
 Requires:	python2 python-xpyb python3 dmenu xdotool pwgen oathtool socat systemd
 
 %description
-Run Tor Browser on Qubes in a series of DisposableVMs connecting through
-the tor VM, while storing bookmarks and logins in a persistent VM.
+Run Tor Browser (or other Firefox versions) in a Qubes DisposableVM
+connecting through the tor VM (or through any other NetVM/ProxyVM),
+while storing bookmarks and logins in a persistent VM.
 
 %define _builddir %(pwd)
 
