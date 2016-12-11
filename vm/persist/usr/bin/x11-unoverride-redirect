@@ -1,4 +1,4 @@
-#!/usr/bin/python2
+#!/usr/bin/python
 #
 # Run given command; switch OverrideRedirect off on one new X11 window.
 # Useful for working around https://github.com/QubesOS/qubes-issues/issues/2311
@@ -7,8 +7,13 @@
 
 import sys
 import subprocess
-import xcb
-from xcb.xproto import CW
+
+try:
+  import xcffib as xcb
+  from   xcffib.xproto import CW
+except ImportError:
+  import xcb
+  from   xcb.xproto import CW
 
 conn = xcb.connect()
 core = conn.core

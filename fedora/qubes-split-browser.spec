@@ -8,7 +8,7 @@ Summary:	Split Browser for Qubes
 License:	ISC
 URL:		https://github.com/rustybird/qubes-split-browser
 
-Requires:	python2 python-xpyb python3 dmenu xdotool pwgen oathtool socat systemd
+Requires:	python (python-xcffib or python-xpyb) python3 dmenu xdotool pwgen oathtool socat systemd
 
 %description
 Run Tor Browser (or other Firefox versions) in a Qubes DisposableVM
