@@ -1,9 +1,15 @@
 #!/bin/bash
 set -e -o pipefail
 
-user=$(cat user)
-pass=$(cat pass)
+fields=()
+for file in user pass; do
+	[[ ! -e "$file" ]] || fields+=( "$(cat "$file")" )
+done
+[[ ${#fields[@]} -gt 0 ]]
 
-# can't transmit tab literals yet
-split-browser-cmd helper \
-bash -c "xdotool type \"\$0\" \$'\t' \"\$1\" \$'\r'" "${user:?}" "${pass:?}"
+for i in ${!fields[@]}; do
+	[[ $i == 0 ]] || split-browser-cmd helper xdotool key Tab
+	split-browser-cmd helper xdotool type "${fields[i]}"
+done
+
+split-browser-cmd helper xdotool key Return
