@@ -8,5 +8,5 @@ license=('custom:ISC')
 depends=('python' 'python-xcffib' 'dmenu' 'xdotool' 'pwgen' 'oath-toolkit' 'socat' 'systemd')
 
 package() {
-	cp -pR ../vm/*/*/ "$pkgdir"
+    cp -pR ../vm/*/*/ "$pkgdir"
 }
