@@ -35,7 +35,7 @@ Less than 500 nonempty lines total, in a couple of Bash scripts, [JavaScript for
 
 Bookmarks are stored in a text file, `~/.local/share/split-browser/bookmarks.tsv`. Each line consists of a timestamp, URL, and title, separated by tabs.
 
-Only printable ASCII characters are allowed by default, but this can be broadened to UTF-8 by removing the `.EXAMPLE` suffix from `/etc/split-browser/persist/20-utf-8.bash.EXAMPLE` (which will apply to _all_ persistent VMs based on the template), or by copying the file to `/usr/local/etc/split-browser/persist/20-utf-8.bash` on a _specific_ persistent VM.
+Only printable ASCII characters are allowed by default. This can be broadened to UTF-8 by symlinking `/etc/split-browser/persist/20-utf-8.bash.EXAMPLE` without the `.EXAMPLE` suffix, either into the same directory (which will apply to _all_ persistent VMs based on the template), or into `/usr/local/etc/split-browser/persist/` on a _specific_ persistent VM.
 
 
 ## Logins
