@@ -48,7 +48,8 @@ case "$1" in
 
         timestamp=$(date --rfc-3339=seconds)
 
-        if cut -f 2 <"$SPLIT_BROWSER_BOOKMARK_FILE" | grep -Fxq "$url"; then
+        if { cut -f 2 "$SPLIT_BROWSER_BOOKMARK_FILE" || [[ $? == 141 ]]; } |
+           grep -Fxq "$url"; then
             notify 'Already bookmarked' "$url"
         else
             set -o noclobber
