@@ -6,14 +6,14 @@ for f in {,/usr/local}/etc/split-browser/persist/*.bash; do source "$f"; done
 
 
 notify() {
-   local summary=$1
-   local body=$2
+    local summary=$1
+    local body=$2
 
-   body=${body//&/&amp;}  # Yeah I don't like this either.
-   body=${body//</&lt;}   # What kind of protocol doesn't allow
-   body=${body//>/&gt;}   # clients to pass a string as plain text?
+    body=${body//&/&amp;}  # Yeah I don't like this either.
+    body=${body//</&lt;}   # What kind of protocol doesn't allow
+    body=${body//>/&gt;}   # clients to pass a string as plain text?
 
-   notify-send --expire-time=4000 "$summary" "$body"
+    notify-send --expire-time=4000 "$summary" "$body"
 }
 
 
