@@ -1,0 +1,84 @@
+#!/bin/bash
+set -e -o pipefail
+shopt -s nullglob globstar
+
+for f in {,/usr/local}/etc/split-browser/persist/*.bash; do source "$f"; done
+
+shellquote() {
+    declare v="$1"
+    declare | grep ^v= | cut -b 3-
+}
+
+
+if [[ $1 == -h ]]; then
+    exec cat <<END
+
+  Usage: split-browser-convert-old-logins [<directory>]
+
+
+  <directory>  An old (pre 0.3) logins directory to convert to the new format,
+               after creating a backup in the current working directory.
+
+               Defaults to: $SPLIT_BROWSER_LOGIN_DIR
+
+END
+fi
+
+
+login_dir=${1-${SPLIT_BROWSER_LOGIN_DIR:?}}
+date=$(date --iso-8601=seconds)
+cp -a --reflink=auto -- "$login_dir" logins-bak-"$date"
+cd -- "$login_dir"
+
+for path in ./*/**/{url-literals,url-regexes,login}; do
+    dir=${path%/*}
+    file=${path##*/}
+
+    case $file in
+        url-literals)
+            sed 's/^/=/' "$path" >>"$dir"/urls.txt
+        ;;
+        url-regexes)
+            sed 's/^/~/' "$path" >>"$dir"/urls.txt
+        ;;
+        login)
+            target=$(readlink -f "$path")
+
+            [[ $target =~ ^/usr/bin/split-browser-login-(user-pass|totp)$ ]] ||
+            continue
+
+            mkdir -p "$dir"/fields
+
+            case $target in
+                *-user-pass)
+                    if [[ -e $dir/user ]]; then
+                        chmod -x "$dir"/user
+                        mv -T    "$dir"/user "$dir"/fields/01-user.txt
+                    fi
+                    if [[ -e $dir/pass ]]; then
+                        chmod -x "$dir"/pass
+                        mv -T    "$dir"/pass "$dir"/fields/02-pass.txt
+                    fi
+                ;;
+                *-totp)
+                    cmd=
+                    if [[ -s $dir/oath-key-hex ]]; then
+                        key=$(cat "$dir"/oath-key-hex)
+                        cmd="oathtool --totp $(shellquote "$key")"
+                    elif [[ -s $dir/oath-key-base32 ]]; then
+                        key=$(cat "$dir"/oath-key-base32)
+                        cmd="oathtool --totp --base32 $(shellquote "$key")"
+                    fi
+
+                    printf '%s\n' '#!/bin/sh' "$cmd" >"$dir"/fields/01-totp
+                    chmod +x                          "$dir"/fields/01-totp
+                    rm -f "$dir"/oath-key-{hex,base32}
+                ;;
+            esac
+        ;;
+    esac
+
+    rm "$path"
+done
+
+echo done
