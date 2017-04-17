@@ -28,7 +28,7 @@ Ctrl-Shift-s     | Move (potentially malicious!) downloads to the persistent VM
 
 ## Implementation
 
-Less than 500 nonempty lines total, in a couple of Bash scripts, [JavaScript for the Firefox extension](vm/disp/usr/share/split-browser/firefox-extensions/split-browser-for-qubes@jetpack/index.js), Awk, and Python. The bookmark and login managers use [dmenu](http://tools.suckless.org/dmenu/).
+~ 500 nonempty lines total, in a couple of Bash scripts, [JavaScript for the Firefox extension](vm/disp/usr/share/split-browser/firefox-extensions/split-browser-for-qubes@jetpack/index.js), Awk, and Python. The bookmark and login managers use [dmenu](http://tools.suckless.org/dmenu/).
 
 
 ## Bookmarks
@@ -42,9 +42,14 @@ Only printable ASCII characters are allowed by default. This can be broadened to
 
 (TODO: build some sort of KeePassX bridge?)
 
-Login credentials are stored in an arbitrarily deep directory tree, `~/.local/share/split-browser/logins/` (TODO: set up an automounted encrypted filesystem?), where each directory can have a `url-literals` and a `url-regexes` file containing patterns, one per line.
+Login credentials are stored in an arbitrarily deep directory tree, `~/.local/share/split-browser/logins/` (TODO: set up an automounted encrypted filesystem?), where each directory has a `urls.txt` file containing patterns, one per line. A pattern's first letter decides how it is interpreted:
 
-If any of those patterns match the current page URL completely and the login has been authorized, the `login` executable in that directory is called; that's usually a symlink to `split-browser-login-user-pass` or `split-browser-login-totp`. Which then read the `user` and `pass` or `oath-key-hex` and `oath-key-base32` files and send the appropriate fake key presses to the browser.
+First letter | Type           | Scope
+:-----------:|----------------|-------------------------------------------------
+`=`          | Literal string | Must match whole URL.
+`~`          | Regex          | Must match whole URL.
+
+If any of the lines match and the user subsequently chooses this login option, the `login` executable in that directory is called; that's usually a symlink to `split-browser-login-user-pass` or `split-browser-login-totp`. Which then read the `user` and `pass` or `oath-key-hex` and `oath-key-base32` files and send the appropriate fake key presses to the browser.
 
 **To get started, just try the login keyboard shortcut (Ctrl-Shift-Enter) on any login page.** This will create a skeleton directory and pop up a terminal window there so you can have a look around, save your username, and change the generated password if necessary. Then ensure that the browser's focus is on the username field and press the keyboard shortcut again.
 
@@ -54,14 +59,13 @@ Here's an example of how a login directory structure could be organized:
         rusty/
             github/
                 factor1/
-                    url-literals: https://github.com/login
-                    url-regexes:  https://github.com/login\?.*
+                    urls.txt: =https://github.com/login
+                              ~https://github.com/login\?.*
                     login -> /usr/bin/split-browser-login-user-pass
                     user: rustybird
                     pass: correct horse battery staple
                 factor2/
-                    url-literals: https://github.com/sessions/two-factor
-                    url-regexes [empty]
+                    urls.txt: =https://github.com/sessions/two-factor
                     login -> /usr/bin/split-browser-login-totp
                     oath-key-base32: foobarba7qux
             ...

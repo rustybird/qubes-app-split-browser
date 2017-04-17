@@ -24,15 +24,22 @@ cd       -- "$SPLIT_BROWSER_LOGIN_DIR"
 url=$2
 title=$3
 
-IFS=$'\n' matching_sites=( $(
-    {
-        grep -Fxl -- "$url" */**/url-literals /dev/null || true
+matching_sites=()
+for f in */**/urls.txt; do
+    while read -r line; do
+        mode=${line::1}
+        pattern=${line:1}
 
-        for f in */**/url-regexes; do
-            if grep -Exq -f "$f" <<<"$url"; then printf '%s\n' "$f"; fi
-        done
-    } | sed 's#/[^/]*$##' | sort -uV
-) )
+        case "$mode" in
+            '=') [[ $url == "$pattern" ]] ;;
+            '~') [[ $url =~ ^($pattern)$ ]] ;;
+              *) false ;;
+        esac || continue
+
+        matching_sites+=( "${f%/*}" )
+        break
+    done <"$f"
+done
 
 if [[ ${#matching_sites[@]} -gt 0 ]]; then
     # Wait a little to prevent the DisposableVM from tricking the user,
@@ -52,8 +59,7 @@ else
     mkdir -p -- "$site"
     cd       -- "$site"
 
-    printf '%s\n' "$url" >>url-literals
-    >>url-regexes
+    printf '=%s\n' "$url" >>urls.txt
     >>user
     test -e pass  || split_browser_pwgen >pass
     test -e login || ln -s /usr/bin/split-browser-login-user-pass login
