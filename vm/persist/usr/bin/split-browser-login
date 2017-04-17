@@ -40,16 +40,16 @@ if [[ $matching_sites ]]; then
     notify-send --expire-time=2000 --urgency=low "$SPLIT_BROWSER_ELLIPSIS"
     sleep 2
 
-    site=./$(split_browser_dmenu -p 'Log into' <<<"$matching_sites")
+    site=$(split_browser_dmenu -p 'Log into' <<<"$matching_sites")
 
-    cd "$site"
+    cd -- "${site:?}"
     ./login
 else
     prompt="Name a login entry for: $(shorten "$url" 50)"
-    site=./$(split_browser_dmenu -p "$prompt" </dev/null)
+    site=$(split_browser_dmenu -p "$prompt" </dev/null)
 
-    mkdir -p "$site"
-    cd       "$site"
+    mkdir -p -- "$site"
+    cd       -- "$site"
 
     printf '%s\n' "$url" >>url-literals
     >>url-regexes
