@@ -46,7 +46,7 @@ Login credentials are stored in an arbitrarily deep directory tree, `~/.local/sh
 
 If any of those patterns match the current page URL completely and the login has been authorized, the `login` executable in that directory is called; that's usually a symlink to `split-browser-login-user-pass` or `split-browser-login-totp`. Which then read the `user` and `pass` or `oath-key-hex` and `oath-key-base32` files and send the appropriate fake key presses to the browser.
 
-To get started, just try the login keyboard shortcut (Ctrl-Shift-Enter) on any login page. This will create a skeleton directory and pop up a terminal window there so you can have a look around, save your username, and change the generated password if necessary. Then ensure that the browser's focus is on the username field and press the keyboard shortcut again.
+**To get started, just try the login keyboard shortcut (Ctrl-Shift-Enter) on any login page.** This will create a skeleton directory and pop up a terminal window there so you can have a look around, save your username, and change the generated password if necessary. Then ensure that the browser's focus is on the username field and press the keyboard shortcut again.
 
 Here's an example of how a login directory structure could be organized:
 
@@ -64,7 +64,6 @@ Here's an example of how a login directory structure could be organized:
                     url-regexes [empty]
                     login -> /usr/bin/split-browser-login-totp
                     oath-key-base32: foobarba7qux
-                    oath-key-hex [empty]
             ...
 
 
