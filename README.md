@@ -50,7 +50,9 @@ First letter | Type           | Scope
 `~`          | Regex          | Must match whole URL.
 `^`          | Literal string | Must match beginning of URL. The rest of the URL is considered to match if it starts with (or if the pattern ends with) `/`, `?`, or `#`.
 
-If any of the lines match and the user subsequently chooses this login option, the `login` executable in that directory is called; that's usually a symlink to `split-browser-login-user-pass` or `split-browser-login-totp`. Which then read the `user` and `pass` or `oath-key-hex` and `oath-key-base32` files and send the appropriate fake key presses to the browser.
+If any of the lines match and the user subsequently chooses this login option, the `login` executable in that directory (or if missing, `split-browser-login-fields` in `$PATH`) is called:
+
+`split-browser-login-fields` goes through each filename in the `fields/` child directory, in lexical order. If it ends in `.txt`, the file's *content* is sent to the browser as fake key presses. If it is executable, its *output* is sent instead. (It is an error for a file in `fields/` to fall into both or none of the two categories.) Split Browser advances to the webpage's next input field by sending a Tab key press and continues with the next file in `fields/` until all are done, at which point it sends an Enter key press.
 
 **To get started, just try the login keyboard shortcut (Ctrl-Shift-Enter) on any login page.** This will create a skeleton directory and pop up a terminal window there so you can have a look around, save your username, and change the generated password if necessary. Then ensure that the browser's focus is on the username field and press the keyboard shortcut again.
 
@@ -61,13 +63,12 @@ Here's an example of how a login directory structure could be organized:
             github/
                 factor1/
                     urls.txt: ^https://github.com/login
-                    login -> /usr/bin/split-browser-login-user-pass
-                    user: rustybird
-                    pass: correct horse battery staple
+                    fields/01-user.txt: rustybird
+                    fields/02-pass.txt: correct horse battery staple
                 factor2/
                     urls.txt: =https://github.com/sessions/two-factor
-                    login -> /usr/bin/split-browser-login-totp
-                    oath-key-base32: foobarba7qux
+                    fields/01-totp: #!/bin/sh
+                                    oathtool --totp --base32 foobarba7qux
             ...
 
 

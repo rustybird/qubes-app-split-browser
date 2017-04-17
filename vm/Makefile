@@ -12,6 +12,8 @@ install-disp:
 	cp -pR disp/*/ $(DESTDIR)/
 
 install-persist:
+	rm -f $(DESTDIR)/usr/bin/split-browser-login-user-pass
+	rm -f $(DESTDIR)/usr/bin/split-browser-login-totp
 	mkdir -p $(DESTDIR)/
 	cp -pR persist/*/ $(DESTDIR)/
 	/usr/lib/qubes/qubes-trigger-sync-appmenus.sh

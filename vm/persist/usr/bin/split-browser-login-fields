@@ -1,12 +1,14 @@
 #!/bin/bash
 set -e -o pipefail
+shopt -s nullglob
 
 fields=()
-for file in user pass; do
-    if [[ -e $file ]]; then
+for file in fields/*; do
+    if [[ $file == *.txt ]]; then
+        [[ ! -x $file ]]
         field=$(cat "$file")
     else
-        continue
+        field=$("$file")
     fi
 
     [[ $field != *[$'\t\n']* ]]

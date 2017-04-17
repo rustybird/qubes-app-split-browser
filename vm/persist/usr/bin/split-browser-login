@@ -53,7 +53,12 @@ if [[ ${#matching_sites[@]} -gt 0 ]]; then
            split_browser_dmenu -p 'Log into')
 
     cd -- "${site:?}"
-    ./login
+
+    if [[ -e login ]]; then
+        ./login
+    else
+        split-browser-login-fields
+    fi
 else
     prompt="Name a login entry for: $(shorten "$url" 50)"
     site=$(split_browser_dmenu -p "$prompt" </dev/null)
@@ -62,9 +67,12 @@ else
     cd       -- "$site"
 
     printf '=%s\n' "$url" >>urls.txt
-    >>user
-    test -e pass  || split_browser_pwgen >pass
-    test -e login || ln -s /usr/bin/split-browser-login-user-pass login
+
+    if [[ ! -e fields && ! -e login ]]; then
+        mkdir fields
+        >fields/1-user.txt
+        split_browser_pwgen >fields/2-pass.txt
+    fi
 
     split_browser_terminal sh -c "tree -C --noreport; exec $SHELL"
 fi
