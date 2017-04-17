@@ -45,18 +45,17 @@ if [[ $matching_sites ]]; then
     cd "$site"
     ./login
 else
-    prompt="Name a new login entry for: $(shorten "$url" 50)"
+    prompt="Name a login entry for: $(shorten "$url" 50)"
     site=./$(split_browser_dmenu -p "$prompt" </dev/null)
 
-    mkdir -p "$(dirname "$site")"
-    mkdir "$site"
-    cd "$site"
+    mkdir -p "$site"
+    cd       "$site"
 
-    printf '%s\n' "$url" >url-literals
-    >url-regexes
-    >user
-    split_browser_pwgen >pass
-    ln -s /usr/bin/split-browser-login-user-pass login
+    printf '%s\n' "$url" >>url-literals
+    >>url-regexes
+    >>user
+    test -e pass  || split_browser_pwgen >pass
+    test -e login || ln -s /usr/bin/split-browser-login-user-pass login
 
     split_browser_terminal sh -c "tree -C --noreport; exec $SHELL"
 fi
