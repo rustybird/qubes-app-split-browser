@@ -32,6 +32,8 @@ for f in */**/urls.txt; do
 
         case "$mode" in
             '=') [[ $url == "$pattern" ]] ;;
+            '^') sep='[/?#]'; if [[ $pattern == *$sep ]]; then sep=''; fi
+                 [[ $url == "$pattern" || $url == "$pattern"$sep* ]] ;;
             '~') [[ $url =~ ^($pattern)$ ]] ;;
               *) false ;;
         esac || continue

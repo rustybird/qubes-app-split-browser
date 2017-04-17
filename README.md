@@ -48,6 +48,7 @@ First letter | Type           | Scope
 :-----------:|----------------|-------------------------------------------------
 `=`          | Literal string | Must match whole URL.
 `~`          | Regex          | Must match whole URL.
+`^`          | Literal string | Must match beginning of URL. The rest of the URL is considered to match if it starts with (or if the pattern ends with) `/`, `?`, or `#`.
 
 If any of the lines match and the user subsequently chooses this login option, the `login` executable in that directory is called; that's usually a symlink to `split-browser-login-user-pass` or `split-browser-login-totp`. Which then read the `user` and `pass` or `oath-key-hex` and `oath-key-base32` files and send the appropriate fake key presses to the browser.
 
@@ -59,8 +60,7 @@ Here's an example of how a login directory structure could be organized:
         rusty/
             github/
                 factor1/
-                    urls.txt: =https://github.com/login
-                              ~https://github.com/login\?.*
+                    urls.txt: ^https://github.com/login
                     login -> /usr/bin/split-browser-login-user-pass
                     user: rustybird
                     pass: correct horse battery staple
