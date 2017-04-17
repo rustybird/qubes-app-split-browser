@@ -3,7 +3,14 @@ set -e -o pipefail
 
 fields=()
 for file in user pass; do
-    [[ ! -e $file ]] || fields+=( "$(cat $file)" )
+    if [[ -e $file ]]; then
+        field=$(cat "$file")
+    else
+        continue
+    fi
+
+    [[ $field != *[$'\t\n']* ]]
+    fields+=( "$field" )
 done
 [[ ${#fields[@]} -gt 0 ]]
 
