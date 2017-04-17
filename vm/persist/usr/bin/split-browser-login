@@ -24,7 +24,7 @@ cd       -- "$SPLIT_BROWSER_LOGIN_DIR"
 url=$2
 title=$3
 
-matching_sites=$(
+IFS=$'\n' matching_sites=( $(
     {
         grep -Fxl -- "$url" */**/url-literals /dev/null || true
 
@@ -32,15 +32,16 @@ matching_sites=$(
             if grep -Exq -f "$f" <<<"$url"; then printf '%s\n' "$f"; fi
         done
     } | sed 's#/[^/]*$##' | sort -uV
-)
+) )
 
-if [[ $matching_sites ]]; then
+if [[ ${#matching_sites[@]} -gt 0 ]]; then
     # Wait a little to prevent the DisposableVM from tricking the user,
     # in case dom0's focus stealing prevention is too lax
     notify-send --expire-time=2000 --urgency=low "$SPLIT_BROWSER_ELLIPSIS"
     sleep 2
 
-    site=$(split_browser_dmenu -p 'Log into' <<<"$matching_sites")
+    site=$(printf '%s\n' "${matching_sites[@]}" |
+           split_browser_dmenu -p 'Log into')
 
     cd -- "${site:?}"
     ./login
