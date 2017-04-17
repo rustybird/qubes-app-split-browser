@@ -58,5 +58,5 @@ else
     split_browser_pwgen >pass
     ln -s /usr/bin/split-browser-login-user-pass login
 
-    split_browser_terminal
+    split_browser_terminal sh -c "tree -C --noreport; exec $SHELL"
 fi

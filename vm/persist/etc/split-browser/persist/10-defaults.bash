@@ -10,4 +10,4 @@ SPLIT_BROWSER_ELLIPSIS=...
 
 split_browser_dmenu() { x11-unoverride-redirect stdbuf -o0 dmenu "$@"; }
 split_browser_pwgen() { pwgen -s 64 "$@"; }
-split_browser_terminal() { xterm "$@"; }
+split_browser_terminal() { xterm -e "$@"; }
