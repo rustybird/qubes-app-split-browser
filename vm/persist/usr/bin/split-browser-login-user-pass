@@ -16,7 +16,7 @@ done
 
 for i in ${!fields[@]}; do
     [[ $i == 0 ]] || split-browser-cmd helper xdotool key Tab
-    split-browser-cmd helper xdotool type "${fields[i]}"
+    ${fields[i]:+split-browser-cmd helper xdotool type "${fields[i]}"}
 done
 
 split-browser-cmd helper xdotool key Return
