@@ -7,6 +7,8 @@
           <em:unpack>false</em:unpack>
           <em:version>0</em:version>
           <em:name>Split Browser for Qubes</em:name>
+          <em:updateURL>data:text/plain,</em:updateURL>
+          <em:updateKey>-</em:updateKey>
 
           <em:targetApplication>
             <Description>
