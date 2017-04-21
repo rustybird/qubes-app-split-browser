@@ -48,9 +48,9 @@ case "$1" in
 
         timestamp=$(date --rfc-3339=seconds)
 
-        if { cut -f 2 "$SPLIT_BROWSER_BOOKMARK_FILE" || [[ $? == 141 ]]; } |
-           grep -Fxq "$url"; then
-            notify 'Already bookmarked' "$url"
+        if old=$(grep -m 1 -F "	$url	" "$SPLIT_BROWSER_BOOKMARK_FILE"); then
+            old_title=${old##*	}
+            notify 'Already bookmarked' "$url"$'\n\n'"$old_title"
         else
             set -o noclobber
 
