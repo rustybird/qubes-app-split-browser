@@ -5,5 +5,5 @@
   "updateURL":   "data:text/plain,",
   "updateKey":   "-",
   "engines":     { "firefox": ">=45.0" },
-  "permissions": { "private-browsing": true }
+  "permissions": { "private-browsing": true, "multiprocess": true }
 }
