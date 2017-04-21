@@ -7,7 +7,7 @@ for f in {,/usr/local}/etc/split-browser/persist/*.bash; do source "$f"; done
 
 notify() {
     local summary=$1
-    local body=$2
+    local body=$2$'\n\n'$3
 
     body=${body//&/&amp;}  # Yeah I don't like this either.
     body=${body//</&lt;}   # What kind of protocol doesn't allow
@@ -50,7 +50,7 @@ case "$1" in
 
         if old=$(grep -m 1 -F "	$url	" "$SPLIT_BROWSER_BOOKMARK_FILE"); then
             old_title=${old##*	}
-            notify 'Already bookmarked' "$url"$'\n\n'"$old_title"
+            notify 'Already bookmarked' "$url" "$old_title"
         else
             set -o noclobber
 
@@ -61,7 +61,7 @@ case "$1" in
             mv  -- "$SPLIT_BROWSER_BOOKMARK_FILE".tmp \
                    "$SPLIT_BROWSER_BOOKMARK_FILE"
 
-            notify "$SPLIT_BROWSER_STAR  Page bookmarked" "$url"$'\n\n'"$title"
+            notify "$SPLIT_BROWSER_STAR  Page bookmarked" "$url" "$title"
         fi
     ;;
 esac
