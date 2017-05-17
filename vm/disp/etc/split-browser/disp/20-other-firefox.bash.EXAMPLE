@@ -1,2 +1,3 @@
 split_browser_cd_firefox_profile() { cd ~/.mozilla/firefox/*.default/; }
 split_browser_firefox() { firefox --allow-remote "$@"; }
+split_browser_firefox_client() { split_browser_firefox "$@"; }

@@ -38,7 +38,8 @@ case "$1" in
         split-browser-bookmark-pretty2url |
         grep --line-buffered . |
         while read -r url; do  # dmenu >= 4.6 can select multiple entries
-            split-browser-cmd helper split_browser_firefox --new-tab "$url"
+            split-browser-cmd helper \
+                              split_browser_firefox_client --new-tab "$url"
         done
     ;;
     add)
