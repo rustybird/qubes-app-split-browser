@@ -70,8 +70,8 @@ else
 
     if [[ ! -e fields && ! -e login ]]; then
         mkdir fields
-        >fields/1-user.txt
-        split_browser_pwgen >fields/2-pass.txt
+        >fields/01-user.txt
+        split_browser_pwgen >fields/02-pass.txt
     fi
 
     split_browser_terminal sh -c "tree -C --noreport; exec $SHELL"
