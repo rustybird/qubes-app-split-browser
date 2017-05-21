@@ -17,11 +17,53 @@
   const TransportService = Cc["@mozilla.org/network/socket-transport-service;1"]
                            .getService(Ci.nsISocketTransportService);
 
+  const CmdSocket = FileUtils.File(env.SPLIT_BROWSER_CMD_SOCKET);
   const ReqSocket = FileUtils.File(env.SPLIT_BROWSER_REQ_SOCKET);
   const FieldSep  = "\t";
   const RecordSep = "\n";
   const BadByte   = new RegExp([FieldSep, RecordSep, "\0"].join("|"), "g");
 
+
+  function newTab(url) {
+    // FIXME:LEGACY: switch to tabs.open() when Tor Browser 7.0 is released
+    tabUtils.openTab(tabUtils.getOwnerWindow(viewFor(tabs.activeTab)), url);
+  }
+
+  function cmdListen() {
+    var socket = Cc["@mozilla.org/network/server-socket;1"]
+                 .createInstance(Ci.nsIServerSocket);
+
+    socket.initWithFilename(CmdSocket, 0664, -1);
+
+    socket.asyncListen({
+      onSocketAccepted: function(undefined, transport) {
+        var str   = "";
+        var inRaw = transport
+                    .openInputStream(Ci.nsITransport.OPEN_BLOCKING, 0, 0);
+        var inUni = Cc["@mozilla.org/intl/converter-input-stream;1"]
+                    .createInstance(Ci.nsIConverterInputStream);
+
+        inUni.init(inRaw, "UTF-8", 0,
+                   Ci.nsIConverterInputStream.DEFAULT_REPLACEMENT_CHARACTER);
+
+        try {
+          while (true) {
+            inRaw.available();
+            s = {};
+            inUni.readString(-1, s);
+            str += s.value;
+          }
+        } catch (e) {
+        } finally {
+          inUni.close();
+          inRaw.close();
+        }
+
+        if (str.slice(-1) === "\n")
+          newTab(str.slice(0, -1));
+      }
+    });
+  }
 
   function toUtf8(str) {
     return unescape(encodeURIComponent(str));
@@ -112,6 +154,7 @@
   }
 
 
+  cmdListen();
   setHotkeys();
 
 })();

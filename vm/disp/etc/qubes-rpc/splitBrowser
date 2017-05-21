@@ -5,7 +5,7 @@ shopt -s nullglob
 for f in /etc/split-browser/disp/*.bash; do source "$f"; done
 
 exec 2> >(systemd-cat -t split-browser --level-prefix=no)
-export SPLIT_BROWSER_REQ_SOCKET
+export SPLIT_BROWSER_CMD_SOCKET SPLIT_BROWSER_REQ_SOCKET
 
 
 socat "UNIX-LISTEN:$SPLIT_BROWSER_REQ_SOCKET,fork,max-children=1" - &
@@ -28,6 +28,10 @@ while IFS=$'\t' read -r -a cmd; do
         ;;
         helper)
             "${cmd[@]:1}"
+        ;;
+        newtab)
+            printf '%s\n' "${cmd[1]}" |
+            socat - UNIX-CONNECT:"$SPLIT_BROWSER_CMD_SOCKET"
         ;;
     esac
 done >&2
