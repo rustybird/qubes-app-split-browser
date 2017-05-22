@@ -59,7 +59,7 @@
           inRaw.close();
         }
 
-        if (str.slice(-1) === "\n")
+        if (str.slice(-1) === RecordSep)
           newTab(str.slice(0, -1));
       }
     });
