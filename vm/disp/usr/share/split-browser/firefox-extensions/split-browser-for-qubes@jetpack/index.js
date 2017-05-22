@@ -33,7 +33,7 @@
     var socket = Cc["@mozilla.org/network/server-socket;1"]
                  .createInstance(Ci.nsIServerSocket);
 
-    socket.initWithFilename(CmdSocket, 0664, -1);
+    socket.initWithFilename(CmdSocket, FileUtils.PERMS_FILE, -1);
 
     socket.asyncListen({
       onSocketAccepted: function(undefined, transport) {
