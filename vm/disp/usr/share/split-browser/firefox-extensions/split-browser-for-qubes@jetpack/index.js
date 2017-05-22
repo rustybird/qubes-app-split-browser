@@ -72,8 +72,7 @@
   function sendReq(req) {
     var str = toUtf8(req.join(FieldSep) + RecordSep);
     var out = TransportService.createUnixDomainTransport(ReqSocket)
-              .openOutputStream(Ci.nsITransport.OPEN_BLOCKING |
-                                Ci.nsITransport.OPEN_UNBUFFERED, 0, 0);
+              .openOutputStream(Ci.nsITransport.OPEN_BLOCKING, 0, 0);
     try {
       out.write(str, str.length);
     } finally {
