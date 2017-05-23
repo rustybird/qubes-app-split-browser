@@ -71,12 +71,17 @@
 
   function sendReq(req) {
     var str = toUtf8(req.join(FieldSep) + RecordSep);
-    var out = TransportService.createUnixDomainTransport(ReqSocket)
-              .openOutputStream(Ci.nsITransport.OPEN_BLOCKING, 0, 0);
+    var outRaw = TransportService.createUnixDomainTransport(ReqSocket)
+                 .openOutputStream(Ci.nsITransport.OPEN_BLOCKING, 0, 0);
+    var outBin = Cc["@mozilla.org/binaryoutputstream;1"]
+                 .createInstance(Ci.nsIBinaryOutputStream);
+
     try {
-      out.write(str, str.length);
+      outBin.setOutputStream(outRaw);
+      outBin.writeBytes(str, str.length);
     } finally {
-      out.close();
+      outBin.close();
+      outRaw.close();
     }
   }
 
