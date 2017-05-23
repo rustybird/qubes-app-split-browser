@@ -36,7 +36,7 @@
     socket.initWithFilename(CmdSocket, FileUtils.PERMS_FILE, -1);
 
     socket.asyncListen({
-      onSocketAccepted: function(undefined, transport) {
+      onSocketAccepted: function(_socket, transport) {
         var str   = "";
         var inRaw = transport
                     .openInputStream(Ci.nsITransport.OPEN_BLOCKING, 0, 0);
@@ -53,7 +53,7 @@
             inUni.readString(-1, s);
             str += s.value;
           }
-        } catch (e) {
+        } catch (_e) {
           inUni.close();
           inRaw.close();
         }
@@ -97,7 +97,7 @@
       uriForUtf8 = decodeURI(uri.spec);
       if (uriForUtf8.search(BadByte) != -1)
         throw URIError();
-    } catch (e) {
+    } catch (_e) {
       uriForUtf8 = uri.spec;
     }
     var titleForUtf8 = (browserFrame.contentTitle || lowLevelTab.label || "")
