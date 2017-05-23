@@ -54,7 +54,6 @@
             str += s.value;
           }
         } catch (e) {
-        } finally {
           inUni.close();
           inRaw.close();
         }
