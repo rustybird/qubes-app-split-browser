@@ -43,10 +43,10 @@
         var inUni = Cc["@mozilla.org/intl/converter-input-stream;1"]
                     .createInstance(Ci.nsIConverterInputStream);
 
-        inUni.init(inRaw, "UTF-8", 0,
-                   Ci.nsIConverterInputStream.DEFAULT_REPLACEMENT_CHARACTER);
-
         try {
+          inUni.init(inRaw, "UTF-8", 0,
+                     Ci.nsIConverterInputStream.DEFAULT_REPLACEMENT_CHARACTER);
+
           while (true) {
             inRaw.available();
             s = {};
