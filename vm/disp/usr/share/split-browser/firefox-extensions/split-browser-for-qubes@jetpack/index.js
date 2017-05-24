@@ -85,14 +85,18 @@
   }
 
   function sendReqWithPage(req) {
-    const lowLevelTab  = viewFor(tabs.activeTab);
-    const browserFrame = tabUtils.getBrowserForTab(lowLevelTab);
-    const uri          = browserFrame.currentURI;
-    if (uri.spec === "about:blank" || uri.spec === "about:newtab")
+    const lowLevelTab   = viewFor(tabs.activeTab);
+    const browserFrame  = tabUtils.getBrowserForTab(lowLevelTab);
+    const titleForUtf8  = (browserFrame.contentTitle || lowLevelTab.label || "")
+                          .replace(BadByte, " ");
+    const titleForAscii = titleForUtf8.normalize("NFKD");
+    const uri           = browserFrame.currentURI;
+    const uriForAscii   = uri.asciiSpec;
+    let   uriForUtf8;
+
+    if (uriForAscii === "about:blank" || uriForAscii === "about:newtab")
       return;
 
-    const uriForAscii = uri.asciiSpec;
-    let   uriForUtf8;
     try {
       uriForUtf8 = decodeURI(uri.spec);
       if (uriForUtf8.search(BadByte) != -1)
@@ -100,9 +104,6 @@
     } catch (_e) {
       uriForUtf8 = uri.spec;
     }
-    const titleForUtf8  = (browserFrame.contentTitle || lowLevelTab.label || "")
-                          .replace(BadByte, " ");
-    const titleForAscii = titleForUtf8.normalize("NFKD");
 
     sendReq(req.concat([uriForAscii, titleForAscii, uriForUtf8, titleForUtf8]));
   }
