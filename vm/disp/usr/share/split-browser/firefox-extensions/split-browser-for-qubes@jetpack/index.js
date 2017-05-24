@@ -30,18 +30,18 @@
   }
 
   function cmdListen() {
-    var socket = Cc["@mozilla.org/network/server-socket;1"]
-                 .createInstance(Ci.nsIServerSocket);
+    const socket = Cc["@mozilla.org/network/server-socket;1"]
+                   .createInstance(Ci.nsIServerSocket);
 
     socket.initWithFilename(CmdSocket, FileUtils.PERMS_FILE, -1);
 
     socket.asyncListen({
       onSocketAccepted: function(_socket, transport) {
-        var str   = "";
-        var inRaw = transport
-                    .openInputStream(Ci.nsITransport.OPEN_BLOCKING, 0, 0);
-        var inUni = Cc["@mozilla.org/intl/converter-input-stream;1"]
-                    .createInstance(Ci.nsIConverterInputStream);
+        const inRaw = transport
+                      .openInputStream(Ci.nsITransport.OPEN_BLOCKING, 0, 0);
+        const inUni = Cc["@mozilla.org/intl/converter-input-stream;1"]
+                      .createInstance(Ci.nsIConverterInputStream);
+        let   str   = "";
 
         try {
           inUni.init(inRaw, "UTF-8", 0,
@@ -69,11 +69,11 @@
   }
 
   function sendReq(req) {
-    var str = toUtf8(req.join(FieldSep) + RecordSep);
-    var outRaw = TransportService.createUnixDomainTransport(ReqSocket)
-                 .openOutputStream(Ci.nsITransport.OPEN_BLOCKING, 0, 0);
-    var outBin = Cc["@mozilla.org/binaryoutputstream;1"]
-                 .createInstance(Ci.nsIBinaryOutputStream);
+    const str    = toUtf8(req.join(FieldSep) + RecordSep);
+    const outRaw = TransportService.createUnixDomainTransport(ReqSocket)
+                   .openOutputStream(Ci.nsITransport.OPEN_BLOCKING, 0, 0);
+    const outBin = Cc["@mozilla.org/binaryoutputstream;1"]
+                   .createInstance(Ci.nsIBinaryOutputStream);
 
     try {
       outBin.setOutputStream(outRaw);
@@ -85,14 +85,14 @@
   }
 
   function sendReqWithPage(req) {
-    var lowLevelTab = viewFor(tabs.activeTab);
-    var browserFrame = tabUtils.getBrowserForTab(lowLevelTab);
-    var uri = browserFrame.currentURI;
+    const lowLevelTab  = viewFor(tabs.activeTab);
+    const browserFrame = tabUtils.getBrowserForTab(lowLevelTab);
+    const uri          = browserFrame.currentURI;
     if (uri.spec === "about:blank" || uri.spec === "about:newtab")
       return;
 
-    var uriForAscii = uri.asciiSpec;
-    var uriForUtf8;
+    const uriForAscii = uri.asciiSpec;
+    let   uriForUtf8;
     try {
       uriForUtf8 = decodeURI(uri.spec);
       if (uriForUtf8.search(BadByte) != -1)
@@ -100,16 +100,17 @@
     } catch (_e) {
       uriForUtf8 = uri.spec;
     }
-    var titleForUtf8 = (browserFrame.contentTitle || lowLevelTab.label || "")
-                       .replace(BadByte, " ");
-    var titleForAscii = titleForUtf8.normalize("NFKD");
+    const titleForUtf8  = (browserFrame.contentTitle || lowLevelTab.label || "")
+                          .replace(BadByte, " ");
+    const titleForAscii = titleForUtf8.normalize("NFKD");
 
     sendReq(req.concat([uriForAscii, titleForAscii, uriForUtf8, titleForUtf8]));
   }
 
   function restart() {
-    var cancel = Cc["@mozilla.org/supports-PRBool;1"]
-                 .createInstance(Ci.nsISupportsPRBool);
+    const cancel = Cc["@mozilla.org/supports-PRBool;1"]
+                   .createInstance(Ci.nsISupportsPRBool);
+
     ObserverService.notifyObservers(cancel, "quit-application-requested", null);
 
     if (!cancel.data) {
