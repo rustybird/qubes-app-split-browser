@@ -47,11 +47,11 @@
           inUni.init(inRaw, "UTF-8", 0,
                      Ci.nsIConverterInputStream.DEFAULT_REPLACEMENT_CHARACTER);
 
+          const buf = {};
           while (true) {
             inRaw.available();
-            s = {};
-            inUni.readString(-1, s);
-            str += s.value;
+            inUni.readString(-1, buf);
+            str += buf.value;
           }
         } catch (_e) {
           inUni.close();
