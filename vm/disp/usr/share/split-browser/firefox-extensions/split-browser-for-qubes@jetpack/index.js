@@ -41,7 +41,7 @@
                       .openInputStream(Ci.nsITransport.OPEN_BLOCKING, 0, 0);
         const inUni = Cc["@mozilla.org/intl/converter-input-stream;1"]
                       .createInstance(Ci.nsIConverterInputStream);
-        let   str   = "";
+        let   cmd   = "";
 
         try {
           inUni.init(inRaw, "UTF-8", 0,
@@ -51,15 +51,15 @@
           while (true) {
             inRaw.available();
             inUni.readString(-1, buf);
-            str += buf.value;
+            cmd += buf.value;
           }
         } catch (_e) {
           inUni.close();
           inRaw.close();
         }
 
-        if (str.slice(-1) === RecordSep)
-          newTab(str.slice(0, -1));
+        if (cmd.slice(-1) === RecordSep)
+          newTab(cmd.slice(0, -1));
       }
     });
   }
@@ -68,8 +68,8 @@
     return unescape(encodeURIComponent(str));
   }
 
-  function sendReq(req) {
-    const str    = toUtf8(req.join(FieldSep) + RecordSep);
+  function sendReq(fields) {
+    const req    = toUtf8(fields.join(FieldSep) + RecordSep);
     const outRaw = TransportService.createUnixDomainTransport(ReqSocket)
                    .openOutputStream(Ci.nsITransport.OPEN_BLOCKING, 0, 0);
     const outBin = Cc["@mozilla.org/binaryoutputstream;1"]
@@ -77,14 +77,14 @@
 
     try {
       outBin.setOutputStream(outRaw);
-      outBin.writeBytes(str, str.length);
+      outBin.writeBytes(req, req.length);
     } finally {
       outBin.close();
       outRaw.close();
     }
   }
 
-  function sendReqWithPage(req) {
+  function sendReqWithPage(fields) {
     const lowLevelTab   = viewFor(tabs.activeTab);
     const browserFrame  = tabUtils.getBrowserForTab(lowLevelTab);
     const titleForUtf8  = (browserFrame.contentTitle || lowLevelTab.label || "")
@@ -105,7 +105,8 @@
       uriForUtf8 = uri.spec;
     }
 
-    sendReq(req.concat([uriForAscii, titleForAscii, uriForUtf8, titleForUtf8]));
+    fields.push(uriForAscii, titleForAscii, uriForUtf8, titleForUtf8);
+    sendReq(fields);
   }
 
   function restart() {
