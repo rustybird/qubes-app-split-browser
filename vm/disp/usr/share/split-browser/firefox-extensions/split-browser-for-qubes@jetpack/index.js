@@ -29,7 +29,7 @@
     tabUtils.openTab(tabUtils.getOwnerWindow(viewFor(tabs.activeTab)), url);
   }
 
-  function cmdListen() {
+  function asyncListenForCmd() {
     const socket = Cc["@mozilla.org/network/server-socket;1"]
                    .createInstance(Ci.nsIServerSocket);
 
@@ -160,7 +160,7 @@
   }
 
 
-  cmdListen();
+  asyncListenForCmd();
   setHotkeys();
 
 })();
