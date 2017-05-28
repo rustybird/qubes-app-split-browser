@@ -68,7 +68,7 @@
     return unescape(encodeURIComponent(str));
   }
 
-  function sendReq(fields) {
+  function sendReq(...fields) {
     const req    = toUtf8(fields.join(FieldSep) + RecordSep);
     const outRaw = TransportService.createUnixDomainTransport(ReqSocket)
                    .openOutputStream(Ci.nsITransport.OPEN_BLOCKING, 0, 0);
@@ -84,7 +84,7 @@
     }
   }
 
-  function sendReqWithPage(fields) {
+  function sendReqWithPage(...fields) {
     const lowLevelTab   = viewFor(tabs.activeTab);
     const browserFrame  = tabUtils.getBrowserForTab(lowLevelTab);
     const titleForUtf8  = (browserFrame.contentTitle || lowLevelTab.label || "")
@@ -105,8 +105,7 @@
       uriForUtf8 = uri.spec;
     }
 
-    fields.push(uriForAscii, titleForAscii, uriForUtf8, titleForUtf8);
-    sendReq(fields);
+    sendReq(...fields, uriForAscii, titleForAscii, uriForUtf8, titleForUtf8);
   }
 
   function restart() {
@@ -116,7 +115,7 @@
     ObserverService.notifyObservers(cancel, "quit-application-requested", null);
 
     if (!cancel.data) {
-      sendReq(["restart"]);
+      sendReq("restart");
       StartupService.quit(Ci.nsIAppStartup.eAttemptQuit);
     }
   }
@@ -135,17 +134,17 @@
   function setHotkeys() {
     Hotkey({
       combo: "alt-b",  // Firefox: "Bookmarks" menu
-      onPress: function() { sendReq(["bookmark", "get"]); }
+      onPress: function() { sendReq("bookmark", "get"); }
     });
 
     Hotkey({
       combo: "control-d",  // Firefox: "Bookmark This Page"
-      onPress: function() { sendReqWithPage(["bookmark", "add"]); }
+      onPress: function() { sendReqWithPage("bookmark", "add"); }
     });
 
     Hotkey({
       combo: "control-shift-return",
-      onPress: function() { sendReqWithPage(["login", "get"]); }
+      onPress: function() { sendReqWithPage("login", "get"); }
     });
 
     Hotkey({
