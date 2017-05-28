@@ -30,8 +30,7 @@ while IFS=$'\t' read -r -a cmd; do
             "${cmd[@]:1}"
         ;;
         newtab)
-            printf '%s\n' "${cmd[1]}" |
-            socat - UNIX-CONNECT:"$SPLIT_BROWSER_CMD_SOCKET"
+            socat - UNIX-CONNECT:"$SPLIT_BROWSER_CMD_SOCKET" <<<"${cmd[1]}"
         ;;
     esac
 done >&2

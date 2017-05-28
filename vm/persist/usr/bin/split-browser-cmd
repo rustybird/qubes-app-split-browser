@@ -4,5 +4,4 @@ set -e -o pipefail
 [[ $# -gt 0 ]]
 
 IFS=$'\t'
-printf '%s\n' "$*" |
-socat - "UNIX-CONNECT:${SPLIT_BROWSER_CMD_SOCKET?},forever,interval=0.1"
+socat - "UNIX-CONNECT:${SPLIT_BROWSER_CMD_SOCKET?},forever,interval=0.1" <<<"$*"
