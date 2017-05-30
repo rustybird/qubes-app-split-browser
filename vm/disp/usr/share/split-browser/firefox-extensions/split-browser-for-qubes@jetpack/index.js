@@ -1,5 +1,7 @@
 (function() {
 
+  "use strict";
+
   const { Cc, Ci, Cu } = require("chrome");
   const { viewFor }    = require("sdk/view/core");
   const { Hotkey }     = require("sdk/hotkeys");
