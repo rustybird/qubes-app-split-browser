@@ -27,8 +27,7 @@
 
 
   function newTab(url) {
-    // FIXME:LEGACY: switch to tabs.open() when Tor Browser 7.0 is released
-    tabUtils.openTab(tabUtils.getOwnerWindow(viewFor(tabs.activeTab)), url);
+    tabs.open(url);
   }
 
   function asyncListenForCmd() {
