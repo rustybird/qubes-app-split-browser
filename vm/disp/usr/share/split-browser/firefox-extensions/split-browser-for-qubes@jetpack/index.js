@@ -26,10 +26,6 @@
   const BadByte   = new RegExp([FieldSep, RecordSep, "\0"].join("|"), "g");
 
 
-  function newTab(url) {
-    tabs.open(url);
-  }
-
   function asyncListenForCmd() {
     const socket = Cc["@mozilla.org/network/server-socket;1"]
                    .createInstance(Ci.nsIServerSocket);
@@ -60,7 +56,7 @@
         }
 
         if (cmd.slice(-1) === RecordSep)
-          newTab(cmd.slice(0, -1));
+          tabs.open(cmd.slice(0, -1));
       }
     });
   }
