@@ -26,7 +26,7 @@
   const BadByte   = new RegExp([FieldSep, RecordSep, "\0"].join("|"), "g");
 
 
-  function asyncListenForCmd() {
+  function asyncListenForCmds() {
     const socket = Cc["@mozilla.org/network/server-socket;1"]
                    .createInstance(Ci.nsIServerSocket);
 
@@ -156,7 +156,7 @@
   }
 
 
-  asyncListenForCmd();
+  asyncListenForCmds();
   setHotkeys();
 
 })();
