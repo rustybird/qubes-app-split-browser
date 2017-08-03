@@ -6,6 +6,7 @@
   const { viewFor }    = require("sdk/view/core");
   const { Hotkey }     = require("sdk/hotkeys");
   const { env }        = require("sdk/system/environment");
+  const prefs          = require("sdk/preferences/service");
   const subprocess     = require("sdk/system/child_process/subprocess");
   const tabs           = require("sdk/tabs");
   const tabUtils       = require("sdk/tabs/utils");
@@ -121,7 +122,7 @@
     const args = [env.QREXEC_REMOTE_DOMAIN];
 
     const dir = Cc["@mozilla.org/file/local;1"].createInstance(Ci.nsILocalFile);
-    dir.initWithPath("/home/user/Downloads");
+    dir.initWithPath(prefs.get("browser.download.dir"));
 
     const entries = dir.directoryEntries;
     while (entries.hasMoreElements())
