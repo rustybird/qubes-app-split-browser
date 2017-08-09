@@ -57,14 +57,14 @@ done
 
 if [[ $SPLIT_BROWSER_CHARSET == utf-8 ]]; then
     sanitize() {
-        stdbuf -o0 tr '\0' _ |
+        stdbuf -oL tr '\0' _ |
         PYTHONIOENCODING=utf-8:strict \
         python3 -uc $'import sys\nfor l in sys.stdin: sys.stdout.write(l)'
     }
     first_page_field=4
 else  # printable ASCII
     sanitize() {
-        stdbuf -o0 tr -c '\040-\176\t\n' _
+        stdbuf -oL tr -c '\040-\176\t\n' _
     }
     first_page_field=2
 fi

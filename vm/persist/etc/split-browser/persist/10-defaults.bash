@@ -8,6 +8,6 @@ SPLIT_BROWSER_BOOKMARK_PRETTY_TITLE_LEN=70
 SPLIT_BROWSER_STAR=*
 SPLIT_BROWSER_ELLIPSIS=...
 
-split_browser_dmenu() { x11-unoverride-redirect stdbuf -o0 dmenu "$@"; }
+split_browser_dmenu() { x11-unoverride-redirect stdbuf -oL dmenu "$@"; }
 split_browser_pwgen() { pwgen -s 64 "$@"; }
 split_browser_terminal() { gnome-terminal -x "$@" || xterm -e "$@"; }

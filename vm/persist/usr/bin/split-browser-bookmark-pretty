@@ -18,5 +18,4 @@ BEGIN {
              sprintf("%-"  title_len "s", $3))
 
     print prefix date fs title fs url
-    fflush()
 }
