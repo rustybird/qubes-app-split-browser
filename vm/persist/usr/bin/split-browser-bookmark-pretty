@@ -11,15 +11,12 @@ BEGIN {
 }
 
 {
-    date  = $1
+    date  = substr($1, 1, date_len)
     url   = $2
-    title = $3
+    title = (length($3) >  title_len ?
+             substr($3, 1, title_len - length(trunc)) trunc :
+             sprintf("%-"  title_len "s", $3))
 
-    printf prefix "%s" fs "%-" title_len "s" fs "%s\n",
-           substr(date, 1, date_len),
-           (length(title) >  title_len ?
-            substr(title, 1, title_len - length(trunc)) trunc :
-            title),
-           url
+    print prefix date fs title fs url
     fflush()
 }
