@@ -13,9 +13,9 @@ BEGIN {
 {
     date  = substr($1, 1, date_len)
     url   = $2
-    title = (length($3) >  title_len ?
-             substr($3, 1, title_len - length(trunc)) trunc :
-             sprintf("%-"  title_len "s", $3))
+    title = length($3) >  title_len ?
+            substr($3, 1, title_len - length(trunc)) trunc :
+            sprintf("%-"  title_len "s", $3)
 
     print prefix date fs title fs url
 }
