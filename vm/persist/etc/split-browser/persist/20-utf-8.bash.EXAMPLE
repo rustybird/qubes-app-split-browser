@@ -1,9 +1,2 @@
-#
-# dmenu >= 4.6 is needed for proper Unicode support!
-#
-
-SB_ELLIPSIS=$'\u2026'
-SB_STAR=$'\u2605'
-
 # allow page titles and decoded URLs beyond printable ASCII
 SB_CHARSET=utf-8

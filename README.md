@@ -98,11 +98,11 @@ TODO: document included `fedora/`, `debian/`, and `arch/` packaging
 
 1. Copy `vm/` into the DisposableVM template (which ideally should be [whonix-ws](https://www.whonix.org/wiki/Qubes/Disposable_VM) - there are some fingerprinting concerns with fedora-23-minimal and debian-8 at least) and run `sudo make install-disp` there. Also install the `socat xdotool` packages, then shut down the template.
 
-2. Copy `vm/` into the persistent VM template and run `sudo make install-persist` there. Also install the `socat oathtool pwgen dmenu` packages, then shut down the template. (UTF-8 support and nicer fonts require dmenu >= 4.6, which is available in Fedora >= 24 - `sudo qubes-dom0-update qubes-template-fedora-25` - or Debian >= 9.)
+2. Copy `vm/` into the persistent VM template and run `sudo make install-persist` there. Also install the `socat oathtool pwgen dmenu` packages, then shut down the template.
 
 3. Create an AppVM based on the persistent VM template, and configure it to have no network access itself, but to launch DisposableVMs with network access through the tor VM:
 
-        qvm-create --template=fedora-24-clone-1 --label=purple browser-1
+        qvm-create --template=fedora-25-clone-1 --label=purple browser-1
         qvm-prefs --set browser-1 netvm none
         qvm-prefs --set browser-1 dispvm_netvm sys-whonix
 
