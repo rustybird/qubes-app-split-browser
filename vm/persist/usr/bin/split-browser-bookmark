@@ -48,8 +48,8 @@ case "$1" in
 
         timestamp=$(date --rfc-3339=seconds)
 
-        if old=$(grep -m 1 -F "	$url	" "$SB_BOOKMARK_FILE"); then
-            old_title=${old##*	}
+        if old_title=$(grep -m 1 -F $'\t'"$url"$'\t' "$SB_BOOKMARK_FILE" |
+                       cut -f 3); then
             notify 'Already bookmarked' "$url" "$old_title"
         else
             set -o noclobber
