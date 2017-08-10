@@ -54,9 +54,9 @@ case "$1" in
         else
             set -o noclobber
 
-            printf '%s\t%s\t%s\n' "$timestamp" "$url" "$title" |
             cat -- "$SPLIT_BROWSER_BOOKMARK_FILE" - \
-                  >"$SPLIT_BROWSER_BOOKMARK_FILE".tmp
+                  >"$SPLIT_BROWSER_BOOKMARK_FILE".tmp \
+                  <<<"$timestamp"$'\t'"$url"$'\t'"$title"
 
             mv  -- "$SPLIT_BROWSER_BOOKMARK_FILE".tmp \
                    "$SPLIT_BROWSER_BOOKMARK_FILE"
