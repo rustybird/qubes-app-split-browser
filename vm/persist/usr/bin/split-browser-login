@@ -8,7 +8,7 @@ for f in {,/usr/local}/etc/split-browser/persist/*.bash; do source "$f"; done
 shorten() {
     local str=$1
     local len=$2
-    local trunc=$SPLIT_BROWSER_ELLIPSIS
+    local trunc=$SB_ELLIPSIS
 
     if [[ ${#str} -gt $len ]]; then
         str=${str::$(( len - ${#trunc} ))}$trunc
@@ -17,8 +17,8 @@ shorten() {
 }
 
 
-mkdir -p -- "$SPLIT_BROWSER_LOGIN_DIR"
-cd       -- "$SPLIT_BROWSER_LOGIN_DIR"
+mkdir -p -- "$SB_LOGIN_DIR"
+cd       -- "$SB_LOGIN_DIR"
 
 [[ $1 == get && $# == 3 ]]
 url=$2
@@ -46,7 +46,7 @@ done
 if [[ ${#matching_sites[@]} -gt 0 ]]; then
     # Wait a little to prevent the DisposableVM from tricking the user,
     # in case dom0's focus stealing prevention is too lax
-    notify-send --expire-time=2000 --urgency=low "$SPLIT_BROWSER_ELLIPSIS"
+    notify-send --expire-time=2000 --urgency=low "$SB_ELLIPSIS"
     sleep 2
 
     site=$(printf '%s\n' "${matching_sites[@]}" |

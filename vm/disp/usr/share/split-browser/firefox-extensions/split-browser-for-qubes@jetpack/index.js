@@ -20,8 +20,8 @@
   const TransportService = Cc["@mozilla.org/network/socket-transport-service;1"]
                            .getService(Ci.nsISocketTransportService);
 
-  const CmdSocket = FileUtils.File(env.SPLIT_BROWSER_CMD_SOCKET);
-  const ReqSocket = FileUtils.File(env.SPLIT_BROWSER_REQ_SOCKET);
+  const CmdSocket = FileUtils.File(env.SB_CMD_SOCKET);
+  const ReqSocket = FileUtils.File(env.SB_REQ_SOCKET);
   const FieldSep  = "\t";
   const RecordSep = "\n";
   const BadByte   = new RegExp([FieldSep, RecordSep, "\0"].join("|"), "g");

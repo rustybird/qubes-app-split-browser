@@ -17,22 +17,22 @@ notify() {
 }
 
 
-mkdir -p -- "$(dirname -- "$SPLIT_BROWSER_BOOKMARK_FILE")"
-touch -a -- "$SPLIT_BROWSER_BOOKMARK_FILE"
+mkdir -p -- "$(dirname -- "$SB_BOOKMARK_FILE")"
+touch -a -- "$SB_BOOKMARK_FILE"
 
 case "$1" in
     get)
         [[ $# == 1 ]]
 
-        export SPLIT_BROWSER_BOOKMARK_PRETTY_DATE_LEN \
-               SPLIT_BROWSER_BOOKMARK_PRETTY_TITLE_LEN \
-               SPLIT_BROWSER_BOOKMARK_PRETTY_FS="  " \
-               SPLIT_BROWSER_BOOKMARK_PRETTY_PREFIX="$SPLIT_BROWSER_STAR " \
-               SPLIT_BROWSER_BOOKMARK_PRETTY_TRUNC="$SPLIT_BROWSER_ELLIPSIS"
+        export SB_BOOKMARK_PRETTY_DATE_LEN \
+               SB_BOOKMARK_PRETTY_TITLE_LEN \
+               SB_BOOKMARK_PRETTY_FS="  " \
+               SB_BOOKMARK_PRETTY_PREFIX="$SB_STAR " \
+               SB_BOOKMARK_PRETTY_TRUNC="$SB_ELLIPSIS"
 
         {
             echo  # select an empty line in dmenu initially
-            split-browser-bookmark-pretty <"$SPLIT_BROWSER_BOOKMARK_FILE"
+            split-browser-bookmark-pretty <"$SB_BOOKMARK_FILE"
         } |
         sb_dmenu -i -l 20 |
         split-browser-bookmark-pretty2url |
@@ -48,20 +48,20 @@ case "$1" in
 
         timestamp=$(date --rfc-3339=seconds)
 
-        if old=$(grep -m 1 -F "	$url	" "$SPLIT_BROWSER_BOOKMARK_FILE"); then
+        if old=$(grep -m 1 -F "	$url	" "$SB_BOOKMARK_FILE"); then
             old_title=${old##*	}
             notify 'Already bookmarked' "$url" "$old_title"
         else
             set -o noclobber
 
-            cat -- "$SPLIT_BROWSER_BOOKMARK_FILE" - \
-                  >"$SPLIT_BROWSER_BOOKMARK_FILE".tmp \
+            cat -- "$SB_BOOKMARK_FILE" - \
+                  >"$SB_BOOKMARK_FILE".tmp \
                   <<<"$timestamp"$'\t'"$url"$'\t'"$title"
 
-            mv  -- "$SPLIT_BROWSER_BOOKMARK_FILE".tmp \
-                   "$SPLIT_BROWSER_BOOKMARK_FILE"
+            mv  -- "$SB_BOOKMARK_FILE".tmp \
+                   "$SB_BOOKMARK_FILE"
 
-            notify "$SPLIT_BROWSER_STAR  Page bookmarked" "$url" "$title"
+            notify "$SB_STAR  Page bookmarked" "$url" "$title"
         fi
     ;;
 esac

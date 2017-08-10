@@ -5,8 +5,8 @@ shopt -s nullglob
 for f in {,/usr/local}/etc/split-browser/persist/*.bash; do source "$f"; done
 
 [[ -t 2 ]] || exec 2> >(systemd-cat -t split-browser --level-prefix=no)
-: ${SPLIT_BROWSER_CMD_SOCKET:=$SPLIT_BROWSER_CMD_DIR/$$}
-export SPLIT_BROWSER_CMD_SOCKET
+: ${SB_CMD_SOCKET:=$SB_CMD_DIR/$$}
+export SB_CMD_SOCKET
 
 
 # Parse command-line arguments and collect the Firefox preferences that will be
@@ -55,7 +55,7 @@ done
 # as UTF-8 normalized to NFKD (so that there are slightly fewer illegal bytes
 # to replace).
 
-if [[ $SPLIT_BROWSER_CHARSET == utf-8 ]]; then
+if [[ $SB_CHARSET == utf-8 ]]; then
     sanitize() {
         stdbuf -oL tr '\0' _ |
         PYTHONIOENCODING=utf-8:strict \
@@ -78,7 +78,7 @@ fi
 
 (
     echo $BASHPID
-    exec socat "UNIX-LISTEN:$SPLIT_BROWSER_CMD_SOCKET,fork,max-children=1" -
+    exec socat "UNIX-LISTEN:$SB_CMD_SOCKET,fork,max-children=1" -
 ) | {
     read socat_pid
     while :; do
