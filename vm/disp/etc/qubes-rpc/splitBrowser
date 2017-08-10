@@ -8,7 +8,7 @@ exec 2> >(systemd-cat -t split-browser --level-prefix=no)
 export SB_CMD_SOCKET SB_REQ_SOCKET
 
 
-socat "UNIX-LISTEN:$SB_REQ_SOCKET,fork,max-children=1" - &
+socat "UNIX-LISTEN:$SB_REQ_SOCKET,fork,max-children=1" STDIO &
 
 while IFS=$'\t' read -r -a cmd; do
     case "${cmd[0]}" in
@@ -30,7 +30,7 @@ while IFS=$'\t' read -r -a cmd; do
             "${cmd[@]:1}"
         ;;
         newtab)
-            socat - UNIX-CONNECT:"$SB_CMD_SOCKET" <<<"${cmd[1]}"
+            socat STDIO UNIX-CONNECT:"$SB_CMD_SOCKET" <<<"${cmd[1]}"
         ;;
     esac
 done >&2

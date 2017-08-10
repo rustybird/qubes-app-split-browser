@@ -78,7 +78,7 @@ fi
 
 (
     echo $BASHPID
-    exec socat "UNIX-LISTEN:$SB_CMD_SOCKET,fork,max-children=1" -
+    exec socat "UNIX-LISTEN:$SB_CMD_SOCKET,fork,max-children=1" STDIO
 ) | {
     read socat_pid
     while :; do
