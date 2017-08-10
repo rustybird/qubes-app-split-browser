@@ -1,7 +1,7 @@
 Source: qubes-split-browser
 Section: web
 Priority: optional
-Maintainer: Rusty Bird <rustybird@openmailbox.org>
+Maintainer: Rusty Bird <rustybird@net-c.com>
 Build-Depends: debhelper (>= 9)
 Standards-Version: 3.9.8
 Homepage: https://github.com/rustybird/qubes-split-browser
