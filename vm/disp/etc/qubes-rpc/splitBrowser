@@ -14,7 +14,7 @@ while IFS=$'\t' read -r -a cmd; do
     case "${cmd[0]}" in
         setup)
             (
-                split_browser_cd_firefox_profile
+                sb_cd_firefox_profile
                 mkdir -p extensions
                 ln -s /usr/share/split-browser/firefox-extensions/* extensions
                 printf '%s\n' "${cmd[@]:1}" >>prefs.js

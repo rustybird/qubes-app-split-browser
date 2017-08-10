@@ -1,2 +1,2 @@
-split_browser_cd_firefox_profile() { cd ~/.mozilla/firefox/*.default/; }
-split_browser_firefox() { firefox --allow-remote "$@"; }
+sb_cd_firefox_profile() { cd ~/.mozilla/firefox/*.default/; }
+sb_firefox() { firefox --allow-remote "$@"; }

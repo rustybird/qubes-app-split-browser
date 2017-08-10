@@ -83,7 +83,7 @@ fi
     read socat_pid
     while :; do
         split-browser-cmd setup "${prefs[@]}"
-        split-browser-cmd master split_browser_firefox "${args[@]}"
+        split-browser-cmd master sb_firefox "${args[@]}"
         args=()  # on restart, don't load given URLs again
 
         # 'qrexec-client-vm \$dispvm splitBrowser' would need a policy file

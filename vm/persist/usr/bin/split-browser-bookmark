@@ -34,7 +34,7 @@ case "$1" in
             echo  # select an empty line in dmenu initially
             split-browser-bookmark-pretty <"$SPLIT_BROWSER_BOOKMARK_FILE"
         } |
-        split_browser_dmenu -i -l 20 |
+        sb_dmenu -i -l 20 |
         split-browser-bookmark-pretty2url |
         grep --line-buffered . |
         while read -r url; do  # dmenu >= 4.6 can select multiple entries

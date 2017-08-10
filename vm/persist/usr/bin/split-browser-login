@@ -50,7 +50,7 @@ if [[ ${#matching_sites[@]} -gt 0 ]]; then
     sleep 2
 
     site=$(printf '%s\n' "${matching_sites[@]}" |
-           split_browser_dmenu -p 'Log into')
+           sb_dmenu -p 'Log into')
 
     cd -- "${site:?}"
 
@@ -61,7 +61,7 @@ if [[ ${#matching_sites[@]} -gt 0 ]]; then
     fi
 else
     prompt="Name a login entry for: $(shorten "$url" 50)"
-    site=$(split_browser_dmenu -p "$prompt" </dev/null)
+    site=$(sb_dmenu -p "$prompt" </dev/null)
 
     mkdir -p -- "$site"
     cd       -- "$site"
@@ -71,8 +71,8 @@ else
     if [[ ! -e fields && ! -e login ]]; then
         mkdir fields
         >fields/01-user.txt
-        split_browser_pwgen >fields/02-pass.txt
+        sb_pwgen >fields/02-pass.txt
     fi
 
-    split_browser_terminal sh -c "tree -C --noreport; exec $SHELL"
+    sb_terminal sh -c "tree -C --noreport; exec $SHELL"
 fi
