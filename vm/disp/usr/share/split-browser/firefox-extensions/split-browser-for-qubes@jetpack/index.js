@@ -34,7 +34,7 @@
     socket.initWithFilename(CmdSocket, FileUtils.PERMS_FILE, -1);
 
     socket.asyncListen({
-      onSocketAccepted: function(_socket, transport) {
+      onSocketAccepted: function({}, transport) {
         const inRaw = transport
                       .openInputStream(Ci.nsITransport.OPEN_BLOCKING, 0, 0);
         const inUni = Cc["@mozilla.org/intl/converter-input-stream;1"]
@@ -51,7 +51,7 @@
             inUni.readString(-1, buf);
             cmd += buf.value;
           }
-        } catch (_e) {
+        } catch ({}) {
           inUni.close();
           inRaw.close();
         }
@@ -99,7 +99,7 @@
       uriForUtf8 = decodeURI(uri.spec);
       if (uriForUtf8.search(BadByte) != -1)
         throw URIError();
-    } catch (_e) {
+    } catch ({}) {
       uriForUtf8 = uri.spec;
     }
 
