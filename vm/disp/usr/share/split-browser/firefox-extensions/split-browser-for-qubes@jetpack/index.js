@@ -4,8 +4,9 @@
 
   const { Cc, Ci, Cu } = require("chrome");
   const { viewFor }    = require("sdk/view/core");
-  const { Hotkey }     = require("sdk/hotkeys");
   const { env }        = require("sdk/system/environment");
+  const { observer }   = require("sdk/keyboard/observer");
+  const keyboardUtils  = require("sdk/keyboard/utils");
   const prefs          = require("sdk/preferences/service");
   const subprocess     = require("sdk/system/child_process/subprocess");
   const tabs           = require("sdk/tabs");
@@ -132,35 +133,44 @@
       subprocess.call({ command: "qvm-move-to-vm", arguments: args });
   }
 
-  function setHotkeys() {
-    Hotkey({
-      combo: "alt-b",  // Firefox: "Bookmarks" menu
-      onPress: function() { sendReq("bookmark", "get"); }
-    });
+  function setHotkeys(table) {
+    for (const type of ["keydown", "keyup"]) {
+      observer.on(type, function(event, {}) {
+        const key       = keyboardUtils.getKeyForCode(event.keyCode);
+        const modifiers = [];
 
-    Hotkey({
-      combo: "control-d",  // Firefox: "Bookmark This Page"
-      onPress: function() { sendReqWithPage("bookmark", "add"); }
-    });
+        if (event.altKey)   modifiers.push("alt");
+        if (event.ctrlKey)  modifiers.push("control");
+        if (event.metaKey)  modifiers.push("meta");
+        if (event.shiftKey) modifiers.push("shift");
 
-    Hotkey({
-      combo: "control-shift-return",
-      onPress: function() { sendReqWithPage("login", "get"); }
-    });
+        if (!key
+            || (key in keyboardUtils.MODIFIERS)
+            || (modifiers.length == 0 && !keyboardUtils.isFunctionKey(key)))
+          return;
 
-    Hotkey({
-      combo: "control-shift-s",
-      onPress: moveDownloads
-    });
+        const fun = table[keyboardUtils.normalize({ key, modifiers })];
 
-    Hotkey({
-      combo: "control-shift-u",  // Torbutton: "New Identity"
-      onPress: restart
-    });
+        if (fun)
+          try {
+            if (event.type === "keydown")
+              fun();
+          } finally {
+            event.preventDefault();
+          }
+      });
+    }
   }
 
 
   asyncListenForCmds();
-  setHotkeys();
+
+  setHotkeys({  // key combinations must be in keyboardUtils.normalize()d form
+    "alt-b":                function() { sendReq("bookmark", "get"); },
+    "control-d":            function() { sendReqWithPage("bookmark", "add"); },
+    "control-shift-return": function() { sendReqWithPage("login", "get"); },
+    "control-shift-s":      moveDownloads,
+    "control-shift-u":      restart,
+  });
 
 })();
