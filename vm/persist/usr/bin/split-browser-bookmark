@@ -37,9 +37,7 @@ case "$1" in
         sb_dmenu -i -l 20 |
         split-browser-bookmark-pretty2url |
         grep --line-buffered . |
-        while read -r url; do  # dmenu >= 4.6 can select multiple entries
-            split-browser-cmd newtab "$url"
-        done
+        while read -r url; do split-browser-cmd newtab "$url"; done
     ;;
     add)
         [[ $# == 3 ]]
