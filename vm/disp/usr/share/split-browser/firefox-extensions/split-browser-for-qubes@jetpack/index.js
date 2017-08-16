@@ -145,7 +145,7 @@
         if (event.shiftKey) modifiers.push("shift");
 
         if (!key
-            || (key in keyboardUtils.MODIFIERS)
+            || key in keyboardUtils.MODIFIERS
             || (modifiers.length == 0 && !keyboardUtils.isFunctionKey(key)))
           return;
 
