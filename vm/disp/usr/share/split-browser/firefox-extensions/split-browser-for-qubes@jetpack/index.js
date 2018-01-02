@@ -120,7 +120,7 @@
   }
 
   function moveDownloads() {
-    const args = [env.QREXEC_REMOTE_DOMAIN];
+    const args = ["--without-progress", env.QREXEC_REMOTE_DOMAIN];
 
     const dir = Cc["@mozilla.org/file/local;1"].createInstance(Ci.nsILocalFile);
     dir.initWithPath(prefs.get("browser.download.dir"));
@@ -129,7 +129,7 @@
     while (entries.hasMoreElements())
       args.push(entries.getNext().QueryInterface(Ci.nsIFile).path);
 
-    if (args.length > 1)
+    if (args.length > 2)
       subprocess.call({ command: "qvm-move-to-vm", arguments: args });
   }
 
