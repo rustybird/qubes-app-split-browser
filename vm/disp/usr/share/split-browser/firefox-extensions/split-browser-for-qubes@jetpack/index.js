@@ -21,7 +21,7 @@
   const TransportService = Cc["@mozilla.org/network/socket-transport-service;1"]
                            .getService(Ci.nsISocketTransportService);
 
-  const CmdSocket = FileUtils.File(env.SB_CMD_SOCKET);
+  const ExtSocket = FileUtils.File(env.SB_EXT_SOCKET);
   const ReqSocket = FileUtils.File(env.SB_REQ_SOCKET);
   const FieldSep  = "\t";
   const RecordSep = "\n";
@@ -32,7 +32,7 @@
     const socket = Cc["@mozilla.org/network/server-socket;1"]
                    .createInstance(Ci.nsIServerSocket);
 
-    socket.initWithFilename(CmdSocket, FileUtils.PERMS_FILE, -1);
+    socket.initWithFilename(ExtSocket, FileUtils.PERMS_FILE, -1);
 
     socket.asyncListen({
       onSocketAccepted: function({}, transport) {

@@ -1,4 +1,4 @@
-SB_CMD_SOCKET=/run/split-browser/cmd
+SB_EXT_SOCKET=/run/split-browser/ext
 SB_REQ_SOCKET=/run/split-browser/req
 SB_TB_DIR=/var/cache/tb-binary/.tb/tor-browser
 
