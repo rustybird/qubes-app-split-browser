@@ -86,8 +86,15 @@ fi
         split-browser-cmd master sb_firefox "${args[@]}"
         args=()  # on restart, don't load given URLs again
 
-        # 'qrexec-client-vm \$dispvm splitBrowser' would need a policy file
-        qvm-run \$dispvm 'exec /etc/qubes-rpc/splitBrowser' |
+        # Four workarounds in one, welp:
+        # 1. Avoid 'qrexec-client-vm \$dispvm splitBrowser' (needs policy file)
+        # 2. Avoid qvm-run wrapper too (renamed to qvm-run-vm in R4.0)
+        # 3. Manually wait for X11 (qubes.VMShell runs too early in R4.0)
+        # 4. Explicitly use sh to run qubes.WaitForSession (0644 in Debian VMs)
+
+        qrexec-client-vm \$dispvm qubes.VMShell /usr/lib/qubes/qrun-in-vm \
+                         'echo user | sh /etc/qubes-rpc/qubes.WaitForSession &&
+                          exec /etc/qubes-rpc/splitBrowser' |
         LC_ALL=C sanitize | {
             restart=
 
