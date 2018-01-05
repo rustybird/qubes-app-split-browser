@@ -74,7 +74,7 @@ Here's an example of how a login directory structure could be organized:
 
 ## Tor Browser updates
 
-[By default](vm/disp/etc/split-browser/disp/10-defaults.bash#L2), the directory `/var/cache/tb-binary/.tb/tor-browser/` (containing `Browser/` and `start-tor-browser.desktop`) is where Split Browser expects to find an extracted Tor Browser. Whonix Workstation's `update-torbrowser` command will save it there when called in a TemplateVM.
+[By default](vm/disp/etc/split-browser/disp/10-defaults.bash#L3), the directory `/var/cache/tb-binary/.tb/tor-browser/` (containing `Browser/` and `start-tor-browser.desktop`) is where Split Browser expects to find an extracted Tor Browser. Whonix Workstation's `update-torbrowser` command will save it there when called in a TemplateVM.
 
 **Automatic updates and update notifications are disabled** for Firefox and its extensions. Merely opening the browser should not cause any outgoing connections (though other things in the DisposableVM might, such as time synchronization). It is assumed that you are watching [The Tor Blog](https://blog.torproject.org/), [tor-announce](https://lists.torproject.org/cgi-bin/mailman/listinfo/tor-announce), or even [RecommendedTBBVersions](https://www.torproject.org/projects/torbrowser/RecommendedTBBVersions).
 
