@@ -2,7 +2,7 @@
 
 Everyone loves the [Whonix approach](https://www.whonix.org/wiki/Qubes) of running Tor Browser and the tor daemon in two separate [Qubes](https://www.qubes-os.org/) VMs, e.g. anon-whonix and sys-whonix.
 
-Let's take it a step further and **run Tor Browser (or other Firefox versions) in a [DisposableVM](https://www.qubes-os.org/doc/dispvm/) connecting through the tor VM (or through any other NetVM/ProxyVM), while storing bookmarks and logins in a persistent VM** - with carefully restricted data flow.
+Let's take it a step further and **run Tor Browser (or some other Firefox versions) in a [DisposableVM](https://www.qubes-os.org/doc/dispvm/) connecting through the tor VM (or through any other network-providing VM), while storing bookmarks and logins in a persistent VM** - with carefully restricted data flow.
 
 In this setup, the DisposableVM's browser can send various requests to the persistent VM:
 
@@ -10,7 +10,7 @@ In this setup, the DisposableVM's browser can send various requests to the persi
 - Let the user choose a bookmark to load
 - Let the user authorize logging into the current page
 
-**But if the browser gets exploited, it won't be able to read all your bookmarks or login credentials and send them to the attacker.** And you can restart the browser DisposableVM frequently (which shouldn't take more than 10-15 seconds) to "shake off" such an attack.
+**But if the browser gets exploited, it won't be able to read all your bookmarks or login credentials and send them to the attacker.** And you can restart the browser DisposableVM frequently (which should take less than a minute) to "shake off" such an attack.
 
 
 ## Keyboard shortcuts
@@ -22,8 +22,8 @@ Combination      | Function
 **Alt-b**        | Open bookmarks
 **Ctrl-d**       | Bookmark current page
 Ctrl-Shift-Enter | Log into current page
-Ctrl-Shift-s     | Move (potentially malicious!) downloads to the persistent VM
-**Ctrl-Shift-u** | `New Identity` on steroids: Quit and restart in a new DisposableVM, which will get a different local IP address and thereby fresh Tor circuits. (Keep an eye on the Qubes VM Manager to ensure that the old DisposableVM is really gone...)
+Ctrl-Shift-s     | Move downloads to a VM of your choice (on Qubes R3.2: to the persistent VM)
+**Ctrl-Shift-u** | `New Identity` on steroids: Quit and restart in a new DisposableVM, which will get a different local IP address and thereby fresh Tor circuits. (Keep an eye on the list of running VMs to ensure that the old DisposableVM is really gone...)
 
 
 ## Implementation
@@ -96,16 +96,22 @@ TODO: propose (to tbb-dev upstream) freezing *all* extensions for each Tor Brows
 
 TODO: document included `fedora/`, `debian/`, and `arch/` packaging
 
-1. Copy `vm/` into the DisposableVM template (which ideally should be [whonix-ws](https://www.whonix.org/wiki/Qubes/Disposable_VM) - there are some fingerprinting concerns with fedora-23-minimal and debian-8 at least) and run `sudo make install-disp` there. Also install the `socat xdotool` packages, then shut down the template.
+1. Create a persistent VM, and configure it to have no network access itself, but to launch torified DisposableVMs:
 
-2. Copy `vm/` into the persistent VM template and run `sudo make install-persist` there. Also install the `socat oathtool pwgen dmenu` packages, then shut down the template.
-
-3. Create an AppVM based on the persistent VM template, and configure it to have no network access itself, but to launch DisposableVMs with network access through the tor VM:
-
-        qvm-create --template=fedora-25-clone-1 --label=purple browser-1
+        qvm-create --template fedora-26-clone-1 --label purple browser-1
+        
+        # on Qubes R4.0:
+        qvm-prefs --set browser-1 netvm ''
+        qvm-prefs --set browser-1 default_dispvm whonix-ws-dvm
+        
+        # on Qubes R3.2:
         qvm-prefs --set browser-1 netvm none
         qvm-prefs --set browser-1 dispvm_netvm sys-whonix
 
-4. You can enable the Split Browser application launcher shortcuts as usual with `Add more shortcuts...`, or alternatively run `split-browser -h` in a terminal to see the help message.
+2. Copy `vm/` into the TemplateVM of your persistent VM. Run `sudo make install-persist` there and also install the `socat oathtool pwgen dmenu` packages, then shut down the TemplateVM.
+
+3. Copy `vm/` into the TemplateVM of your "template for DisposableVMs". It is assumed to be [whonix-ws](https://www.whonix.org/wiki/Qubes/Disposable_VM) - fingerprinting may be a concern with other (especially non-Debian-based) distributions. Run `sudo make install-disp` there and also install the `socat xdotool` packages, then shut down the TemplateVM.
+
+4. You can enable the Split Browser application launcher shortcuts for `browser-1` as usual through the Applications tab in VM Settings, or alternatively run `split-browser -h` in a terminal to see the help message.
 
 TODO: document `systemctl disable control-port-filter-python` for whonix-gw, Split Browser doesn't need to access the tor control port at all
