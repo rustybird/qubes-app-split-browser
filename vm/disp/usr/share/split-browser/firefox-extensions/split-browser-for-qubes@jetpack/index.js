@@ -37,7 +37,8 @@
     socket.asyncListen({
       onSocketAccepted: function({}, transport) {
         const inRaw = transport
-                      .openInputStream(Ci.nsITransport.OPEN_BLOCKING, 0, 0);
+                      .openInputStream(Ci.nsITransport.OPEN_BLOCKING |
+                                       Ci.nsITransport.OPEN_UNBUFFERED, 0, 0);
         const inUni = Cc["@mozilla.org/intl/converter-input-stream;1"]
                       .createInstance(Ci.nsIConverterInputStream);
         let   cmd   = "";
@@ -70,7 +71,8 @@
   function sendReq(...fields) {
     const req    = toUtf8(fields.join(FieldSep) + RecordSep);
     const outRaw = TransportService.createUnixDomainTransport(ReqSocket)
-                   .openOutputStream(Ci.nsITransport.OPEN_BLOCKING, 0, 0);
+                   .openOutputStream(Ci.nsITransport.OPEN_BLOCKING |
+                                     Ci.nsITransport.OPEN_UNBUFFERED, 0, 0);
     const outBin = Cc["@mozilla.org/binaryoutputstream;1"]
                    .createInstance(Ci.nsIBinaryOutputStream);
 
