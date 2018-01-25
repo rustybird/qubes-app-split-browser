@@ -21,11 +21,11 @@ for arg; do
         -h|--help)
             exec cat <<END
 
-  Usage:  split-browser [--high] [--pref=<line>...] [<argument>...]
+  Usage:  split-browser [--safest] [--pref=<line>...] [<argument>...]
 
 
-  --high         set Torbutton's Security Slider to High; equivalent to
-                 --pref='user_pref("extensions.torbutton.security_slider", 1);'
+  --safest       set Torbutton's Security Slider to Safest; equivalent to
+  --high         --pref='user_pref("extensions.torbutton.security_slider", 1);'
 
   --pref=<line>  additional Firefox prefs.js setting, appended after those
                  stored in /etc/split-browser/persist/prefs.js.d/*.js and
@@ -36,7 +36,7 @@ for arg; do
 
 END
         ;;
-        --high)
+        --safest|--high)
             prefs+=( 'user_pref("extensions.torbutton.security_slider", 1);' )
         ;;
         --pref=*)

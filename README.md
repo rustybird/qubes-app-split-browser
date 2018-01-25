@@ -83,7 +83,7 @@ TODO: propose (to tbb-dev upstream) freezing *all* extensions for each Tor Brows
 
 ## Notes
 
-- Multiple Split Browser instances (e.g. one with the Security Slider set to Low and another set to High) can be run in parallel from the same persistent VM, this won't corrupt the bookmark and login collections. But you're going to have a hard time distinguishing the browser windows. It's safer to run parallel instances from _different_ persistent VMs so you can get different window border colors.
+- Multiple Split Browser instances (e.g. one with the Security Slider set to Standard and another set to Safest) can be run in parallel from the same persistent VM, this won't corrupt the bookmark and login collections. But you're going to have a hard time distinguishing the browser windows. It's safer to run parallel instances from _different_ persistent VMs so you can get different window border colors.
 
 - Keep in mind that DisposableVMs know the name of the VM which spawned them. That's a potential privacy and GUI spoofing issue.
 

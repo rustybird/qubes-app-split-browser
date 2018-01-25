@@ -1,11 +1,11 @@
 [Desktop Entry]
-Name=Split Browser (Security Slider: High)
+Name=Split Browser (Security Slider: Safest)
 GenericName=Web Browser
 Comment=Disposable browser with persistent bookmarks and passwords
 Keywords=Firefox;Tor
 Categories=Network;WebBrowser;Security
 Icon=web-browser
 Type=Application
-Exec=split-browser --high %u
+Exec=split-browser --safest %u
 Terminal=false
 StartupNotify=false
