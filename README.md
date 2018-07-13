@@ -98,7 +98,7 @@ TODO: document included `fedora/`, `debian/`, and `arch/` packaging
 
 1. Create a persistent VM, and configure it to have no network access itself, but to launch torified DisposableVMs:
 
-        qvm-create --template fedora-26-clone-1 --label purple browser-1
+        qvm-create --template fedora-28-clone-1 --label purple browser-1
         
         # on Qubes R4.0:
         qvm-prefs --set browser-1 netvm ''
