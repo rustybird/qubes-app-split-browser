@@ -50,10 +50,9 @@ case "$1" in
         set -o noclobber
         >"$SB_BOOKMARK_FILE".tmp
 
-        if old_title=$(grep -m 1 -F $'\t'"$url"$'\t' "$SB_BOOKMARK_FILE" |
-                       cut -f 3); then
+        if old_entry=$(grep -m 1 -F $'\t'"$url"$'\t' "$SB_BOOKMARK_FILE"); then
             rm -- "$SB_BOOKMARK_FILE".tmp
-            notify 'Already bookmarked' "$url" "$old_title"
+            notify 'Already bookmarked' "$url" "${old_entry##*$'\t'}"
         else
             cp --reflink=auto -- "$SB_BOOKMARK_FILE" "$SB_BOOKMARK_FILE".tmp
             cat >>"$SB_BOOKMARK_FILE".tmp \
