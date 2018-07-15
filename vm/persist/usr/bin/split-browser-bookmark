@@ -17,8 +17,10 @@ notify() {
 }
 
 
-mkdir -p -- "$(dirname -- "$SB_BOOKMARK_FILE")"
-touch -a -- "$SB_BOOKMARK_FILE"
+if [[ ! -e $SB_BOOKMARK_FILE ]]; then
+    mkdir -p -- "$(dirname -- "$SB_BOOKMARK_FILE")"
+    touch    -- "$SB_BOOKMARK_FILE"
+fi
 
 case "$1" in
     get)
