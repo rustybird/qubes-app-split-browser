@@ -49,9 +49,7 @@ if [[ ${#matching_sites[@]} -gt 0 ]]; then
     notify-send --expire-time=2000 --urgency=low "$SB_ELLIPSIS"
     sleep 2
 
-    site=$(printf '%s\n' "${matching_sites[@]}" |
-           sb_dmenu -p 'Log into')
-
+    site=$(printf '%s\n' "${matching_sites[@]}" | sb_dmenu -p 'Log into')
     cd -- "${site:?}"
 
     if [[ -e login ]]; then
@@ -62,7 +60,6 @@ if [[ ${#matching_sites[@]} -gt 0 ]]; then
 else
     prompt="Name a login entry for: $(shorten "$url" 50)"
     site=$(sb_dmenu -p "$prompt" </dev/null)
-
     mkdir -p -- "$site"
     cd       -- "$site"
 
