@@ -96,22 +96,23 @@ function startup() {
   }
 
   function sendReqWithPageInfo(...fields) {
-    const browser       = getMostRecentMainWindow().gBrowser;
-    const titleForUtf8  = browser.contentTitle.replace(BadByte, " ");
-    const titleForAscii = titleForUtf8.normalize("NFKD");
-    const uri           = browser.currentURI;
-    const uriForAscii   = uri.asciiSpec;
+    const browser          = getMostRecentMainWindow().gBrowser;
+    const titleForUtf8     = browser.contentTitle.replace(BadByte, " ");
+    const titleForAscii    = titleForUtf8.normalize("NFKD");
+    const uri              = browser.currentURI;
+    const uriForAscii      = uri.asciiSpec;
+    const uriForUtf8PctEnc = uri.displaySpec || uri.spec;
     let   uriForUtf8;
 
     if (uriForAscii === "about:blank" || uriForAscii === "about:newtab")
       return;
 
     try {
-      uriForUtf8 = decodeURI(uri.spec);
+      uriForUtf8 = decodeURI(uriForUtf8PctEnc);
       if (uriForUtf8.search(BadByte) !== -1)
         throw URIError();
     } catch ({}) {
-      uriForUtf8 = uri.spec;
+      uriForUtf8 = uriForUtf8PctEnc;
     }
 
     sendReq(...fields, uriForAscii, titleForAscii, uriForUtf8, titleForUtf8);
