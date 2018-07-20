@@ -3,7 +3,7 @@ set -e -o pipefail
 shopt -s nullglob
 
 exec 2> >(systemd-cat -t split-browser --level-prefix=no)
-for f in /etc/split-browser/disp/*.bash; do source "$f"; done
+for f in {,/usr/local}/etc/split-browser/disp/*.bash; do source "$f"; done
 export SB_EXT_SOCKET SB_REQ_SOCKET
 
 
@@ -15,7 +15,8 @@ while IFS=$'\t' read -r -a cmd; do
             (
                 sb_cd_firefox_profile
                 mkdir -p extensions
-                ln -s /usr/share/split-browser/firefox-extensions/* extensions
+                ln -sf /usr{,/local}/share/split-browser/firefox-extensions/* \
+                       extensions
                 printf '%s\n' "${cmd[@]:1}" >>prefs.js
             )
         ;;

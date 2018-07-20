@@ -74,7 +74,14 @@ Here's an example of how a login directory structure could be organized:
 
 ## Tor Browser updates
 
-[By default](vm/disp/etc/split-browser/disp/10-defaults.bash#L3), the directory `/var/cache/tb-binary/.tb/tor-browser/` (containing `Browser/` and `start-tor-browser.desktop`) is where Split Browser expects to find an extracted Tor Browser. Whonix Workstation's `update-torbrowser` command will save it there when called in a TemplateVM.
+[By default](vm/disp/etc/split-browser/disp/10-defaults.bash#L3), an extracted Tor Browser is expected in `~/.tb/tor-browser/` or `/var/cache/tb-binary/.tb/tor-browser/`, so one of these directories should contain `Browser/` and `start-tor-browser.desktop`. You can use Whonix Workstation's `update-torbrowser` tool to save it there, respectively, in a "template for DisposableVMs" (e.g. whonix-ws-dvm):
+
+    $ tb_skip_functions='tb_qubes_dvm_template tb_start_ask' update-torbrowser
+    $ touch ~/.tb/first-boot-home-population.done  # don't forget this step!
+
+Or in its TemplateVM (e.g. whonix-ws):
+
+    $ update-torbrowser
 
 **Automatic updates and update notifications are disabled** for Firefox and its extensions. Merely opening the browser should not cause any outgoing connections (though other things in the DisposableVM might, such as time synchronization). It is assumed that you are watching [The Tor Blog](https://blog.torproject.org/), [tor-announce](https://lists.torproject.org/cgi-bin/mailman/listinfo/tor-announce), or even [RecommendedTBBVersions](https://www.torproject.org/projects/torbrowser/RecommendedTBBVersions).
 
@@ -96,7 +103,7 @@ TODO: document included `fedora/`, `debian/`, and `arch/` packaging
 
 1. Create a persistent VM, and configure it to have no network access itself, but to launch torified DisposableVMs:
 
-        qvm-create --template fedora-28-clone-1 --label purple browser-1
+        qvm-create --template fedora-28 --label purple browser-1
         
         # on Qubes R4.0:
         qvm-prefs --set browser-1 netvm ''
@@ -106,9 +113,9 @@ TODO: document included `fedora/`, `debian/`, and `arch/` packaging
         qvm-prefs --set browser-1 netvm none
         qvm-prefs --set browser-1 dispvm_netvm sys-whonix
 
-2. Copy `vm/` into the TemplateVM of your persistent VM. Run `sudo make install-persist` there and also install the `socat oathtool pwgen dmenu` packages, then shut down the TemplateVM.
+2. Copy `vm/` into your persistent VM (e.g. browser-1) and run `sudo make PREFIX=/usr/local install-persist`, or copy it into its TemplateVM (e.g. fedora-28) and run `sudo make install-persist`. Also make sure the `socat oathtool pwgen dmenu` commands are available, e.g. by installing the identically named packages in the TemplateVM.
 
-3. Copy `vm/` into the TemplateVM of your "template for DisposableVMs". It is assumed to be [whonix-ws](https://www.whonix.org/wiki/Qubes/Disposable_VM) - fingerprinting may be a concern with other (especially non-Debian-based) distributions. Run `sudo make install-disp` there and also install the `socat xdotool` packages, then shut down the TemplateVM.
+3. Copy `vm/` into your "template for DisposableVMs" (e.g. whonix-ws-dvm) and run `sudo make PREFIX=/usr/local install-disp`, or copy it into its TemplateVM (e.g. whonix-ws) and run `sudo make install-disp`. Also make sure the `socat xdotool` commands are available, e.g. by installing the identically named packages in the TemplateVM.
 
 4. You can enable the Split Browser application launcher shortcuts for `browser-1` as usual through the Applications tab in VM Settings, or alternatively run `split-browser -h` in a terminal to see the help message.
 
