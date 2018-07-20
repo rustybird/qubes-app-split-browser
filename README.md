@@ -78,8 +78,6 @@ Here's an example of how a login directory structure could be organized:
 
 **Automatic updates and update notifications are disabled** for Firefox and its extensions. Merely opening the browser should not cause any outgoing connections (though other things in the DisposableVM might, such as time synchronization). It is assumed that you are watching [The Tor Blog](https://blog.torproject.org/), [tor-announce](https://lists.torproject.org/cgi-bin/mailman/listinfo/tor-announce), or even [RecommendedTBBVersions](https://www.torproject.org/projects/torbrowser/RecommendedTBBVersions).
 
-TODO: propose (to tbb-dev upstream) freezing *all* extensions for each Tor Browser release, not just Torbutton and TorLauncher. Otherwise, diverging HTTPS Everywhere rulesets will be fingerprintable.
-
 
 ## Notes
 
