@@ -109,7 +109,7 @@ function startup() {
 
     try {
       uriForUtf8 = decodeURI(uriForUtf8PctEnc);
-      if (uriForUtf8.search(BadByte) !== -1)
+      if (uriForUtf8.indexOf("%") !== -1 || uriForUtf8.search(BadByte) !== -1)
         throw URIError();
     } catch ({}) {
       uriForUtf8 = uriForUtf8PctEnc;
