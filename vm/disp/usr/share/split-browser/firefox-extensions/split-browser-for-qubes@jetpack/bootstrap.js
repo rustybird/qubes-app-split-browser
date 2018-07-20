@@ -14,7 +14,8 @@ function startup() {
   const Environment      = Cc["@mozilla.org/process/environment;1"]
                            .getService(Ci.nsIEnvironment);
   const PrefService      = Cc["@mozilla.org/preferences-service;1"]
-                           .getService(Ci.nsIPrefService);
+                           .getService(Ci.nsIPrefService)
+                           .QueryInterface(Ci.nsIPrefBranch);
   const ObserverService  = Cc["@mozilla.org/observer-service;1"]
                            .getService(Ci.nsIObserverService);
   const SocketService    = Cc["@mozilla.org/network/socket-transport-service;1"]
