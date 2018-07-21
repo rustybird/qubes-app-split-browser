@@ -41,7 +41,6 @@ function startup() {
   const BadByte        = new RegExp([FieldSep, RecordSep, "\0"].join("|"), "g");
   const ExtSocket      = new File(Environment.get("SB_EXT_SOCKET"));
   const ReqSocket      = new File(Environment.get("SB_REQ_SOCKET"));
-  const PersistentVm   = Environment.get("QREXEC_REMOTE_DOMAIN");
 
 
   function getMostRecentMainWindow() {
@@ -130,16 +129,14 @@ function startup() {
   }
 
   function moveDownloads() {
-    const args    = ["--without-progress", PersistentVm];
-    const entries = new File(PrefService
-                             .getComplexValue("browser.download.dir",
-                                              Ci.nsIPrefLocalizedString)
-                             .data).directoryEntries;
-
-    while (entries.hasMoreElements())
-      args.push(entries.getNext().QueryInterface(Ci.nsIFile).path);
-    if (args.length > 2)
-      Subprocess.call({ command: "/usr/bin/qvm-move-to-vm", arguments: args });
+    Subprocess.call({
+      command: "/bin/bash",
+      arguments: ["-lc",
+                  "exec /usr/lib/qubes/qvm-move-to-vm.kde * &>/dev/null"],
+      environment: {},
+      workdir: PrefService.getComplexValue("browser.download.dir",
+                                           Ci.nsIPrefLocalizedString).data
+    });
   }
 
   function onKey(e) {
