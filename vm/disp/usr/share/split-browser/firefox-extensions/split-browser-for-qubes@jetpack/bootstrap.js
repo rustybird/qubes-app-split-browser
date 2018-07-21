@@ -6,24 +6,23 @@ function startup() {
   const Cu = Components.utils;
   const CC = Components.Constructor;
 
-  const { Subprocess }   = Cu.import("resource://gre/modules/Subprocess.jsm",
-                                     {});
+  const { Subprocess } = Cu.import("resource://gre/modules/Subprocess.jsm", {});
 
-  const AppStartup       = Cc["@mozilla.org/toolkit/app-startup;1"]
-                           .getService(Ci.nsIAppStartup);
-  const Environment      = Cc["@mozilla.org/process/environment;1"]
-                           .getService(Ci.nsIEnvironment);
-  const PrefService      = Cc["@mozilla.org/preferences-service;1"]
-                           .getService(Ci.nsIPrefService)
-                           .QueryInterface(Ci.nsIPrefBranch);
-  const ObserverService  = Cc["@mozilla.org/observer-service;1"]
-                           .getService(Ci.nsIObserverService);
-  const SocketService    = Cc["@mozilla.org/network/socket-transport-service;1"]
-                           .getService(Ci.nsISocketTransportService);
-  const WindowMediator   = Cc["@mozilla.org/appshell/window-mediator;1"]
-                           .getService(Ci.nsIWindowMediator);
-  const WindowWatcher    = Cc["@mozilla.org/embedcomp/window-watcher;1"]
-                           .getService(Ci.nsIWindowWatcher);
+  const AppStartup      = Cc["@mozilla.org/toolkit/app-startup;1"]
+                          .getService(Ci.nsIAppStartup);
+  const Environment     = Cc["@mozilla.org/process/environment;1"]
+                          .getService(Ci.nsIEnvironment);
+  const PrefService     = Cc["@mozilla.org/preferences-service;1"]
+                          .getService(Ci.nsIPrefService)
+                          .QueryInterface(Ci.nsIPrefBranch);
+  const ObserverService = Cc["@mozilla.org/observer-service;1"]
+                          .getService(Ci.nsIObserverService);
+  const SocketService   = Cc["@mozilla.org/network/socket-transport-service;1"]
+                          .getService(Ci.nsISocketTransportService);
+  const WindowMediator  = Cc["@mozilla.org/appshell/window-mediator;1"]
+                          .getService(Ci.nsIWindowMediator);
+  const WindowWatcher   = Cc["@mozilla.org/embedcomp/window-watcher;1"]
+                          .getService(Ci.nsIWindowWatcher);
 
   const Bool             = CC("@mozilla.org/supports-PRBool;1",
                               Ci.nsISupportsPRBool);
