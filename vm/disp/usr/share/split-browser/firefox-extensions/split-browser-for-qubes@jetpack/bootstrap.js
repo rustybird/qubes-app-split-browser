@@ -12,11 +12,11 @@ function startup() {
                           .getService(Ci.nsIAppStartup);
   const Environment     = Cc["@mozilla.org/process/environment;1"]
                           .getService(Ci.nsIEnvironment);
+  const ObserverService = Cc["@mozilla.org/observer-service;1"]
+                          .getService(Ci.nsIObserverService);
   const PrefService     = Cc["@mozilla.org/preferences-service;1"]
                           .getService(Ci.nsIPrefService)
                           .QueryInterface(Ci.nsIPrefBranch);
-  const ObserverService = Cc["@mozilla.org/observer-service;1"]
-                          .getService(Ci.nsIObserverService);
   const SocketService   = Cc["@mozilla.org/network/socket-transport-service;1"]
                           .getService(Ci.nsISocketTransportService);
   const WindowMediator  = Cc["@mozilla.org/appshell/window-mediator;1"]
