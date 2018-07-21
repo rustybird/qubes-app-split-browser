@@ -10,30 +10,37 @@ import subprocess
 
 try:
   import xcffib as xcb
-  from   xcffib.xproto import CW
+  import xcffib.xproto
 except ImportError:
   import xcb
-  from   xcb.xproto import CW
+  import xcb.xproto
 
 conn = xcb.connect()
-core = conn.core
-root = conn.get_setup().roots[0].root
-old  = set(core.QueryTree(root).reply().children)
-cmd  = subprocess.Popen(sys.argv[1:], bufsize=0)
 
-while cmd.poll() == None:  # still running
-  new = set(core.QueryTree(root).reply().children)
-  for win in new - old:
-    if core.GetWindowAttributes(win).reply().override_redirect == 1:
-      for cookie in [
-         core.ChangeWindowAttributesChecked(win, CW.OverrideRedirect, [False]),
-         core.UnmapWindowChecked(win),
-         core.MapWindowChecked(win)
-      ]: cookie.check()
-      conn.disconnect()
-      cmd.wait()
-  old = new
+conn.core.ChangeWindowAttributesChecked(
+  conn.get_setup().roots[0].root,
+  xcb.xproto.CW.EventMask,
+  [xcb.xproto.EventMask.SubstructureNotify]
+).check()
 
+cmd = subprocess.Popen(sys.argv[1:], bufsize=0)
+
+for ev in iter(conn.wait_for_event, None):
+  if cmd.poll() != None:  # cmd finished
+    break
+
+  if isinstance(ev, xcb.xproto.CreateNotifyEvent) and ev.override_redirect:
+    for cookie in [
+      conn.core.ChangeWindowAttributesChecked(ev.window,
+                                              xcb.xproto.CW.OverrideRedirect,
+                                              [False]),
+      conn.core.UnmapWindowChecked(ev.window),
+      conn.core.MapWindowChecked(ev.window)
+    ]: cookie.check()
+    break
+
+conn.disconnect()
+cmd.wait()
 status = cmd.returncode
 if status < 0:
   status = 128 - status
