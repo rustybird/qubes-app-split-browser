@@ -24,7 +24,7 @@ function startup() {
   const WindowWatcher   = Cc["@mozilla.org/embedcomp/window-watcher;1"]
                           .getService(Ci.nsIWindowWatcher);
 
-  const Bool             = CC("@mozilla.org/supports-PRBool;1",
+  const PrBool           = CC("@mozilla.org/supports-PRBool;1",
                               Ci.nsISupportsPRBool);
   const ConvInputStream  = CC("@mozilla.org/intl/converter-input-stream;1",
                               Ci.nsIConverterInputStream, "init");
@@ -118,7 +118,7 @@ function startup() {
   }
 
   function restart() {
-    const cancel = new Bool();
+    const cancel = new PrBool();
 
     ObserverService.notifyObservers(cancel, "quit-application-requested", null);
 
