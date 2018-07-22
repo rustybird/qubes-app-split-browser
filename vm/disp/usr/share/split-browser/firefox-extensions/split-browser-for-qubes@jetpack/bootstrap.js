@@ -14,9 +14,8 @@ function startup() {
                           .getService(Ci.nsIEnvironment);
   const ObserverService = Cc["@mozilla.org/observer-service;1"]
                           .getService(Ci.nsIObserverService);
-  const PrefService     = Cc["@mozilla.org/preferences-service;1"]
-                          .getService(Ci.nsIPrefService)
-                          .QueryInterface(Ci.nsIPrefBranch);
+  const PrefBranch      = Cc["@mozilla.org/preferences-service;1"]
+                          .getService(Ci.nsIPrefBranch);
   const SocketService   = Cc["@mozilla.org/network/socket-transport-service;1"]
                           .getService(Ci.nsISocketTransportService);
   const WindowMediator  = Cc["@mozilla.org/appshell/window-mediator;1"]
@@ -134,8 +133,8 @@ function startup() {
       arguments: ["-lc",
                   "exec /usr/lib/qubes/qvm-move-to-vm.kde * &>/dev/null"],
       environment: {},
-      workdir: PrefService.getComplexValue("browser.download.dir",
-                                           Ci.nsIPrefLocalizedString).data
+      workdir: PrefBranch.getComplexValue("browser.download.dir",
+                                          Ci.nsIPrefLocalizedString).data
     });
   }
 
