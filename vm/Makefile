@@ -23,6 +23,6 @@ install-persist:
 	cp -pR persist/usr/* $(DESTDIR)$(PREFIX)/
 	cp -pR persist/etc/* $(DESTDIR)$(etc)/
 	/usr/lib/qubes/qubes-trigger-sync-appmenus.sh
-	systemd-tmpfiles --create
+	systemd-tmpfiles --create split-browser-persist.conf
 
 install: install-disp install-persist
