@@ -160,17 +160,15 @@ function startup() {
       f();
   }
 
-  function perWindowHotkeys(win, mode) {
-    const modify = win[mode];
-
-    modify("keydown", onKey, true);
-    modify("keyup",   onKey, true);
+  function perWindowHotkeys(modifyEventListener) {
+    modifyEventListener("keydown", onKey, true);
+    modifyEventListener("keyup",   onKey, true);
   }
 
   function windowReady(e) {
     this.removeEventListener(e.type, windowReady, true);
     if (isMainWindow(this))
-      perWindowHotkeys(this, "addEventListener");
+      perWindowHotkeys(this.addEventListener);
   }
 
   function listenForHotkeysOnNewWindows() {
@@ -180,11 +178,11 @@ function startup() {
           win.addEventListener("DOMContentLoaded", windowReady, true);
           if (isMainWindow(win)) {
             win.removeEventListener("DOMContentLoaded", windowReady, true);
-            perWindowHotkeys(win, "addEventListener");
+            perWindowHotkeys(win.addEventListener);
           }
         }
         else if (topic === "domwindowclosed" && isMainWindow(win))
-          perWindowHotkeys(win, "removeEventListener");
+          perWindowHotkeys(win.removeEventListener);
       }
     });
   }
