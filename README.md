@@ -28,7 +28,7 @@ Ctrl-Shift-s     | Move downloads to a VM of your choice
 
 ## Implementation
 
-~ 500 nonempty lines total, in a couple of Bash scripts, [JavaScript for the Firefox extension](vm/disp/usr/share/split-browser/firefox-extensions/split-browser-for-qubes@jetpack/bootstrap.js), Awk, and Python. The bookmark and login managers use [dmenu](https://tools.suckless.org/dmenu/).
+~ 500 nonempty lines total, in a couple of Bash scripts, JavaScript for the Firefox extension, Awk, and Python. The bookmark and login managers use [dmenu](https://tools.suckless.org/dmenu/).
 
 
 ## Bookmarks
