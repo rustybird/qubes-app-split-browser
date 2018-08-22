@@ -15,6 +15,7 @@ default:
 
 install-disp:
 	mkdir -p $(DESTDIR)$(PREFIX)/ $(DESTDIR)$(etc)/
+	rm -rf $(DESTDIR)$(PREFIX)/share/split-browser/firefox-extensions/split-browser-for-qubes@jetpack
 	cp -pR disp/usr/* $(DESTDIR)$(PREFIX)/
 	cp -pR disp/etc/* $(DESTDIR)$(etc)/
 
