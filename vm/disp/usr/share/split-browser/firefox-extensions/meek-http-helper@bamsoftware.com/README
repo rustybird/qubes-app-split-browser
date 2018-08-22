@@ -1,5 +1,5 @@
 This has nothing to do with meek. We just borrow their ID for our
-extension, which is symlinked into into Tor Browser's main profile
+extension, which is symlinked into Tor Browser's main profile
 directory profile.default/ on DisposableVM startup. The actual
 meek-http-helper@bamsoftware.com lives in profile.meek-http-helper/,
 so there's no conflict.
