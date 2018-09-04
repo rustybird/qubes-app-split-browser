@@ -22,7 +22,7 @@ Combination      | Function
 **Alt-b**        | Open bookmarks
 **Ctrl-d**       | Bookmark current page
 Ctrl-Shift-Enter | Log into current page
-Ctrl-Shift-s     | Move downloads to a VM of your choice
+Ctrl-Shift-s     | Move downloads to a VM of your choice (on R4.0: except for the persistent VM, [unfortunately](https://github.com/QubesOS/qubes-issues/issues/3318))
 **Ctrl-Shift-u** | `New Identity` on steroids: Quit and restart in a new DisposableVM, which will get a different local IP address and thereby fresh Tor circuits. (Keep an eye on the list of running VMs to ensure that the old DisposableVM is really gone...)
 
 
