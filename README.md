@@ -83,7 +83,7 @@ Or in its TemplateVM (e.g. whonix-ws):
 
     $ update-torbrowser
 
-**Automatic updates and update notifications are disabled** for Tor Browser and its extensions. Merely opening the browser should not cause any outgoing connections (though other things in the DisposableVM might, such as time synchronization). It is assumed that you are watching [The Tor Blog](https://blog.torproject.org/), [tor-announce](https://lists.torproject.org/cgi-bin/mailman/listinfo/tor-announce), or even [RecommendedTBBVersions](https://www.torproject.org/projects/torbrowser/RecommendedTBBVersions).
+**Automatic updates and update notifications are disabled** for Tor Browser and its extensions. Merely opening the browser should cause as little outgoing traffic as possible. It is assumed that you are watching [The Tor Blog](https://blog.torproject.org/), [tor-announce](https://lists.torproject.org/cgi-bin/mailman/listinfo/tor-announce), or even [RecommendedTBBVersions](https://www.torproject.org/projects/torbrowser/RecommendedTBBVersions).
 
 
 ## Notes
