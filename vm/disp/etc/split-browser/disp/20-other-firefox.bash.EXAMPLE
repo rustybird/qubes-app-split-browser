@@ -1,2 +1,0 @@
-sb_cd_firefox_profile() { cd ~/.mozilla/firefox/*.default/; }
-sb_firefox() { firefox --allow-remote "$@"; }

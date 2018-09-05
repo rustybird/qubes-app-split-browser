@@ -8,7 +8,7 @@ for f in {,/usr/local}/etc/split-browser/persist/*.bash; do source "$f"; done
 export SB_CMD_SOCKET
 
 
-# Parse command-line arguments and collect the Firefox preferences that will be
+# Parse command-line arguments and collect the browser preferences that will be
 # transmitted to the DisposableVM.
 
 readarray -t prefs < \
@@ -26,12 +26,12 @@ for arg; do
   --safest       set Torbutton's Security Slider to Safest; equivalent to
   --high         --pref='user_pref("extensions.torbutton.security_slider", 1);'
 
-  --pref=<line>  additional Firefox prefs.js setting, appended after those
+  --pref=<line>  additional prefs.js setting, appended after those
                  stored in /etc/split-browser/persist/prefs.js.d/*.js and
                  /usr/local/etc/split-browser/persist/prefs.js.d/*.js
 
-  <argument>     e.g. a URL; passed to Firefox when starting (but not when
-                 restarting due to Ctrl-Shift-u)
+  <argument>     e.g. a URL; passed to the browser when starting (but not
+                 when restarting due to Ctrl-Shift-u)
 
 END
         ;;
