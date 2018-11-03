@@ -111,9 +111,9 @@ TODO: document included `fedora/`, `debian/`, and `arch/` packaging
         qvm-prefs --set browser-1 netvm none
         qvm-prefs --set browser-1 dispvm_netvm sys-whonix
 
-2. Copy `vm/` into your persistent VM (e.g. browser-1) and run `sudo make PREFIX=/usr/local install-persist`, or copy it into its TemplateVM (e.g. fedora-28) and run `sudo make install-persist`. Also make sure the `socat oathtool pwgen dmenu` commands are available, e.g. by installing the identically named packages in the TemplateVM.
+2. Copy `vm/` into your persistent VM (e.g. browser-1) and run `sudo make PREFIX=/usr/local install-persist`, or copy it into its TemplateVM (e.g. fedora-28) and run `sudo make install-persist`. Also install the `dmenu oathtool pwgen python3-xcffib socat` packages (in the TemplateVM).
 
-3. Copy `vm/` into your "template for DisposableVMs" (e.g. whonix-ws-dvm) and run `sudo make PREFIX=/usr/local install-disp`, or copy it into its TemplateVM (e.g. whonix-ws) and run `sudo make install-disp`. Also make sure the `socat xdotool` commands are available, e.g. by installing the identically named packages in the TemplateVM.
+3. Copy `vm/` into your "template for DisposableVMs" (e.g. whonix-ws-dvm) and run `sudo make PREFIX=/usr/local install-disp`, or copy it into its TemplateVM (e.g. whonix-ws) and run `sudo make install-disp`. Also install the `socat xdotool` packages (in the TemplateVM).
 
 4. You can enable the Split Browser application launcher shortcuts for `browser-1` as usual through the Applications tab in VM Settings, or alternatively run `split-browser -h` in a terminal to see the help message.
 
