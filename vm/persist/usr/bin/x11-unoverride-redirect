@@ -26,9 +26,8 @@ for ev in iter(conn.wait_for_event, None):
 
   if isinstance(ev, xcffib.xproto.CreateNotifyEvent) and ev.override_redirect:
     for cookie in [
-      conn.core.ChangeWindowAttributesChecked(ev.window,
-                                              xcffib.xproto.CW.OverrideRedirect,
-                                              [False]),
+      conn.core.ChangeWindowAttributesChecked(
+        ev.window, xcffib.xproto.CW.OverrideRedirect, [False]),
       conn.core.UnmapWindowChecked(ev.window),
       conn.core.MapWindowChecked(ev.window)
     ]: cookie.check()
