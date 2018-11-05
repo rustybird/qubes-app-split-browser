@@ -21,7 +21,7 @@ conn.core.ChangeWindowAttributesChecked(
 cmd = subprocess.Popen(sys.argv[1:], bufsize=0)
 
 for ev in iter(conn.wait_for_event, None):
-  if cmd.poll() != None:  # cmd finished
+  if cmd.poll() is not None:  # cmd finished
     break
 
   if isinstance(ev, xcffib.xproto.CreateNotifyEvent) and ev.override_redirect:
