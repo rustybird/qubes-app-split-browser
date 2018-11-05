@@ -38,4 +38,4 @@ cmd.wait()
 status = cmd.returncode
 if status < 0:
   status = 128 - status
-exit(status)
+sys.exit(status)
