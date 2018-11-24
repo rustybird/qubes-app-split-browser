@@ -6,12 +6,15 @@ function startup() {
   const Cu = Components.utils;
   const CC = Components.Constructor;
 
+  const { ReaderMode } = Cu.import("resource://gre/modules/ReaderMode.jsm", {});
   const { Subprocess } = Cu.import("resource://gre/modules/Subprocess.jsm", {});
 
   const AppStartup      = Cc["@mozilla.org/toolkit/app-startup;1"]
                           .getService(Ci.nsIAppStartup);
   const Environment     = Cc["@mozilla.org/process/environment;1"]
                           .getService(Ci.nsIEnvironment);
+  const IoService       = Cc["@mozilla.org/network/io-service;1"]
+                          .getService(Ci.nsIIOService);
   const ObserverService = Cc["@mozilla.org/observer-service;1"]
                           .getService(Ci.nsIObserverService);
   const PrefBranch      = Cc["@mozilla.org/preferences-service;1"]
@@ -97,10 +100,14 @@ function startup() {
     const browser       = getMostRecentMainWindow().gBrowser;
     const titleForUtf8  = browser.contentTitle.replace(BadByte, " ");
     const titleForAscii = titleForUtf8.normalize("NFKD");
-    const uri           = browser.currentURI;
+    let   uri           = browser.currentURI;
 
     if (["about:blank", "about:newtab"].includes(uri.asciiSpec))
       return;
+
+    const originalUrl = ReaderMode.getOriginalUrl(uri.asciiSpec);
+    if (originalUrl)
+      uri = IoService.newURI(originalUrl);
 
     let urlForUtf8;
     try {
