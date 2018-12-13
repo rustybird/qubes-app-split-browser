@@ -185,8 +185,7 @@ function startup() {
             win.removeEventListener("DOMContentLoaded", windowReady, true);
             perWindowHotkeys(win.addEventListener);
           }
-        }
-        else if (topic === "domwindowclosed" && isMainWindow(win))
+        } else if (topic === "domwindowclosed" && isMainWindow(win))
           perWindowHotkeys(win.removeEventListener);
       }
     });
