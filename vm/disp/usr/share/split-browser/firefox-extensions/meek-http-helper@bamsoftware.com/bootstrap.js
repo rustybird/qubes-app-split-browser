@@ -136,7 +136,7 @@ function startup() {
     Subprocess.call({
       command: "/bin/bash",
       arguments: ["-lc",
-                  "exec /usr/lib/qubes/qvm-move-to-vm.kde ./* &>/dev/null"],
+                  "exec /usr/lib/qubes/qvm-move-to-vm.kde * &>/dev/null"],
       environment: {},
       workdir: PrefBranch.getComplexValue("browser.download.dir",
                                           Ci.nsIPrefLocalizedString).data
