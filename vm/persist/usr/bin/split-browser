@@ -23,7 +23,7 @@ for arg; do
   Usage:  split-browser [--safest] [--pref=<line>...] [<argument>...]
 
 
-  --safest       set Torbutton's Security Slider to Safest; equivalent to
+  --safest       set Tor Browser's Security Level to Safest; equivalent to
   --high         --pref='user_pref("extensions.torbutton.security_slider", 1);'
 
   --pref=<line>  additional prefs.js setting, appended after those
