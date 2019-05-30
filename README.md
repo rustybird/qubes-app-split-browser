@@ -92,7 +92,7 @@ Or in its TemplateVM (e.g. whonix-ws):
 
 - Keep in mind that DisposableVMs know the name of the VM which spawned them. That's a potential privacy and GUI spoofing issue.
 
-- The debug log can be read using `sudo journalctl SYSLOG_IDENTIFIER=split-browser` in both the persistent VM and the DisposableVM.
+- The debug logs can be read using `journalctl -t split-browser` in the persistent VM and the DisposableVM.
 
 
 ## Installation
