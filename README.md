@@ -22,7 +22,7 @@ Combination      | Function
 **Alt-b**        | Open bookmarks
 **Ctrl-d**       | Bookmark current page
 Ctrl-Shift-Enter | Log into current page
-Ctrl-Shift-s     | Move downloads to a VM of your choice (on R4.0: except for the persistent VM, [unfortunately](https://github.com/QubesOS/qubes-issues/issues/3318))
+Ctrl-Shift-s     | Move downloads to a VM of your choice (except for the persistent VM, [unfortunately](https://github.com/QubesOS/qubes-issues/issues/3318))
 **Ctrl-Shift-u** | `New Identity` on steroids: Quit and restart in a new DisposableVM, which will get a different local IP address and thereby fresh Tor circuits. (Keep an eye on the list of running VMs to ensure that the old DisposableVM is really gone...)
 
 
@@ -102,14 +102,8 @@ TODO: document included `fedora/`, `debian/`, and `arch/` packaging
 1. Create a persistent VM, and configure it to have no network access itself, but to launch torified DisposableVMs:
 
         qvm-create --template fedora-28 --label purple browser-1
-        
-        # on Qubes R4.0:
         qvm-prefs --set browser-1 netvm ''
         qvm-prefs --set browser-1 default_dispvm whonix-ws-dvm
-        
-        # on Qubes R3.2:
-        qvm-prefs --set browser-1 netvm none
-        qvm-prefs --set browser-1 dispvm_netvm sys-whonix
 
 2. Copy `vm/` into your persistent VM (e.g. browser-1) and run `sudo make PREFIX=/usr/local install-persist`, or copy it into its TemplateVM (e.g. fedora-28) and run `sudo make install-persist`. Also install the `dmenu oathtool pwgen python3-xcffib socat` packages (in the TemplateVM).
 
