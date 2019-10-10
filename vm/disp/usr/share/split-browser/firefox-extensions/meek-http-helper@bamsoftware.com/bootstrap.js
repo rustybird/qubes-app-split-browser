@@ -144,9 +144,11 @@ function startup() {
   }
 
   function windowReady(e) {
-    this.removeEventListener(e.type, windowReady, true);
-    if (isMainWindow(this))
-      perWindowHotkeys(this.addEventListener);
+    const win = e.currentTarget;
+
+    win.removeEventListener(e.type, windowReady, true);
+    if (isMainWindow(win))
+      perWindowHotkeys(win.addEventListener);
   }
 
 
