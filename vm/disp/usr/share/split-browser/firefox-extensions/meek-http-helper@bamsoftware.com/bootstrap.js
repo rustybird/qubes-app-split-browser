@@ -19,6 +19,8 @@ function startup() {
                           .getService(Ci.nsIObserverService);
   const PrefBranch      = Cc["@mozilla.org/preferences-service;1"]
                           .getService(Ci.nsIPrefBranch);
+  const ScriptSecurity  = Cc["@mozilla.org/scriptsecuritymanager;1"]
+                          .getService(Ci.nsIScriptSecurityManager);
   const SocketService   = Cc["@mozilla.org/network/socket-transport-service;1"]
                           .getService(Ci.nsISocketTransportService);
   const WindowMediator  = Cc["@mozilla.org/appshell/window-mediator;1"]
@@ -187,7 +189,11 @@ function startup() {
       if (line.slice(-1) === RecordSep) {
         const url = line.slice(0, -1);
         const browser = getMostRecentMainWindow().gBrowser;
-        browser.selectedTab = browser.addTab(url);
+
+        browser.selectedTab = browser.addTab(url, {
+          triggeringPrincipal: ScriptSecurity.getSystemPrincipal(),
+          fromExternal: true
+        });
       }
     }
   });
