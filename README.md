@@ -74,14 +74,7 @@ Here's an example of how a login directory structure could be organized:
 
 ## Tor Browser updates
 
-[By default](vm/disp/etc/split-browser/disp/10-defaults.bash#L3), an extracted Tor Browser is expected in `~/.tb/tor-browser/` or `/var/cache/tb-binary/.tb/tor-browser/`, so one of these directories should contain `Browser/` and `start-tor-browser.desktop`. You can use Whonix Workstation's `update-torbrowser` tool to save it there, respectively, in a "template for DisposableVMs" (e.g. whonix-ws-dvm):
-
-    $ tb_skip_functions='tb_qubes_dvm_template tb_start_ask' update-torbrowser
-    $ touch ~/.tb/first-boot-home-population.done  # don't forget this step!
-
-Or in its TemplateVM (e.g. whonix-ws):
-
-    $ update-torbrowser
+[By default](vm/disp/etc/split-browser/disp/10-defaults.bash#L3), an extracted Tor Browser is expected in `~/.tb/tor-browser/` or `/var/cache/tb-binary/.tb/tor-browser/`, so one of these directories should contain `Browser/` and `start-tor-browser.desktop`. You can use Whonix Workstation's `update-torbrowser` tool in the TemplateVM (e.g. whonix-ws) to save it there.
 
 **Automatic updates and update notifications are disabled** for Tor Browser and its extensions. Merely opening the browser should cause as little outgoing traffic as possible. It is assumed that you are watching [The Tor Blog](https://blog.torproject.org/), [tor-announce](https://lists.torproject.org/cgi-bin/mailman/listinfo/tor-announce), or even [RecommendedTBBVersions](https://www.torproject.org/projects/torbrowser/RecommendedTBBVersions).
 
