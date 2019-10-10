@@ -68,6 +68,15 @@ function startup() {
     }
   }
 
+  const newTab = url => {
+    const browser = getMostRecentMainWindow().gBrowser;
+
+    browser.selectedTab = browser.addTab(url, {
+      triggeringPrincipal: ScriptSecurity.getSystemPrincipal(),
+      fromExternal: true
+    });
+  }
+
   const sendReqWithPageInfo = (...fields) => {
     const browser       = getMostRecentMainWindow().gBrowser;
     const titleForUtf8  = browser.contentTitle.replace(BadByte, " ");
@@ -186,15 +195,8 @@ function startup() {
         inRaw.close();
       }
 
-      if (line.slice(-1) === RecordSep) {
-        const url = line.slice(0, -1);
-        const browser = getMostRecentMainWindow().gBrowser;
-
-        browser.selectedTab = browser.addTab(url, {
-          triggeringPrincipal: ScriptSecurity.getSystemPrincipal(),
-          fromExternal: true
-        });
-      }
+      if (line.slice(-1) === RecordSep)
+        newTab(line.slice(0, -1));
     }
   });
 }
