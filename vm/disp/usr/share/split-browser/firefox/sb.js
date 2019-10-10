@@ -1,9 +1,7 @@
-"use strict";
+;
+(() => {
+  "use strict";
 
-function startup() {
-  const Cc = Components.classes;
-  const Ci = Components.interfaces;
-  const Cu = Components.utils;
   const CC = Components.Constructor;
 
   const { ReaderMode } = Cu.import("resource://gre/modules/ReaderMode.jsm", {});
@@ -199,8 +197,4 @@ function startup() {
         newTab(line.slice(0, -1));
     }
   });
-}
-
-function  shutdown() {}
-function   install() {}
-function uninstall() {}
+})();

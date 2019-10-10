@@ -28,7 +28,7 @@ Ctrl-Shift-s     | Move downloads to a VM of your choice (except for the persist
 
 ## Implementation
 
-~ 500 nonempty lines total, in a couple of Bash scripts, JavaScript for the browser extension, Awk, and Python. The bookmark and login managers use [dmenu](https://tools.suckless.org/dmenu/).
+~ 500 nonempty lines total, in a couple of Bash scripts, Awk, Python, and [JavaScript for the browser side](vm/disp/usr/share/split-browser/firefox/sb.js) (formerly deployed as a legacy extension, now as a [Mozilla AutoConfig](https://support.mozilla.org/en-US/kb/customizing-firefox-using-autoconfig) file). The bookmark and login managers use [dmenu](https://tools.suckless.org/dmenu/).
 
 
 ## Bookmarks

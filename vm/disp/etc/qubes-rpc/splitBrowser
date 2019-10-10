@@ -12,17 +12,22 @@ socat "UNIX-LISTEN:$SB_REQ_SOCKET,fork,max-children=1" STDIO &
 while IFS=$'\t' read -r -a cmd; do
     case "${cmd[0]}" in
         setup)
-            (
-                sb_cd_firefox_profile
-                mkdir -p extensions
-                ln -sf /usr{,/local}/share/split-browser/firefox-extensions/* \
-                       extensions
-                printf '%s\n' "${cmd[@]:1}" >>prefs.js
-            )
+            found=
+            for dir in "${SB_FIREFOX_DIRS[@]}"; do
+                if cd "$dir"; then found=$dir; break; fi
+            done
+            [[ $found ]]
+
+            printf '%s\n' '' "${cmd[@]:1}" |
+            cat - /[u]sr{,/local}/share/split-browser/firefox/sb.js >sb.js
+
+            mkdir -p defaults/pref
+            ln -sf /[u]sr{,/local}/share/split-browser/firefox/sb-load.js \
+                   defaults/pref
         ;;
         master)
             (
-                "${cmd[@]:1}" || true
+                "${SB_FIREFOX[@]}" "${cmd[@]:1}" || true
                 kill -9 $! $$
             ) &
         ;;

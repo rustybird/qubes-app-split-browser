@@ -12,7 +12,7 @@ export SB_CMD_SOCKET
 # transmitted to the DisposableVM.
 
 readarray -t prefs < \
-    <(cat {,/usr/local}/etc/split-browser/persist/prefs.js.d/*.js /dev/null)
+    <(cat {,/usr/local}/etc/split-browser/persist/prefs/*.js /dev/null)
 args=()
 
 for arg; do
@@ -24,11 +24,11 @@ for arg; do
 
 
   --safest       set Tor Browser's Security Level to Safest; equivalent to
-  --high         --pref='user_pref("extensions.torbutton.security_slider", 1);'
+  --high         --pref='pref("extensions.torbutton.security_slider", 1);'
 
-  --pref=<line>  additional prefs.js setting, appended after those
-                 stored in /etc/split-browser/persist/prefs.js.d/*.js and
-                 /usr/local/etc/split-browser/persist/prefs.js.d/*.js
+  --pref=<line>  additional browser preference line, appended after those
+                 stored in /etc/split-browser/persist/prefs/*.js and
+                 /usr/local/etc/split-browser/persist/prefs/*.js
 
   <argument>     e.g. a URL; passed to the browser when starting (but not
                  when restarting due to Ctrl-Shift-u)
@@ -36,7 +36,7 @@ for arg; do
 END
         ;;
         --safest|--high)
-            prefs+=( 'user_pref("extensions.torbutton.security_slider", 1);' )
+            prefs+=( 'pref("extensions.torbutton.security_slider", 1);' )
         ;;
         --pref=*)
             prefs+=( "${arg#*=}" )
@@ -82,7 +82,7 @@ fi
     read socat_pid
     while :; do
         split-browser-cmd setup "${prefs[@]}"
-        split-browser-cmd master sb_firefox "${args[@]}"
+        split-browser-cmd master "${args[@]}"
         args=()  # on restart, don't load given URLs again
 
         # 'qrexec-client-vm \$dispvm splitBrowser' would need a policy file

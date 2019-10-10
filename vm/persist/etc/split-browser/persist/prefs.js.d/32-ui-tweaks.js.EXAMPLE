@@ -1,4 +1,0 @@
-user_pref("browser.urlbar.trimURLs", false);
-user_pref("reader.color_scheme", "sepia");
-user_pref("spellchecker.dictionary", "en-US");
-user_pref("view_source.wrap_long_lines", true);
