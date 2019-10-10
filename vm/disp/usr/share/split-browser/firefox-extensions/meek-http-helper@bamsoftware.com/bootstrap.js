@@ -45,16 +45,13 @@ function startup() {
   const ReqSocket      = new File(Environment.get("SB_REQ_SOCKET"));
 
 
-  function getMostRecentMainWindow() {
-    return WindowMediator.getMostRecentWindow(MainWindowType);
-  }
+  const getMostRecentMainWindow = () =>
+    WindowMediator.getMostRecentWindow(MainWindowType);
 
-  function isMainWindow(win) {
-    return win.document.documentElement.getAttribute("windowtype")
-           === MainWindowType;
-  }
+  const isMainWindow = win =>
+    win.document.documentElement.getAttribute("windowtype") === MainWindowType;
 
-  function sendReq(...fields) {
+  const sendReq = (...fields) => {
     const outRaw = SocketService
                    .createUnixDomainTransport(ReqSocket)
                    .openOutputStream(Ci.nsITransport.OPEN_BLOCKING |
@@ -69,7 +66,7 @@ function startup() {
     }
   }
 
-  function sendReqWithPageInfo(...fields) {
+  const sendReqWithPageInfo = (...fields) => {
     const browser       = getMostRecentMainWindow().gBrowser;
     const titleForUtf8  = browser.contentTitle.replace(BadByte, " ");
     const titleForAscii = titleForUtf8.normalize("NFKD");
@@ -94,7 +91,7 @@ function startup() {
     sendReq(...fields, uri.asciiSpec, titleForAscii, urlForUtf8, titleForUtf8);
   }
 
-  function restart() {
+  const restart = () => {
     const cancel = new PrBool();
 
     ObserverService.notifyObservers(cancel, "quit-application-requested", null);
@@ -105,7 +102,7 @@ function startup() {
     }
   }
 
-  function moveDownloads() {
+  const moveDownloads = () =>
     Subprocess.call({
       command: "/bin/bash",
       arguments: ["-lc",
@@ -114,9 +111,8 @@ function startup() {
       workdir: PrefBranch.getComplexValue("browser.download.dir",
                                           Ci.nsIPrefLocalizedString).data
     });
-  }
 
-  function onKey(e) {
+  const onKey = e => {
     const k = e.key.toLowerCase();
     let f;
 
@@ -138,12 +134,12 @@ function startup() {
       f();
   }
 
-  function perWindowHotkeys(modifyEventListener) {
+  const perWindowHotkeys = modifyEventListener => {
     modifyEventListener("keydown", onKey, true);
     modifyEventListener("keyup",   onKey, true);
   }
 
-  function windowReady(e) {
+  const windowReady = e => {
     const win = e.currentTarget;
 
     win.removeEventListener(e.type, windowReady, true);
