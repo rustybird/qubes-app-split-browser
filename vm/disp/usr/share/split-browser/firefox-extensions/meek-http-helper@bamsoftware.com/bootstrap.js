@@ -180,6 +180,10 @@ function startup() {
     WindowWatcher.registerNotification({
       observe: (win, topic) => {
         if (topic === "domwindowopened") {
+          /* In this block, the DOM in DOMContentLoaded is that of the
+           * Firefox GUI, not of any website. Before the GUI has loaded,
+           * isMainWindow() can return false negatives.
+           */
           win.addEventListener("DOMContentLoaded", windowReady, true);
           if (isMainWindow(win)) {
             win.removeEventListener("DOMContentLoaded", windowReady, true);
