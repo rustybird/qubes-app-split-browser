@@ -54,33 +54,6 @@ function startup() {
            === MainWindowType;
   }
 
-  function listenForUrlsOnSocket() {
-    new UnixServerSocket(ExtSocket, 0o644, -1).asyncListen({
-      onSocketAccepted: ({}, transport) => {
-        const inRaw = transport
-                      .openInputStream(Ci.nsITransport.OPEN_BLOCKING |
-                                       Ci.nsITransport.OPEN_UNBUFFERED, 0, 0);
-        const inUni = new ConvInputStream(inRaw, "UTF-8", 0, 0);
-        const buf   = {};
-        let   line  = "";
-
-        try {
-          while (inUni.readString(-1, buf) !== 0)
-            line += buf.value;
-        } finally {
-          inUni.close();
-          inRaw.close();
-        }
-
-        if (line.slice(-1) === RecordSep) {
-          const url = line.slice(0, -1);
-          const browser = getMostRecentMainWindow().gBrowser;
-          browser.selectedTab = browser.addTab(url);
-        }
-      }
-    });
-  }
-
   function sendReq(...fields) {
     const outRaw = SocketService
                    .createUnixDomainTransport(ReqSocket)
@@ -176,28 +149,50 @@ function startup() {
       perWindowHotkeys(this.addEventListener);
   }
 
-  function listenForHotkeysOnNewWindows() {
-    WindowWatcher.registerNotification({
-      observe: (win, topic) => {
-        if (topic === "domwindowopened") {
-          /* In this block, the DOM in DOMContentLoaded is that of the
-           * Firefox GUI, not of any website. Before the GUI has loaded,
-           * isMainWindow() can return false negatives.
-           */
-          win.addEventListener("DOMContentLoaded", windowReady, true);
-          if (isMainWindow(win)) {
-            win.removeEventListener("DOMContentLoaded", windowReady, true);
-            perWindowHotkeys(win.addEventListener);
-          }
-        } else if (topic === "domwindowclosed" && isMainWindow(win))
-          perWindowHotkeys(win.removeEventListener);
+
+  // attach hotkey listener to any new main window
+  WindowWatcher.registerNotification({
+    observe: (win, topic) => {
+      if (topic === "domwindowopened") {
+        /* In this block, the DOM in DOMContentLoaded is that of the
+         * Firefox GUI, not of any website. Before the GUI has loaded,
+         * isMainWindow() can return false negatives.
+         */
+        win.addEventListener("DOMContentLoaded", windowReady, true);
+        if (isMainWindow(win)) {
+          win.removeEventListener("DOMContentLoaded", windowReady, true);
+          perWindowHotkeys(win.addEventListener);
+        }
+      } else if (topic === "domwindowclosed" && isMainWindow(win))
+        perWindowHotkeys(win.removeEventListener);
+    }
+  });
+
+  // listen for URL load commands from the persistent VM
+  new UnixServerSocket(ExtSocket, 0o644, -1).asyncListen({
+    onSocketAccepted: ({}, transport) => {
+      const inRaw = transport
+                    .openInputStream(Ci.nsITransport.OPEN_BLOCKING |
+                                     Ci.nsITransport.OPEN_UNBUFFERED, 0, 0);
+      const inUni = new ConvInputStream(inRaw, "UTF-8", 0, 0);
+      const buf   = {};
+      let   line  = "";
+
+      try {
+        while (inUni.readString(-1, buf) !== 0)
+          line += buf.value;
+      } finally {
+        inUni.close();
+        inRaw.close();
       }
-    });
-  }
 
-
-  listenForHotkeysOnNewWindows();
-  listenForUrlsOnSocket();
+      if (line.slice(-1) === RecordSep) {
+        const url = line.slice(0, -1);
+        const browser = getMostRecentMainWindow().gBrowser;
+        browser.selectedTab = browser.addTab(url);
+      }
+    }
+  });
 }
 
 function  shutdown() {}
