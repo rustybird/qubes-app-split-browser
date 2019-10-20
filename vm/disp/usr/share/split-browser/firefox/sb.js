@@ -143,9 +143,9 @@
       f();
   }
 
-  const perWindowHotkeys = modifyEventListener => {
-    modifyEventListener("keydown", onKey, true);
-    modifyEventListener("keyup",   onKey, true);
+  const perWindowHotkeys = addOrRemoveEventListener => {
+    addOrRemoveEventListener("keydown", onKey, true);
+    addOrRemoveEventListener("keyup",   onKey, true);
   }
 
   const windowReady = e => {
