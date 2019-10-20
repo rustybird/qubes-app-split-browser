@@ -40,8 +40,6 @@ Only printable ASCII characters are allowed by default. This can be broadened to
 
 ## Logins
 
-(TODO: build some sort of KeePassX bridge?)
-
 Login credentials are stored in an arbitrarily deep directory tree, `~/.local/share/split-browser/logins/` (TODO: set up an automounted encrypted filesystem?), where each directory has a `urls.txt` file containing patterns, one per line. A pattern's first letter decides how it is interpreted:
 
 First letter | Type           | Scope
@@ -71,6 +69,7 @@ Here's an example of how a login directory structure could be organized:
                                     oathtool --totp --base32 foobarba7qux
             ...
 
+(TODO: build some sort of KeePassXC bridge?)
 
 ## Tor Browser updates
 
@@ -90,8 +89,6 @@ Here's an example of how a login directory structure could be organized:
 
 ## Installation
 
-TODO: document included `fedora/`, `debian/`, and `arch/` packaging
-
 1. Create a persistent VM, and configure it to have no network access itself, but to launch torified DisposableVMs:
 
         qvm-create --template fedora-30 --label purple browser-1
@@ -104,4 +101,6 @@ TODO: document included `fedora/`, `debian/`, and `arch/` packaging
 
 4. You can enable the Split Browser application launcher shortcuts for `browser-1` as usual through the Applications tab in VM Settings, or alternatively run `split-browser -h` in a terminal to see the help message.
 
-TODO: document `systemctl disable control-port-filter-python` for whonix-gw, Split Browser doesn't need to access the tor control port at all
+TODO: document included `fedora/`, `debian/`, and `arch/` packaging
+
+TODO: consider recommending `systemctl disable onion-grater` in whonix-gw, because Split Browser doesn't need to access the tor control port at all
