@@ -81,9 +81,9 @@ Here's an example of how a login directory structure could be organized:
 
 ## Notes
 
-- Multiple Split Browser instances (e.g. one with Tor Browser's Security Level set to Standard and another set to Safest) can be run in parallel from the same persistent VM, this won't corrupt the bookmark and login collections. But you're going to have a hard time distinguishing the browser windows. It's safer to run parallel instances from _different_ persistent VMs so you can get different window border colors.
+- Multiple Split Browser instances (e.g. one with Tor Browser's Security Level set to Standard and another set to Safest) can be run in parallel from the same persistent VM, this won't corrupt the bookmark and login collections.
 
-- Keep in mind that DisposableVMs know the name of the VM which spawned them. That's a potential privacy and GUI spoofing issue.
+- Keep in mind that DisposableVMs know the name of the VM which spawned them. That's a potential privacy issue.
 
 - The debug logs can be read using `journalctl -t split-browser` in the persistent VM and the DisposableVM.
 
