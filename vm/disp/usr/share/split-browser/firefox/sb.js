@@ -66,15 +66,6 @@
     }
   }
 
-  const newTab = url => {
-    const browser = getMostRecentBrowser();
-
-    browser.selectedTab = browser.addTab(url, {
-      triggeringPrincipal: ScriptSecurity.getSystemPrincipal(),
-      fromExternal: true
-    });
-  }
-
   const sendReqWithPageInfo = (...fields) => {
     const browser       = getMostRecentBrowser();
     const titleForUtf8  = browser.contentTitle.replace(BadByte, " ");
@@ -98,6 +89,15 @@
     }
 
     sendReq(...fields, uri.asciiSpec, titleForAscii, urlForUtf8, titleForUtf8);
+  }
+
+  const newTab = url => {
+    const browser = getMostRecentBrowser();
+
+    browser.selectedTab = browser.addTab(url, {
+      triggeringPrincipal: ScriptSecurity.getSystemPrincipal(),
+      fromExternal: true
+    });
   }
 
   const restart = () => {
