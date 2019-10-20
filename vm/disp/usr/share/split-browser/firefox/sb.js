@@ -45,8 +45,8 @@
   const ReqSocket      = new File(Environment.get("SB_REQ_SOCKET"));
 
 
-  const getMostRecentMainWindow = () =>
-    WindowMediator.getMostRecentWindow(MainWindowType);
+  const getMostRecentBrowser = () =>
+    WindowMediator.getMostRecentWindow(MainWindowType).gBrowser;
 
   const isMainWindow = win =>
     win.document.documentElement.getAttribute("windowtype") === MainWindowType;
@@ -67,7 +67,7 @@
   }
 
   const newTab = url => {
-    const browser = getMostRecentMainWindow().gBrowser;
+    const browser = getMostRecentBrowser();
 
     browser.selectedTab = browser.addTab(url, {
       triggeringPrincipal: ScriptSecurity.getSystemPrincipal(),
@@ -76,7 +76,7 @@
   }
 
   const sendReqWithPageInfo = (...fields) => {
-    const browser       = getMostRecentMainWindow().gBrowser;
+    const browser       = getMostRecentBrowser();
     const titleForUtf8  = browser.contentTitle.replace(BadByte, " ");
     const titleForAscii = titleForUtf8.normalize("NFKD");
     let   uri           = browser.currentURI;
