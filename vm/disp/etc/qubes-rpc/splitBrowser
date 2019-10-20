@@ -35,7 +35,7 @@ while IFS=$'\t' read -r -a cmd; do
             "${cmd[@]:1}"
         ;;
         newtab)
-            socat STDIO UNIX-CONNECT:"$SB_EXT_SOCKET" <<<"${cmd[1]}"
+            socat STDIO "UNIX-CONNECT:$SB_EXT_SOCKET" <<<"${cmd[1]}"
         ;;
     esac
 done >&2
