@@ -8,12 +8,10 @@ for f in {,/usr/local}/etc/split-browser/persist/*.bash; do source "$f"; done
 export SB_CMD_SOCKET
 
 
-# Parse command-line arguments and collect the browser preferences that will be
-# transmitted to the DisposableVM.
+# Parse command-line arguments
 
-readarray -t prefs < \
-    <(cat {,/usr/local}/etc/split-browser/persist/prefs/*.js /dev/null)
 args=()
+cli_prefs=()
 
 for arg; do
     case "$arg" in
@@ -36,10 +34,10 @@ for arg; do
 END
         ;;
         --safest|--high)  # --high is deprecated
-            prefs+=( 'pref("extensions.torbutton.security_slider", 1);' )
+            cli_prefs+=( 'pref("extensions.torbutton.security_slider", 1);' )
         ;;
         --pref=*)
-            prefs+=( "${arg#*=}" )
+            cli_prefs+=( "${arg#*=}" )
         ;;
         *)
             args+=( "$arg" )
@@ -81,7 +79,10 @@ fi
 ) | {
     read socat_pid
     while :; do
-        split-browser-cmd setup "${prefs[@]}"
+        readarray -t config_prefs < \
+        <(cat {,/usr/local}/etc/split-browser/persist/prefs/*.js /dev/null)
+
+        split-browser-cmd setup "${config_prefs[@]}" "${cli_prefs[@]}"
         split-browser-cmd master "${args[@]}"
         args=()  # on restart, don't load given URLs again
 
