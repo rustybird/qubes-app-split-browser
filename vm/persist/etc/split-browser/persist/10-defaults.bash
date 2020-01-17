@@ -9,5 +9,5 @@ SB_ELLIPSIS=$'\u2026'
 SB_STAR=$'\u2605'
 
 sb_dmenu() { x11-unoverride-redirect stdbuf -oL dmenu "$@"; }
-sb_pwgen() { pwgen -s 64 "$@"; }
+sb_pwgen() { pwgen -s 64 1 "$@"; }
 sb_terminal() { gnome-terminal -x "$@" || xterm -e "$@"; }
