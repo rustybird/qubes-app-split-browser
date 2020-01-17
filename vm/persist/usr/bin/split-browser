@@ -24,7 +24,7 @@ for arg; do
 
 
   --safest       set Tor Browser's Security Level to Safest; equivalent to
-  --high         --pref='pref("extensions.torbutton.security_slider", 1);'
+                 --pref='pref("extensions.torbutton.security_slider", 1);'
 
   --pref=<line>  additional browser preference line, appended after those
                  stored in /etc/split-browser/persist/prefs/*.js and
@@ -35,7 +35,7 @@ for arg; do
 
 END
         ;;
-        --safest|--high)
+        --safest|--high)  # --high is deprecated
             prefs+=( 'pref("extensions.torbutton.security_slider", 1);' )
         ;;
         --pref=*)
