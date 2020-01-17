@@ -8,10 +8,9 @@ for f in {,/usr/local}/etc/split-browser/persist/*.bash; do source "$f"; done
 shorten() {
     local str=$1
     local len=$2
-    local trunc=$SB_ELLIPSIS
 
     if [[ ${#str} -gt $len ]]; then
-        str=${str::$(( len - ${#trunc} ))}$trunc
+        str=${str::$(( len - ${#SB_ELLIPSIS} ))}$SB_ELLIPSIS
     fi
     printf %s "$str"
 }
