@@ -18,12 +18,12 @@ while IFS=$'\t' read -r -a cmd; do
             done
             [[ $found ]]
 
-            printf '%s\n' '' "${cmd[@]:1}" |
-            cat - /[u]sr{,/local}/share/split-browser/firefox/sb.js >sb.js
+            js1=( /[u]sr{/local,}/share/split-browser/firefox/sb-load.js )
+            mkdir -p          defaults/pref/
+            ln -s "${js1[0]}" defaults/pref/
 
-            mkdir -p defaults/pref
-            ln -sf /[u]sr{,/local}/share/split-browser/firefox/sb-load.js \
-                   defaults/pref
+            js2=( /[u]sr{/local,}/share/split-browser/firefox/sb.js )
+            printf '%s\n' '' "${cmd[@]:1}" | cat - "${js2[0]}" >sb.js
         ;;
         master)
             (
