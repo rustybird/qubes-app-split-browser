@@ -12,11 +12,9 @@ socat "UNIX-LISTEN:$SB_REQ_SOCKET,fork,max-children=1" STDIO &
 while IFS=$'\t' read -r -a cmd; do
     case "${cmd[0]}" in
         setup)
-            found=
-            for dir in "${SB_FIREFOX_DIRS[@]}"; do
-                if cd "$dir"; then found=$dir; break; fi
-            done
-            [[ $found ]]
+            set +e
+            for d in "${SB_FIREFOX_DIRS[@]}"; do cd "$d" && break; done || exit
+            set -e
 
             js1=( /[u]sr{/local,}/share/split-browser/firefox/sb-load.js )
             mkdir -p          defaults/pref/
