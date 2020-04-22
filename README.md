@@ -91,11 +91,11 @@ Here's an example of how a login directory structure could be organized:
 
 1. Create a persistent VM, and configure it to have no network access itself, but to launch torified DisposableVMs:
 
-        qvm-create --template fedora-30 --label purple browser-1
+        qvm-create --template fedora-xx --label purple browser-1
         qvm-prefs --set browser-1 netvm ''
         qvm-prefs --set browser-1 default_dispvm whonix-ws-dvm
 
-2. Copy `vm/` into your persistent VM (e.g. browser-1) and run `sudo make PREFIX=/usr/local install-persist`, or copy it into its TemplateVM (e.g. fedora-30) and run `sudo make install-persist`. Also install the `dmenu oathtool pwgen python3-xcffib socat` packages (in the TemplateVM).
+2. Copy `vm/` into your persistent VM (e.g. browser-1) and run `sudo make PREFIX=/usr/local install-persist`, or copy it into its TemplateVM (e.g. fedora-xx) and run `sudo make install-persist`. Also install the `dmenu oathtool pwgen python3-xcffib socat` packages (in the TemplateVM).
 
 3. Copy `vm/` into your "template for DisposableVMs" (e.g. whonix-ws-dvm) and run `sudo make PREFIX=/usr/local install-disp`, or copy it into its TemplateVM (e.g. whonix-ws) and run `sudo make install-disp`. Also install the `socat xdotool` packages (in the TemplateVM).
 
