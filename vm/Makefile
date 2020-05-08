@@ -19,6 +19,7 @@ install-disp:
 	cp -pR disp/etc/* -- $(DESTDIR)$(etc)/
 
 install-persist:
+	rm -f -- $(DESTDIR)$(PREFIX)/share/applications/split-browser-high.desktop
 	mkdir -p -- $(DESTDIR)$(PREFIX)/ $(DESTDIR)$(etc)/
 	cp -pR persist/usr/* -- $(DESTDIR)$(PREFIX)/
 	cp -pR persist/etc/* -- $(DESTDIR)$(etc)/
