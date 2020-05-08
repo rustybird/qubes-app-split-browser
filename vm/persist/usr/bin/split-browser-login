@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e -o pipefail
+set -e -u -o pipefail
 shopt -s nullglob globstar
 
 for f in {,/usr/local}/etc/split-browser/persist/*.bash; do source "$f"; done

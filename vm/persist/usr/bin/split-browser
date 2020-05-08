@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e -o pipefail
+set -e -u -o pipefail
 shopt -s nullglob
 
 for f in {,/usr/local}/etc/split-browser/persist/*.bash; do source "$f"; done
@@ -50,7 +50,7 @@ done
 # as UTF-8 normalized to NFKD (so that there are slightly fewer illegal bytes
 # to replace).
 
-if [[ $SB_CHARSET == utf-8 ]]; then
+if [[ ${SB_CHARSET-} == utf-8 ]]; then
     sanitize() {
         stdbuf -oL tr '\0' _ |
         PYTHONIOENCODING=utf-8:strict \
