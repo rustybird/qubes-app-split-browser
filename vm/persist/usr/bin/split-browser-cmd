@@ -1,5 +1,9 @@
-#!/bin/bash
-set -e -o pipefail
+#!/usr/bin/python3 -S
 
-IFS=$'\t'
-socat STDIO "UNIX-CONNECT:${SB_CMD_SOCKET?},forever,interval=0.1" <<<"${*?}"
+import fcntl
+import os
+import sys
+
+with open(os.open(os.environ['SB_CMD_INPUT'], os.O_WRONLY), 'wb') as f:
+    fcntl.flock(f, fcntl.LOCK_EX)
+    f.write(b'\t'.join(map(os.fsencode, sys.argv[1:])) + b'\n')

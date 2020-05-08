@@ -4,8 +4,7 @@ shopt -s nullglob
 
 [[ -t 2 ]] || exec 2> >(systemd-cat -t split-browser --level-prefix=no)
 for f in {,/usr/local}/etc/split-browser/persist/*.bash; do source "$f"; done
-: ${SB_CMD_SOCKET:=$SB_CMD_DIR/$$}
-export SB_CMD_SOCKET
+export SB_CMD_INPUT="${SB_CMD_INPUT:-$SB_CMD_DIR/$$}"
 
 
 # Parse command-line arguments
@@ -67,50 +66,65 @@ else  # printable ASCII
 fi
 
 
-# Main loop: Start/restart the browser DisposableVM. Handle incoming requests
-# from the browser. Send commands to the browser, using socat to serialize
-# overlapping commands. (This is essentially a crappy bidirectional RPC system
-# implemented *inside* a qrexec RPC call's data stream... But getting rid of it
-# will require some changes to qrexec-policy etc.)
+# Launch via qubes.VMShell in the DisposableVM, because a straightforward
+# 'qrexec-client-vm @dispvm splitBrowser' call would require the user to
+# manually create a policy in dom0. Transition to splitBrowser with the trick
+# described in /usr/lib/qubes/qrun-in-vm (not reused here, because it doesn't
+# preserve exit status).
+#
+# Sanitize stdout and handle those requests (one per line), e.g. to get a login
+# credential. The handler might then send commands into the input FIFO with
+# split-browser-cmd. (This is essentially a crappy bidirectional RPC system
+# implemented *inside* a qrexec RPC call's data streams. It would be much nicer
+# to do multiple qrexec calls back and forth, but that requires lots of policy
+# configuration for each persistent VM.)
 
-(
-    echo $BASHPID
-    exec socat "UNIX-LISTEN:$SB_CMD_SOCKET,fork,max-children=1" STDIO
-) | {
-    read socat_pid
-    while :; do
-        config_prefs=()
-        for f in {,/usr/local}/etc/split-browser/persist/prefs/*.js; do
-            readarray -t -O ${#config_prefs[@]} config_prefs <"$f"
+dispvm() (
+    sh="PATH=/usr/local/etc/qubes-rpc:/etc/qubes-rpc:\$PATH exec splitBrowser"
+
+    trap 'rm -f -- "$SB_CMD_INPUT"{.tmp,}' EXIT &&
+    mkfifo -- "$SB_CMD_INPUT".tmp &&
+    exec {input_fd}<>"$SB_CMD_INPUT".tmp &&
+    printf '%s\n' "$sh" "$@" >&"$input_fd" &&  # 64 KB pipe capacity is plenty
+    mv -- "$SB_CMD_INPUT"{.tmp,} ||
+    return
+
+    qrexec-client-vm -T @dispvm qubes.VMShell <&"$input_fd" |
+    LC_ALL=C sanitize |
+    (
+        restart=
+        while IFS=$'\t' read -r -a req; do
+            case "${req[0]}" in
+                bookmark|login)
+                    split-browser-"${req[0]}" "${req[1]}" \
+                    "${req[@]:$first_page_field:2}" &
+                ;;
+                restart)
+                    restart=x
+                ;;
+            esac
         done
+        [[ $restart ]] || exit 111
+    ) || for s in "${PIPESTATUS[@]}"; do [[ $s == 0 ]] || return "$s"; done
+)
 
-        split-browser-cmd setup "${config_prefs[@]}" "${cli_prefs[@]}"
-        split-browser-cmd master "${args[@]}"
-        args=()  # on restart, don't load given URLs again
 
-        # 'qrexec-client-vm \$dispvm splitBrowser' would need a policy file
-        qvm-run-vm \$dispvm \
-        'PATH=/usr/local/etc/qubes-rpc:/etc/qubes-rpc:$PATH exec splitBrowser' |
-        LC_ALL=C sanitize | {
-            restart=
+# Main loop: Configure and open the disposable browser. After clean shutdown,
+# do it again (if restart was requested).
 
-            while IFS=$'\t' read -r -a req; do
-                case "${req[0]}" in
-                    bookmark|login)
-                        split-browser-"${req[0]}" "${req[1]}" \
-                        "${req[@]:$first_page_field:2}" &
-                    ;;
-                    restart)
-                        restart=x
-                    ;;
-                esac
-            done
-
-            if [[ ! $restart ]]; then
-                kill "$socat_pid"
-                exit 111
-            fi
-        } || exit
+while :; do
+    config_prefs=()
+    for f in {,/usr/local}/etc/split-browser/persist/prefs/*.js; do
+        readarray -t -O ${#config_prefs[@]} config_prefs <"$f"
     done
-} ||
-[[ ${PIPESTATUS[0]} == 143 && ${PIPESTATUS[1]} == 111 ]]
+    setup_cmd=( setup "${config_prefs[@]}" "${cli_prefs[@]}" )
+    master_cmd=( master "${args[@]}" )
+    args=()  # on restart, don't load given URLs again
+
+    IFS_bak=$IFS
+    IFS=$'\t'
+    init=( "${setup_cmd[*]}" "${master_cmd[*]}" )
+    IFS=$IFS_bak
+
+    dispvm "${init[@]}" || exit $(( $? == 111 ? 0 : 1 ))
+done
