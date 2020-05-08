@@ -15,7 +15,6 @@ default:
 
 install-disp:
 	mkdir -p $(DESTDIR)$(PREFIX)/ $(DESTDIR)$(etc)/
-	rm -rf $(DESTDIR)$(PREFIX)/share/split-browser/firefox-extensions
 	cp -pR disp/usr/* $(DESTDIR)$(PREFIX)/
 	cp -pR disp/etc/* $(DESTDIR)$(etc)/
 
@@ -23,7 +22,6 @@ install-persist:
 	mkdir -p $(DESTDIR)$(PREFIX)/ $(DESTDIR)$(etc)/
 	cp -pR persist/usr/* $(DESTDIR)$(PREFIX)/
 	cp -pR persist/etc/* $(DESTDIR)$(etc)/
-	rm -f $(DESTDIR)$(etc)/split-browser/persist/prefs/16-workarounds.js
 	systemd-tmpfiles --create split-browser-persist.conf
 	/usr/lib/qubes/qubes-trigger-sync-appmenus.sh
 
