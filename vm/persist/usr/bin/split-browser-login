@@ -21,7 +21,7 @@ cd       -- "$SB_LOGIN_DIR"
 
 [[ $1 == get && $# == 3 ]]
 url=$2
-title=$3
+#title=$3
 
 matching_sites=()
 for f in */**/urls.txt; do
@@ -66,7 +66,7 @@ else
 
     if [[ ! -e fields && ! -e login ]]; then
         mkdir fields
-        >fields/01-user.txt
+        : >fields/01-user.txt
         sb_pwgen >fields/02-pass.txt
     fi
 

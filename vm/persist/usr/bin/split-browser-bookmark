@@ -48,7 +48,7 @@ case "$1" in
 
         date=$(date --rfc-3339=seconds)
         set -o noclobber
-        >"$SB_BOOKMARK_FILE".tmp
+        : >"$SB_BOOKMARK_FILE".tmp
 
         if old_entry=$(grep -m 1 -F $'\t'"$url"$'\t' "$SB_BOOKMARK_FILE"); then
             rm -- "$SB_BOOKMARK_FILE".tmp
