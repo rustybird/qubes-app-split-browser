@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e -u -o pipefail
-shopt -s nullglob
+shopt -s inherit_errexit nullglob
 
 for f in {,/usr/local}/etc/split-browser/persist/*.bash; do source "$f"; done
 export SB_CMD_INPUT="${SB_CMD_INPUT:-$SB_CMD_DIR/$$}"

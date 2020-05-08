@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e -u -o pipefail
-shopt -s nullglob globstar
+shopt -s inherit_errexit nullglob globstar
 
 for f in {,/usr/local}/etc/split-browser/persist/*.bash; do source "$f"; done
 
