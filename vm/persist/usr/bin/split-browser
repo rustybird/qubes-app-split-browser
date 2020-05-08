@@ -79,8 +79,10 @@ fi
 ) | {
     read socat_pid
     while :; do
-        readarray -t config_prefs < \
-        <(cat {,/usr/local}/etc/split-browser/persist/prefs/*.js /dev/null)
+        config_prefs=()
+        for f in {,/usr/local}/etc/split-browser/persist/prefs/*.js; do
+            readarray -t -O ${#config_prefs[@]} config_prefs <"$f"
+        done
 
         split-browser-cmd setup "${config_prefs[@]}" "${cli_prefs[@]}"
         split-browser-cmd master "${args[@]}"
