@@ -14,14 +14,14 @@ endif
 default:
 
 install-disp:
-	mkdir -p $(DESTDIR)$(PREFIX)/ $(DESTDIR)$(etc)/
-	cp -pR disp/usr/* $(DESTDIR)$(PREFIX)/
-	cp -pR disp/etc/* $(DESTDIR)$(etc)/
+	mkdir -p -- $(DESTDIR)$(PREFIX)/ $(DESTDIR)$(etc)/
+	cp -pR disp/usr/* -- $(DESTDIR)$(PREFIX)/
+	cp -pR disp/etc/* -- $(DESTDIR)$(etc)/
 
 install-persist:
-	mkdir -p $(DESTDIR)$(PREFIX)/ $(DESTDIR)$(etc)/
-	cp -pR persist/usr/* $(DESTDIR)$(PREFIX)/
-	cp -pR persist/etc/* $(DESTDIR)$(etc)/
+	mkdir -p -- $(DESTDIR)$(PREFIX)/ $(DESTDIR)$(etc)/
+	cp -pR persist/usr/* -- $(DESTDIR)$(PREFIX)/
+	cp -pR persist/etc/* -- $(DESTDIR)$(etc)/
 	systemd-tmpfiles --create split-browser-persist.conf
 	/usr/lib/qubes/qubes-trigger-sync-appmenus.sh
 
