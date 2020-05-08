@@ -90,17 +90,17 @@ Here's an example of how a login directory structure could be organized:
 
 ## Installation
 
-1. Create a persistent VM, and configure it to have no network access itself, but to launch torified DisposableVMs:
+1. Create a new persistent VM or take an existing one, and configure it to launch torified DisposableVMs and (optionally) to have no network access itself:
 
-        qvm-create --template fedora-xx --label purple browser-1
-        qvm-prefs --set browser-1 netvm ''
-        qvm-prefs --set browser-1 default_dispvm whonix-ws-xx-dvm
+        qvm-create --label=purple surfer
+        qvm-prefs surfer default_dispvm whonix-ws-xx-dvm
+        qvm-prefs surfer netvm ''
 
-2. Copy `vm/` into your persistent VM (e.g. browser-1) and run `sudo make PREFIX=/usr/local install-persist`, or copy it into its TemplateVM (e.g. fedora-xx) and run `sudo make install-persist`. Also install the `dmenu oathtool pwgen` packages (in the TemplateVM).
+2. Copy `vm/` into your persistent VM and run `sudo make PREFIX=/usr/local install-persist`, or copy it into its TemplateVM (e.g. fedora-xx) and run `sudo make install-persist`. Also install the `dmenu oathtool pwgen` packages in the TemplateVM.
 
-3. Copy `vm/` into your "template for DisposableVMs" (e.g. whonix-ws-xx-dvm) and run `sudo make PREFIX=/usr/local install-disp`, or copy it into its TemplateVM (e.g. whonix-ws-xx) and run `sudo make install-disp`. Also install the `xdotool` package (in the TemplateVM).
+3. Copy `vm/` into your "template for DisposableVMs" (e.g. whonix-ws-xx-dvm) and run `sudo make PREFIX=/usr/local install-disp`, or copy it into its TemplateVM (e.g. whonix-ws-xx) and run `sudo make install-disp`. Also install the `xdotool` package in the TemplateVM.
 
-4. You can enable the Split Browser application launcher shortcuts for `browser-1` as usual through the Applications tab in VM Settings, or alternatively run `split-browser -h` in a terminal to see the help message.
+4. You can enable the Split Browser application launcher shortcuts for your persistent VM as usual through the Applications tab in Qube Settings, or alternatively run `split-browser -h` in a terminal to see the help message.
 
 TODO: document included `fedora/`, `debian/`, and `arch/` packaging
 
