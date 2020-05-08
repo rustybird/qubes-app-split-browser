@@ -71,9 +71,10 @@ Here's an example of how a login directory structure could be organized:
 
 (TODO: build some sort of KeePassXC bridge?)
 
+
 ## Tor Browser updates
 
-[By default](vm/disp/etc/split-browser/disp/10-defaults.bash#L3), an extracted Tor Browser is expected in `~/.tb/tor-browser/` or `/var/cache/tb-binary/.tb/tor-browser/`, so one of these directories should contain `Browser/` and `start-tor-browser.desktop`. You can use Whonix Workstation's `update-torbrowser` tool in the TemplateVM (e.g. whonix-ws) to save it there.
+[By default](vm/disp/etc/split-browser/disp/10-defaults.bash#L3), an extracted Tor Browser is expected in `~/.tb/tor-browser/` or `/var/cache/tb-binary/.tb/tor-browser/`, so one of these directories should contain `Browser/` and `start-tor-browser.desktop`. You can use Whonix Workstation's `update-torbrowser` tool in the TemplateVM (e.g. whonix-ws-xx) to save it there.
 
 **Automatic extension updates are disabled.** Merely opening the browser should cause as little outgoing traffic as possible.
 
@@ -93,14 +94,14 @@ Here's an example of how a login directory structure could be organized:
 
         qvm-create --template fedora-xx --label purple browser-1
         qvm-prefs --set browser-1 netvm ''
-        qvm-prefs --set browser-1 default_dispvm whonix-ws-dvm
+        qvm-prefs --set browser-1 default_dispvm whonix-ws-xx-dvm
 
 2. Copy `vm/` into your persistent VM (e.g. browser-1) and run `sudo make PREFIX=/usr/local install-persist`, or copy it into its TemplateVM (e.g. fedora-xx) and run `sudo make install-persist`. Also install the `dmenu oathtool pwgen python3-xcffib socat` packages (in the TemplateVM).
 
-3. Copy `vm/` into your "template for DisposableVMs" (e.g. whonix-ws-dvm) and run `sudo make PREFIX=/usr/local install-disp`, or copy it into its TemplateVM (e.g. whonix-ws) and run `sudo make install-disp`. Also install the `socat xdotool` packages (in the TemplateVM).
+3. Copy `vm/` into your "template for DisposableVMs" (e.g. whonix-ws-xx-dvm) and run `sudo make PREFIX=/usr/local install-disp`, or copy it into its TemplateVM (e.g. whonix-ws-xx) and run `sudo make install-disp`. Also install the `socat xdotool` packages (in the TemplateVM).
 
 4. You can enable the Split Browser application launcher shortcuts for `browser-1` as usual through the Applications tab in VM Settings, or alternatively run `split-browser -h` in a terminal to see the help message.
 
 TODO: document included `fedora/`, `debian/`, and `arch/` packaging
 
-TODO: consider recommending `systemctl disable onion-grater` in whonix-gw, because Split Browser doesn't need to access the tor control port at all
+TODO: consider recommending `systemctl disable onion-grater` in whonix-gw-xx, because Split Browser doesn't need to access the tor control port at all
