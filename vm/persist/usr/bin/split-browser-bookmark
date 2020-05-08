@@ -20,7 +20,7 @@ notify() {
 if [[ ! -e $SB_BOOKMARK_FILE ]]; then
     d=$(dirname -- "$SB_BOOKMARK_FILE")
     mkdir -p -- "$d"
-    touch    -- "$SB_BOOKMARK_FILE"
+    touch -- "$SB_BOOKMARK_FILE"
 fi
 
 case "$1" in
@@ -54,9 +54,9 @@ case "$1" in
             rm -- "$SB_BOOKMARK_FILE".tmp
             notify 'Already bookmarked' "$url" "${old_entry##*$'\t'}"
         else
-            cp --reflink=auto -- "$SB_BOOKMARK_FILE" "$SB_BOOKMARK_FILE".tmp
+            cp --reflink=auto -- "$SB_BOOKMARK_FILE"{,.tmp}
             cat >>"$SB_BOOKMARK_FILE".tmp <<<"$date"$'\t'"$url"$'\t'"$title"
-            mv -- "$SB_BOOKMARK_FILE".tmp "$SB_BOOKMARK_FILE"
+            mv -- "$SB_BOOKMARK_FILE"{.tmp,}
             notify "$SB_STAR  Page bookmarked" "$url" "$title"
         fi
     ;;
