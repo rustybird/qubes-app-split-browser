@@ -57,12 +57,12 @@ if [[ $SB_CHARSET == utf-8 ]]; then
         PYTHONIOENCODING=utf-8:strict \
         python3 -uc $'import sys\nfor l in sys.stdin: sys.stdout.write(l)'
     }
-    first_page_field=4
+    first_page_info_field=4
 else  # printable ASCII
     sanitize() {
         stdbuf -oL tr -c '\040-\176\t\n' _
     }
-    first_page_field=2
+    first_page_info_field=2
 fi
 
 
@@ -96,8 +96,8 @@ dispvm() (
         while IFS=$'\t' read -r -a req; do
             case "${req[0]}" in
                 bookmark|login)
-                    split-browser-"${req[0]}" "${req[1]}" \
-                    "${req[@]:$first_page_field:2}" &
+                    page_info=( "${req[@]:$first_page_info_field:2}" )
+                    split-browser-"${req[0]}" "${req[1]}" "${page_info[@]}" &
                 ;;
                 restart)
                     restart=x
