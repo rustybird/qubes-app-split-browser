@@ -96,9 +96,9 @@ Here's an example of how a login directory structure could be organized:
         qvm-prefs --set browser-1 netvm ''
         qvm-prefs --set browser-1 default_dispvm whonix-ws-xx-dvm
 
-2. Copy `vm/` into your persistent VM (e.g. browser-1) and run `sudo make PREFIX=/usr/local install-persist`, or copy it into its TemplateVM (e.g. fedora-xx) and run `sudo make install-persist`. Also install the `dmenu oathtool pwgen python3-xcffib socat` packages (in the TemplateVM).
+2. Copy `vm/` into your persistent VM (e.g. browser-1) and run `sudo make PREFIX=/usr/local install-persist`, or copy it into its TemplateVM (e.g. fedora-xx) and run `sudo make install-persist`. Also install the `dmenu oathtool pwgen` packages (in the TemplateVM).
 
-3. Copy `vm/` into your "template for DisposableVMs" (e.g. whonix-ws-xx-dvm) and run `sudo make PREFIX=/usr/local install-disp`, or copy it into its TemplateVM (e.g. whonix-ws-xx) and run `sudo make install-disp`. Also install the `socat xdotool` packages (in the TemplateVM).
+3. Copy `vm/` into your "template for DisposableVMs" (e.g. whonix-ws-xx-dvm) and run `sudo make PREFIX=/usr/local install-disp`, or copy it into its TemplateVM (e.g. whonix-ws-xx) and run `sudo make install-disp`. Also install the `xdotool` package (in the TemplateVM).
 
 4. You can enable the Split Browser application launcher shortcuts for `browser-1` as usual through the Applications tab in VM Settings, or alternatively run `split-browser -h` in a terminal to see the help message.
 
