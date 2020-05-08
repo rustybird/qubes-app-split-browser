@@ -8,6 +8,9 @@ export SB_EXT_SOCKET SB_REQ_SOCKET
 
 
 socat "UNIX-LISTEN:$SB_REQ_SOCKET,fork,max-children=1" STDIO &
+trap "kill $!" EXIT
+trap 'exit 0'  USR1
+trap 'exit 1'  USR2
 
 while IFS=$'\t' read -r -a cmd; do
     case "${cmd[0]}" in
@@ -25,8 +28,8 @@ while IFS=$'\t' read -r -a cmd; do
         ;;
         master)
             (
-                "${SB_FIREFOX[@]}" "${cmd[@]:1}" || true
-                kill -9 $! $$
+                "${SB_FIREFOX[@]}" "${cmd[@]:1}" && sig=USR1 || sig=USR2
+                kill -s "$sig" $$
             ) &
         ;;
         helper)
