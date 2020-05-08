@@ -72,14 +72,9 @@ Here's an example of how a login directory structure could be organized:
 (TODO: build some sort of KeePassXC bridge?)
 
 
-## Tor Browser updates
-
-[By default](vm/disp/etc/split-browser/disp/10-defaults.bash#L3), an extracted Tor Browser is expected in `~/.tb/tor-browser/` or `/var/cache/tb-binary/.tb/tor-browser/`, so one of these directories should contain `Browser/` and `start-tor-browser.desktop`. You can use Whonix Workstation's `update-torbrowser` tool in the TemplateVM (e.g. whonix-ws-xx) to save it there.
-
-**Automatic extension updates are disabled.** Merely opening the browser should cause as little outgoing traffic as possible.
-
-
 ## Notes
+
+- **Automatic extension updates are disabled.** Merely opening the browser should cause as little outgoing traffic as possible.
 
 - Multiple Split Browser instances (e.g. one with Tor Browser's Security Level set to Standard and another set to Safest) can be run in parallel from the same persistent VM, this won't corrupt the bookmark and login collections.
 
@@ -98,7 +93,7 @@ Here's an example of how a login directory structure could be organized:
 
 2. Copy `vm/` into your persistent VM and run `sudo make PREFIX=/usr/local install-persist`, or copy it into its TemplateVM (e.g. fedora-xx) and run `sudo make install-persist`. Also install the `dmenu oathtool pwgen` packages in the TemplateVM.
 
-3. Copy `vm/` into your "template for DisposableVMs" (e.g. whonix-ws-xx-dvm) and run `sudo make PREFIX=/usr/local install-disp`, or copy it into its TemplateVM (e.g. whonix-ws-xx) and run `sudo make install-disp`. Also install the `xdotool` package in the TemplateVM.
+3. Copy `vm/` into your "template for DisposableVMs" (e.g. whonix-ws-xx-dvm) and run `sudo make PREFIX=/usr/local install-disp`, or copy it into its TemplateVM (e.g. whonix-ws-xx) and run `sudo make install-disp`. Also install the `xdotool` package in the TemplateVM. Ensure that an extracted Tor Browser is available in `~/.tb/tor-browser/` (containing `Browser/` and `start-tor-browser.desktop`), e.g. by running the Tor Browser Downloader `update-torbrowser` in whonix-ws-xx.
 
 4. You can enable the Split Browser application launcher shortcuts for your persistent VM as usual through the Applications tab in Qube Settings, or alternatively run `split-browser -h` in a terminal to see the help message.
 
