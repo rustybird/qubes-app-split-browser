@@ -2,7 +2,6 @@
 set -e -o pipefail
 shopt -s nullglob
 
-[[ -t 2 ]] || exec 2> >(systemd-cat -t split-browser --level-prefix=no)
 for f in {,/usr/local}/etc/split-browser/persist/*.bash; do source "$f"; done
 export SB_CMD_INPUT="${SB_CMD_INPUT:-$SB_CMD_DIR/$$}"
 

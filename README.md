@@ -80,7 +80,10 @@ Here's an example of how a login directory structure could be organized:
 
 - Keep in mind that DisposableVMs know the name of the VM which spawned them. That's a potential privacy issue.
 
-- The debug logs can be read using `journalctl -t split-browser` in the persistent VM and the DisposableVM.
+- If you're starting Split Browser through its application launcher shortcuts, any diagnostic messages go into the syslog of the persistent VM:
+
+        journalctl -t qubes.StartApp+split-browser-dom0 \
+                   -t qubes.StartApp+split-browser-safest-dom0
 
 
 ## Installation

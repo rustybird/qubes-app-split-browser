@@ -2,7 +2,6 @@
 set -e -o pipefail
 shopt -s nullglob
 
-exec 2> >(systemd-cat -t split-browser --level-prefix=no)
 for f in {,/usr/local}/etc/split-browser/disp/*.bash; do source "$f"; done
 export SB_EXT_SOCKET SB_REQ_SOCKET
 
