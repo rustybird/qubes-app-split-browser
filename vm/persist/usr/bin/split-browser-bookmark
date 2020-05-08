@@ -18,7 +18,8 @@ notify() {
 
 
 if [[ ! -e $SB_BOOKMARK_FILE ]]; then
-    mkdir -p -- "$(dirname -- "$SB_BOOKMARK_FILE")"
+    d=$(dirname -- "$SB_BOOKMARK_FILE")
+    mkdir -p -- "$d"
     touch    -- "$SB_BOOKMARK_FILE"
 fi
 
