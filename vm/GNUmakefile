@@ -1,9 +1,18 @@
-PREFIX = /usr
+ifeq ($(PREFIX),)
+    ifeq ($(shell qubesdb-read /qubes-vm-persistence),full)
+        PREFIX = /usr
+    else
+        PREFIX = /usr/local
+    endif
+else
+    # strip a trailing slash, e.g. from tab completion
+    override PREFIX := $(PREFIX:/=)
+endif
 
-ifeq ($(PREFIX:/=),/usr)
+ifeq ($(PREFIX),/usr)
     etc = /etc
 else
-ifeq ($(PREFIX:/=),/usr/local)
+ifeq ($(PREFIX),/usr/local)
     etc = $(PREFIX)/etc
 else
     $(error PREFIX must be /usr or /usr/local)

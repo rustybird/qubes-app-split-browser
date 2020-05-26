@@ -94,9 +94,9 @@ Here's an example of how a login directory structure could be organized:
         qvm-prefs surfer default_dispvm whonix-ws-xx-dvm
         qvm-prefs surfer netvm ''
 
-2. Copy `vm/` into your persistent VM and run `sudo make PREFIX=/usr/local install-persist`, or copy it into its TemplateVM (e.g. fedora-xx) and run `sudo make install-persist`. Also install the `dmenu oathtool pwgen` packages in the TemplateVM.
+2. Copy `vm/` into your persistent VM or its TemplateVM (e.g. fedora-xx) and run `sudo make install-persist`. Then install the `dmenu oathtool pwgen` packages in the TemplateVM.
 
-3. Copy `vm/` into your "template for DisposableVMs" (e.g. whonix-ws-xx-dvm) and run `sudo make PREFIX=/usr/local install-disp`, or copy it into its TemplateVM (e.g. whonix-ws-xx) and run `sudo make install-disp`. Also install the `xdotool` package in the TemplateVM. Ensure that an extracted Tor Browser is available in `~/.tb/tor-browser/` (containing `Browser/` and `start-tor-browser.desktop`), e.g. by running the Tor Browser Downloader `update-torbrowser` in whonix-ws-xx.
+3. Copy `vm/` into your "template for DisposableVMs" (e.g. whonix-ws-xx-dvm) or its TemplateVM (e.g. whonix-ws-xx) and run `sudo make install-disp`. Then install the `xdotool` package in the TemplateVM, and ensure that an extracted Tor Browser is available in `~/.tb/tor-browser/` (e.g. by running the Tor Browser Downloader `update-torbrowser` in whonix-ws-xx).
 
 4. You can enable the Split Browser application launcher shortcuts for your persistent VM as usual through the Applications tab in Qube Settings, or alternatively run `split-browser -h` in a terminal to see the help message.
 
