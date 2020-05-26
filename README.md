@@ -98,7 +98,7 @@ TODO: build some sort of KeePassXC bridge?
 
 2. Copy `vm/` into your persistent VM or its TemplateVM (e.g. fedora-xx) and run `sudo make install-persist`. Then install the `dmenu pwgen oathtool` packages in the TemplateVM.
 
-3. Copy `vm/` into your "template for DisposableVMs" (e.g. whonix-ws-xx-dvm) or its TemplateVM (e.g. whonix-ws-xx) and run `sudo make install-disp`. Then install the `xdotool` package in the TemplateVM, and ensure that an extracted Tor Browser is available in `~/.tb/tor-browser/` (e.g. by running the Tor Browser Downloader `update-torbrowser` in whonix-ws-xx).
+3. Copy `vm/` into your persistent VM's "template for DisposableVMs" (e.g. whonix-ws-xx-dvm) or the latter's TemplateVM (e.g. whonix-ws-xx) and run `sudo make install-disp`. Then install the `xdotool` package in the TemplateVM, and ensure that an extracted Tor Browser is available in `~/.tb/tor-browser/` (e.g. by running the Tor Browser Downloader `update-torbrowser` in whonix-ws-xx).
 
 4. You can enable the Split Browser application launcher shortcuts for your persistent VM as usual through the Applications tab in Qube Settings, or alternatively run `split-browser` in a terminal (with `-h` to see the help message).
 
