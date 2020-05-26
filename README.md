@@ -22,7 +22,7 @@ Combination      | Function
 **Alt-b**        | Open bookmarks
 **Ctrl-d**       | Bookmark current page
 Ctrl-Shift-Enter | Log into current page
-Ctrl-Shift-s     | Move downloads to a VM of your choice (except for the persistent VM, [unfortunately](https://github.com/QubesOS/qubes-issues/issues/3318))
+Ctrl-Shift-s     | Move downloads to a VM of your choice. **NOTE:** Don't choose the persistent VM unless you have updated to qubes-core-dom0-linux >= 4.0.25, or the [DisposableVM will crash](https://github.com/QubesOS/qubes-issues/issues/3318)!
 **Ctrl-Shift-u** | `New Identity` on steroids: Quit and restart the browser in a new DisposableVM, with fresh Tor circuits.
 
 
