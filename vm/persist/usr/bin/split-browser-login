@@ -70,5 +70,5 @@ else
         sb_pwgen >fields/02-pass.txt
     fi
 
-    sb_terminal sh -c "tree -C --noreport; exec $SHELL"
+    exec qubes-run-terminal
 fi
