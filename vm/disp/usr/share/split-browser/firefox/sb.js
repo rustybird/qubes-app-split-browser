@@ -37,19 +37,16 @@
   const UnixServerSocket = CC("@mozilla.org/network/server-socket;1",
                               Ci.nsIServerSocket, "initWithFilename");
 
-  const MainWindowType = "navigator:browser";
-  const FieldSep       = "\t";
-  const RecordSep      = "\n";
-  const BadByte        = new RegExp([FieldSep, RecordSep, "\0"].join("|"), "g");
-  const ExtSocket      = new File(Environment.get("SB_EXT_SOCKET"));
-  const ReqSocket      = new File(Environment.get("SB_REQ_SOCKET"));
+  const FieldSep  = "\t";
+  const RecordSep = "\n";
+  const BadByte   = new RegExp([FieldSep, RecordSep, "\0"].join("|"), "g");
+  const ExtSocket = new File(Environment.get("SB_EXT_SOCKET"));
+  const ReqSocket = new File(Environment.get("SB_REQ_SOCKET"));
 
-
-  const getMostRecentBrowser = () =>
-    WindowMediator.getMostRecentWindow(MainWindowType).gBrowser;
 
   const isMainWindow = win =>
-    win.document.documentElement.getAttribute("windowtype") === MainWindowType;
+    win.document.documentElement.getAttribute("windowtype") ===
+    "navigator:browser";
 
   const sendReq = (...fields) => {
     const outRaw = SocketService
@@ -67,7 +64,7 @@
   }
 
   const sendReqWithPageInfo = (...fields) => {
-    const browser       = getMostRecentBrowser();
+    const browser       = WindowMediator.getMostRecentBrowserWindow().gBrowser;
     const titleForUtf8  = browser.contentTitle.replace(BadByte, " ");
     const titleForAscii = titleForUtf8.normalize("NFKD");
     let   uri           = browser.currentURI;
@@ -92,7 +89,7 @@
   }
 
   const newTab = url => {
-    const browser = getMostRecentBrowser();
+    const browser = WindowMediator.getMostRecentBrowserWindow().gBrowser;
 
     browser.selectedTab = browser.addTab(url, {
       triggeringPrincipal: ScriptSecurity.getSystemPrincipal(),
