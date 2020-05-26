@@ -3,6 +3,7 @@
 Name:           qubes-split-browser
 Version:        %{version}
 Release:        1%{?dist}
+BuildArch:      noarch
 Summary:        Split Browser for Qubes
 
 License:        ISC
