@@ -43,10 +43,14 @@ for f in */**/urls.txt; do
 done
 
 if [[ ${#matching_sites[@]} -gt 0 ]]; then
-    # Wait a little to prevent the DisposableVM from tricking the user,
-    # in case dom0's focus stealing prevention is too lax
-    notify-send --expire-time=2000 --urgency=low "$SB_ELLIPSIS"
-    sleep 2
+    if [[ ${SB_LOGIN_SECURITY_DELAY_SECONDS:-0} -gt 0 ]]; then
+        # Wait a little to prevent the DisposableVM from tricking the user,
+        # in case the window manager's focus stealing prevention is too lax
+
+        ms=$(( SB_LOGIN_SECURITY_DELAY_SECONDS * 1000 ))
+        notify-send --expire-time="$ms" --urgency=low "$SB_ELLIPSIS"
+        sleep "$SB_LOGIN_SECURITY_DELAY_SECONDS"
+    fi
 
     site=$(printf '%s\n' "${matching_sites[@]}" | sb_dmenu -p 'Log into')
     cd -- "${site:?}"
