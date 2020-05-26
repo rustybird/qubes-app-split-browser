@@ -26,7 +26,7 @@ cp -pR vm/*/*/ %{buildroot}
 
 %files
 %doc README.md
-/etc/split-browser/
+%config(noreplace) /etc/split-browser/
 /usr/bin/*
 /usr/lib/tmpfiles.d/split-browser.conf
 /usr/share/applications/*
@@ -43,6 +43,6 @@ and communicate with a VM that handles persistent bookmarks and logins.
 
 %files disp
 /etc/qubes-rpc/*
-/etc/split-browser-disp/
+%config(noreplace) /etc/split-browser-disp/
 /usr/lib/tmpfiles.d/split-browser-disp.conf
 /usr/share/split-browser-disp/

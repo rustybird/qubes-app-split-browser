@@ -16,6 +16,17 @@ package_qubes-split-browser() {
         python-xcffib
         systemd
     )
+    backup=(
+        etc/split-browser/10-defaults.bash
+        etc/split-browser/20-utf-8.bash.EXAMPLE
+        etc/split-browser/prefs/11-no-updates.js
+        etc/split-browser/prefs/12-no-tor-checks.js
+        etc/split-browser/prefs/13-no-tor-daemon.js
+        etc/split-browser/prefs/14-no-nags.js
+        etc/split-browser/prefs/15-downloads-directory.js
+        etc/split-browser/prefs/20-whonix-gateway.js
+        etc/split-browser/prefs/32-ui-tweaks.js.EXAMPLE
+    )
 
     cp -pRT ../vm/persist "$pkgdir"
 }
@@ -26,6 +37,10 @@ package_qubes-split-browser-disp() {
         socat
         systemd
         xdotool
+    )
+    backup=(
+        etc/split-browser-disp/10-defaults.bash
+        etc/split-browser-disp/20-whonix-workstation.bash
     )
 
     cp -pRT ../vm/disp "$pkgdir"
