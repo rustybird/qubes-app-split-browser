@@ -1,11 +1,12 @@
+# Maintainer: Rusty Bird <rustybird@net-c.com>
 pkgname=qubes-split-browser
-pkgver=`cat version`
+pkgver=$(cat version)
 pkgrel=1
-pkgdesc="run Tor Browser in a Qubes DisposableVM"
-arch=('any')
-url="https://github.com/rustybird/qubes-split-browser"
-license=('custom:ISC')
-depends=('python' 'python-xcffib' 'dmenu' 'xdotool' 'pwgen' 'oath-toolkit' 'socat' 'systemd')
+pkgdesc='run Tor Browser in a Qubes DisposableVM'
+arch=( any )
+license=( custom:ISC )
+depends=( python python-xcffib dmenu xdotool pwgen oath-toolkit socat systemd )
+url=https://github.com/rustybird/qubes-split-browser
 
 package() {
     cp -pR ../vm/*/*/ "$pkgdir"

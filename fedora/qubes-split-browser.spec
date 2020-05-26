@@ -1,14 +1,14 @@
 %{!?version: %define version %(cat version)}
 
-Name:		qubes-split-browser
-Version:	%{version}
-Release:	1%{?dist}
-Summary:	Split Browser for Qubes
+Name:           qubes-split-browser
+Version:        %{version}
+Release:        1%{?dist}
+Summary:        Split Browser for Qubes
 
-License:	ISC
-URL:		https://github.com/rustybird/qubes-split-browser
+License:        ISC
+URL:            https://github.com/rustybird/qubes-split-browser
 
-Requires:	python3 python3-xcffib dmenu xdotool pwgen oathtool socat systemd
+Requires:       python3 python3-xcffib dmenu xdotool pwgen oathtool socat systemd
 
 %description
 Run Tor Browser in a Qubes DisposableVM connecting through the tor VM,

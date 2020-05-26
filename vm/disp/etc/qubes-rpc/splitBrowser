@@ -13,12 +13,12 @@ while IFS=$'\t' read -r -a cmd; do
         setup)
             cd -- "$SB_FIREFOX_DIR"
 
-            js1=( /[u]sr{/local,}/share/split-browser/firefox/sb-load.js )
-            mkdir -p          defaults/pref/
-            ln -s "${js1[0]}" defaults/pref/
+            f=( /[u]sr{/local,}/share/split-browser/firefox/sb-load.js )
+            mkdir -p        defaults/pref/
+            ln -s "${f[0]}" defaults/pref/
 
-            js2=( /[u]sr{/local,}/share/split-browser/firefox/sb.js )
-            printf '%s\n' '' "${cmd[@]:1}" | cat - "${js2[0]}" >sb.js
+            f=( /[u]sr{/local,}/share/split-browser/firefox/sb.js )
+            printf '%s\n' '' "${cmd[@]:1}" | cat - "${f[0]}" >sb.js
 
             mkfifo -- "$SB_FROM_FIREFOX"
             cat      <"$SB_FROM_FIREFOX" >&"$saved_stdout" &

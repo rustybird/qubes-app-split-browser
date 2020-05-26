@@ -24,8 +24,6 @@
   const WindowWatcher   = Cc["@mozilla.org/embedcomp/window-watcher;1"]
                           .getService(Ci.nsIWindowWatcher);
 
-  const PrBool           = CC("@mozilla.org/supports-PRBool;1",
-                              Ci.nsISupportsPRBool);
   const ConvInputStream  = CC("@mozilla.org/intl/converter-input-stream;1",
                               Ci.nsIConverterInputStream, "init");
   const ConvOutputStream = CC("@mozilla.org/intl/converter-output-stream;1",
@@ -34,19 +32,22 @@
                               Ci.nsIFile, "initWithPath");
   const FileOutputStream = CC("@mozilla.org/network/file-output-stream;1",
                               Ci.nsIFileOutputStream, "init");
+  const PrBool           = CC("@mozilla.org/supports-PRBool;1",
+                              Ci.nsISupportsPRBool);
   const UnixServerSocket = CC("@mozilla.org/network/server-socket;1",
                               Ci.nsIServerSocket, "initWithFilename");
 
   const FieldSep    = "\t";
   const RecordSep   = "\n";
   const BadByte     = new RegExp([FieldSep, RecordSep, "\0"].join("|"), "g");
-  const IntoFirefox = new File(Environment.get("SB_INTO_FIREFOX"));
+  const IntoFirefox = new UnixServerSocket(
+                        new File(Environment.get("SB_INTO_FIREFOX")),
+                        0o644, -1);
   const FromFirefox = new ConvOutputStream(
                         new FileOutputStream(
                           new File(Environment.get("SB_FROM_FIREFOX")),
                           0x02, -1, 0),
                         "UTF-8");
-
 
   const sendReq = (...fields) => {
     try {
@@ -55,7 +56,7 @@
       FromFirefox.close();
       throw e;
     }
-  }
+  };
 
   const sendReqWithPageInfo = (...fields) => {
     const browser       = WindowMediator.getMostRecentBrowserWindow().gBrowser;
@@ -80,7 +81,7 @@
     }
 
     sendReq(...fields, uri.asciiSpec, titleForAscii, urlForUtf8, titleForUtf8);
-  }
+  };
 
   const restart = () => {
     const cancel = new PrBool();
@@ -91,7 +92,7 @@
       sendReq("restart");
       AppStartup.quit(Ci.nsIAppStartup.eAttemptQuit);
     }
-  }
+  };
 
   const moveDownloads = () =>
     Subprocess.call({
@@ -110,7 +111,7 @@
       triggeringPrincipal: ScriptSecurity.getSystemPrincipal(),
       fromExternal: true
     });
-  }
+  };
 
   const onKey = e => {
     const k = e.key.toLowerCase();
@@ -132,12 +133,12 @@
     e.preventDefault();
     if (e.type === "keydown")
       f();
-  }
+  };
 
   const perWindowHotkeys = addOrRemoveEventListener => {
     addOrRemoveEventListener("keydown", onKey, true);
     addOrRemoveEventListener("keyup",   onKey, true);
-  }
+  };
 
   const isMainWindow = win =>
     win.document.documentElement.getAttribute("windowtype") ===
@@ -149,7 +150,7 @@
     win.removeEventListener(e.type, windowReady, true);
     if (isMainWindow(win))
       perWindowHotkeys(win.addEventListener);
-  }
+  };
 
 
   // attach hotkey listener to any new main window
@@ -171,19 +172,20 @@
   });
 
   // listen for URL load commands from the persistent VM
-  new UnixServerSocket(IntoFirefox, 0o644, -1).asyncListen({
+  IntoFirefox.asyncListen({
     onSocketAccepted: ({}, transport) => {
-      const inRaw = transport
-                    .openInputStream(Ci.nsITransport.OPEN_BLOCKING, 0, 0);
-      const inUni = new ConvInputStream(inRaw, "UTF-8", 0, 0);
+      const input = new ConvInputStream(
+                      transport.openInputStream(
+                        Ci.nsITransport.OPEN_BLOCKING, 0, 0),
+                      "UTF-8", 0, 0);
       const buf   = {};
       let   line  = "";
 
       try {
-        while (inUni.readString(-1, buf) !== 0)
+        while (input.readString(-1, buf) !== 0)
           line += buf.value;
       } finally {
-        inUni.close();
+        input.close();
       }
 
       if (line.slice(-1) === RecordSep)
