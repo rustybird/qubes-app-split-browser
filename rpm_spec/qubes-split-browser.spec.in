@@ -1,13 +1,12 @@
-%{!?version: %define version %(cat version)}
-
 Name:           qubes-split-browser
-Version:        %{version}
+Version:        @VERSION@
 Release:        1%{?dist}
 BuildArch:      noarch
 Summary:        Split Browser for Qubes
 
 License:        ISC
 URL:            https://github.com/rustybird/qubes-split-browser
+Source0:        %{name}-%{version}.tar.gz
 
 Requires:       python3 python3-xcffib dmenu xdotool pwgen oathtool socat systemd
 
@@ -15,7 +14,8 @@ Requires:       python3 python3-xcffib dmenu xdotool pwgen oathtool socat system
 Run Tor Browser in a Qubes DisposableVM connecting through the tor VM,
 while storing bookmarks and logins in a persistent VM.
 
-%define _builddir %(pwd)
+%prep
+%setup -q
 
 %install
 cp -pR vm/*/*/ %{buildroot}
