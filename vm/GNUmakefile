@@ -36,8 +36,8 @@ ifeq ($(DESTDIR),)
 endif
 	umask 022
 	mkdir -p -- '$(DESTDIR)$(PREFIX)/' '$(DESTDIR)$(etc)/'
-	cp -R -- persist/usr/* '$(DESTDIR)$(PREFIX)/'
-	cp -R -- persist/etc/* '$(DESTDIR)$(etc)/'
+	cp -R -- qubes-split-browser/usr/* '$(DESTDIR)$(PREFIX)/'
+	cp -R -- qubes-split-browser/etc/* '$(DESTDIR)$(etc)/'
 ifeq ($(DESTDIR),)
 	systemd-tmpfiles --create split-browser.conf
 	/usr/lib/qubes/qubes-trigger-sync-appmenus.sh
@@ -53,5 +53,5 @@ ifeq ($(DESTDIR),)
 endif
 	umask 022
 	mkdir -p -- '$(DESTDIR)$(PREFIX)/' '$(DESTDIR)$(etc)/'
-	cp -R -- disp/usr/* '$(DESTDIR)$(PREFIX)/'
-	cp -R -- disp/etc/* '$(DESTDIR)$(etc)/'
+	cp -R -- qubes-split-browser-disp/usr/* '$(DESTDIR)$(PREFIX)/'
+	cp -R -- qubes-split-browser-disp/etc/* '$(DESTDIR)$(etc)/'
