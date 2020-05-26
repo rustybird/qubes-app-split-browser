@@ -1,4 +1,3 @@
-SB_CMD_DIR=/run/split-browser/cmd
 SB_DATA_DIR=${XDG_DATA_HOME:-~/.local/share}/split-browser
 SB_LOGIN_DIR=${SB_LOGIN_DIR:-$SB_DATA_DIR/logins}
 SB_BOOKMARK_FILE=${SB_BOOKMARK_FILE:-$SB_DATA_DIR/bookmarks.tsv}

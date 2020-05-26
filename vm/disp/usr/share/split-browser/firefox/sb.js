@@ -37,16 +37,16 @@
   const UnixServerSocket = CC("@mozilla.org/network/server-socket;1",
                               Ci.nsIServerSocket, "initWithFilename");
 
-  const FieldSep  = "\t";
-  const RecordSep = "\n";
-  const BadByte   = new RegExp([FieldSep, RecordSep, "\0"].join("|"), "g");
-  const ExtSocket = new File(Environment.get("SB_EXT_SOCKET"));
-  const ReqSocket = new File(Environment.get("SB_REQ_SOCKET"));
+  const FieldSep    = "\t";
+  const RecordSep   = "\n";
+  const BadByte     = new RegExp([FieldSep, RecordSep, "\0"].join("|"), "g");
+  const IntoFirefox = new File(Environment.get("SB_INTO_FIREFOX"));
+  const FromFirefox = new File(Environment.get("SB_FROM_FIREFOX"));
 
 
   const sendReq = (...fields) => {
     const outRaw = SocketService
-                   .createUnixDomainTransport(ReqSocket)
+                   .createUnixDomainTransport(FromFirefox)
                    .openOutputStream(Ci.nsITransport.OPEN_BLOCKING, 0, 0);
     const outUni = new ConvOutputStream(outRaw, "UTF-8");
 
@@ -172,7 +172,7 @@
   });
 
   // listen for URL load commands from the persistent VM
-  new UnixServerSocket(ExtSocket, 0o644, -1).asyncListen({
+  new UnixServerSocket(IntoFirefox, 0o644, -1).asyncListen({
     onSocketAccepted: ({}, transport) => {
       const inRaw = transport
                     .openInputStream(Ci.nsITransport.OPEN_BLOCKING, 0, 0);

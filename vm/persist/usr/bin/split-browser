@@ -3,7 +3,7 @@ set -e -u -o pipefail
 shopt -s inherit_errexit nullglob
 
 for f in {,/usr/local}/etc/split-browser/persist/*.bash; do source "$f"; done
-export SB_CMD_INPUT="${SB_CMD_INPUT:-$SB_CMD_DIR/$$}"
+export SB_CMD_INPUT="${SB_CMD_INPUT:-/run/split-browser/cmd-$$}"
 
 
 # Parse command-line arguments

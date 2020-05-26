@@ -3,10 +3,11 @@ set -e -u -o pipefail
 shopt -s inherit_errexit nullglob
 
 for f in {,/usr/local}/etc/split-browser/disp/*.bash; do source "$f"; done
-export SB_EXT_SOCKET SB_REQ_SOCKET
+export SB_INTO_FIREFOX=/run/split-browser/into-firefox \
+       SB_FROM_FIREFOX=/run/split-browser/from-firefox
 
 
-socat "UNIX-LISTEN:$SB_REQ_SOCKET,fork,max-children=1" STDIO &
+socat "UNIX-LISTEN:$SB_FROM_FIREFOX,fork,max-children=1" STDIO &
 trap "kill $!" EXIT
 trap 'exit 0'  USR1
 trap 'exit 1'  USR2
@@ -33,7 +34,7 @@ while IFS=$'\t' read -r -a cmd; do
             "${cmd[@]:1}"
         ;;
         newtab)
-            socat STDIO "UNIX-CONNECT:$SB_EXT_SOCKET" <<<"${cmd[1]}"
+            socat STDIO "UNIX-CONNECT:$SB_INTO_FIREFOX" <<<"${cmd[1]}"
         ;;
     esac
 done >&2
