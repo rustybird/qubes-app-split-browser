@@ -2,7 +2,7 @@ Name:           qubes-split-browser
 Version:        @VERSION@
 Release:        1%{?dist}
 BuildArch:      noarch
-License:        ISC
+License:        0BSD
 URL:            https://github.com/rustybird/qubes-split-browser
 Source0:        %{name}-%{version}.tar.gz
 
@@ -29,6 +29,7 @@ and communicate with throwaway Tor Browser instances in DisposableVMs.
 gmake -C vm PREFIX=/usr DESTDIR="$RPM_BUILD_ROOT" install-persist install-disp
 
 %files
+%license LICENSE-0BSD
 %doc README.md
 %config(noreplace) /etc/split-browser/
 /usr/bin/*
@@ -47,6 +48,7 @@ Present a throwaway Tor Browser instance in a Qubes DisposableVM,
 and communicate with a VM that handles persistent bookmarks and logins.
 
 %files disp
+%license LICENSE-0BSD
 /etc/qubes-rpc/*
 %config(noreplace) /etc/split-browser-disp/
 /usr/lib/tmpfiles.d/split-browser-disp.conf

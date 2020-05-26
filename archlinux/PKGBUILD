@@ -3,7 +3,7 @@ pkgname=( qubes-split-browser{,-disp} )
 pkgver=$(cat version)
 pkgrel=1
 arch=( any )
-license=( custom:ISC )
+license=( BSD )
 url=https://github.com/rustybird/qubes-split-browser
 
 package_qubes-split-browser() {
@@ -35,6 +35,7 @@ package_qubes-split-browser() {
     )
 
     make -C ../vm PREFIX=/usr DESTDIR="$pkgdir" install-persist
+    install -D -m 644 -t "$pkgdir/usr/share/licenses/$pkgname/" ../LICENSE-0BSD
 }
 
 package_qubes-split-browser-disp() {
@@ -51,4 +52,5 @@ package_qubes-split-browser-disp() {
     )
 
     make -C ../vm PREFIX=/usr DESTDIR="$pkgdir" install-disp
+    install -D -m 644 -t "$pkgdir/usr/share/licenses/$pkgname/" ../LICENSE-0BSD
 }
