@@ -19,8 +19,6 @@
                           .getService(Ci.nsIPrefBranch);
   const ScriptSecurity  = Cc["@mozilla.org/scriptsecuritymanager;1"]
                           .getService(Ci.nsIScriptSecurityManager);
-  const SocketService   = Cc["@mozilla.org/network/socket-transport-service;1"]
-                          .getService(Ci.nsISocketTransportService);
   const WindowMediator  = Cc["@mozilla.org/appshell/window-mediator;1"]
                           .getService(Ci.nsIWindowMediator);
   const WindowWatcher   = Cc["@mozilla.org/embedcomp/window-watcher;1"]
@@ -34,6 +32,8 @@
                               Ci.nsIConverterOutputStream, "init");
   const File             = CC("@mozilla.org/file/local;1",
                               Ci.nsIFile, "initWithPath");
+  const FileOutputStream = CC("@mozilla.org/network/file-output-stream;1",
+                              Ci.nsIFileOutputStream, "init");
   const UnixServerSocket = CC("@mozilla.org/network/server-socket;1",
                               Ci.nsIServerSocket, "initWithFilename");
 
@@ -41,20 +41,19 @@
   const RecordSep   = "\n";
   const BadByte     = new RegExp([FieldSep, RecordSep, "\0"].join("|"), "g");
   const IntoFirefox = new File(Environment.get("SB_INTO_FIREFOX"));
-  const FromFirefox = new File(Environment.get("SB_FROM_FIREFOX"));
+  const FromFirefox = new ConvOutputStream(
+                        new FileOutputStream(
+                          new File(Environment.get("SB_FROM_FIREFOX")),
+                          0x02, -1, 0),
+                        "UTF-8");
 
 
   const sendReq = (...fields) => {
-    const outRaw = SocketService
-                   .createUnixDomainTransport(FromFirefox)
-                   .openOutputStream(Ci.nsITransport.OPEN_BLOCKING, 0, 0);
-    const outUni = new ConvOutputStream(outRaw, "UTF-8");
-
     try {
-      outUni.writeString(fields.join(FieldSep) + RecordSep);
-    } finally {
-      outUni.close();
-      outRaw.close();
+      FromFirefox.writeString(fields.join(FieldSep) + RecordSep);
+    } catch(e) {
+      FromFirefox.close();
+      throw e;
     }
   }
 
