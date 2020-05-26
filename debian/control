@@ -9,7 +9,25 @@ Vcs-Git:  https://github.com/rustybird/qubes-split-browser.git
 
 Package: qubes-split-browser
 Architecture: all
-Depends: python3, python3-xcffib, dmenu, xdotool, pwgen, oathtool, socat, systemd, ${misc:Depends}
+Depends:
+    dmenu,
+    oathtool,
+    pwgen,
+    python3,
+    python3-xcffib,
+    systemd,
+    ${misc:Depends}
 Description: Split Browser for Qubes
- Run Tor Browser in a Qubes DisposableVM connecting through the tor VM,
- while storing bookmarks and logins in a persistent VM.
+ Handle persistent bookmarks and logins in a Qubes VM,
+ and communicate with throwaway Tor Browser instances in DisposableVMs.
+
+Package: qubes-split-browser-disp
+Architecture: all
+Depends:
+    socat,
+    systemd,
+    xdotool,
+    ${misc:Depends}
+Description: Split Browser for Qubes (DisposableVM side)
+ Present a throwaway Tor Browser instance in a Qubes DisposableVM,
+ and communicate with a VM that handles persistent bookmarks and logins.

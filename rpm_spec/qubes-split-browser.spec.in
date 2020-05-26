@@ -2,17 +2,21 @@ Name:           qubes-split-browser
 Version:        @VERSION@
 Release:        1%{?dist}
 BuildArch:      noarch
-Summary:        Split Browser for Qubes
-
 License:        ISC
 URL:            https://github.com/rustybird/qubes-split-browser
 Source0:        %{name}-%{version}.tar.gz
 
-Requires:       python3 python3-xcffib dmenu xdotool pwgen oathtool socat systemd
+Requires:       dmenu
+Requires:       oathtool
+Requires:       pwgen
+Requires:       python3
+Requires:       python3-xcffib
+Requires:       systemd
+Summary:        Split Browser for Qubes
 
 %description
-Run Tor Browser in a Qubes DisposableVM connecting through the tor VM,
-while storing bookmarks and logins in a persistent VM.
+Handle persistent bookmarks and logins in a Qubes VM,
+and communicate with throwaway Tor Browser instances in DisposableVMs.
 
 %prep
 %setup -q
@@ -22,10 +26,23 @@ cp -pR vm/*/*/ %{buildroot}
 
 %files
 %doc README.md
-/etc/qubes-rpc/*
 /etc/split-browser/
-/etc/split-browser-disp/
 /usr/bin/*
-/usr/lib/tmpfiles.d/*
+/usr/lib/tmpfiles.d/split-browser.conf
 /usr/share/applications/*
+
+%package disp
+Requires:       socat
+Requires:       systemd
+Requires:       xdotool
+Summary:        Split Browser for Qubes (DisposableVM side)
+
+%description disp
+Present a throwaway Tor Browser instance in a Qubes DisposableVM,
+and communicate with a VM that handles persistent bookmarks and logins.
+
+%files disp
+/etc/qubes-rpc/*
+/etc/split-browser-disp/
+/usr/lib/tmpfiles.d/split-browser-disp.conf
 /usr/share/split-browser-disp/

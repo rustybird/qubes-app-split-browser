@@ -4,5 +4,5 @@
 	dh $@
 
 override_dh_auto_install:
-	mkdir          debian/qubes-split-browser
-	cp -pR vm/*/*/ debian/qubes-split-browser
+	cp -pRT vm/persist debian/qubes-split-browser
+	cp -pRT vm/disp    debian/qubes-split-browser-disp
