@@ -185,7 +185,6 @@
           line += buf.value;
       } finally {
         inUni.close();
-        inRaw.close();
       }
 
       if (line.slice(-1) === RecordSep)
