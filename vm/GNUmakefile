@@ -55,5 +55,3 @@ ifeq ($(DESTDIR),)
 	systemd-tmpfiles --create split-browser.conf
 	/usr/lib/qubes/qubes-trigger-sync-appmenus.sh
 endif
-
-install: install-disp install-persist
