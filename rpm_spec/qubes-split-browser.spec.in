@@ -22,7 +22,7 @@ and communicate with throwaway Tor Browser instances in DisposableVMs.
 %setup -q
 
 %install
-cp -pR vm/*/*/ %{buildroot}
+gmake -C vm PREFIX=/usr DESTDIR="$RPM_BUILD_ROOT" install-persist install-disp
 
 %files
 %doc README.md

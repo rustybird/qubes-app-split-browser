@@ -28,7 +28,7 @@ package_qubes-split-browser() {
         etc/split-browser/prefs/32-ui-tweaks.js.EXAMPLE
     )
 
-    cp -pRT ../vm/persist "$pkgdir"
+    make -C ../vm PREFIX=/usr DESTDIR="$pkgdir" install-persist
 }
 
 package_qubes-split-browser-disp() {
@@ -43,5 +43,5 @@ package_qubes-split-browser-disp() {
         etc/split-browser-disp/20-whonix-workstation.bash
     )
 
-    cp -pRT ../vm/disp "$pkgdir"
+    make -C ../vm PREFIX=/usr DESTDIR="$pkgdir" install-disp
 }
