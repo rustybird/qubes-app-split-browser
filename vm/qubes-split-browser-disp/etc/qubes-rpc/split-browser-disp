@@ -33,7 +33,7 @@ while IFS=$'\t' read -r -a cmd; do
             ) &
         ;;
         helper)
-            "${cmd[@]:1}"
+            if type -- "${cmd[1]}" >/dev/null; then "${cmd[@]:1}"; fi
         ;;
         newtab)
             socat STDIO "UNIX-CONNECT:$SB_INTO_FIREFOX" <<<"${cmd[1]}"
