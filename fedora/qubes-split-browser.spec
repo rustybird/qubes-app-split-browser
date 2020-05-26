@@ -23,7 +23,8 @@ cp -pR vm/*/*/ %{buildroot}
 %doc README.md
 /etc/qubes-rpc/*
 /etc/split-browser/
+/etc/split-browser-disp/
 /usr/bin/*
 /usr/lib/tmpfiles.d/*
 /usr/share/applications/*
-/usr/share/split-browser/
+/usr/share/split-browser-disp/

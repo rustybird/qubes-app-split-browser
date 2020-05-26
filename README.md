@@ -28,14 +28,14 @@ Ctrl-Shift-s     | Move downloads to a VM of your choice (except for the persist
 
 ## Implementation
 
-~ 500 nonempty lines total, in a couple of Bash scripts, Awk, Python, and [JavaScript for the browser side](vm/disp/usr/share/split-browser/firefox/sb.js) (formerly deployed as a legacy extension, now as a [Mozilla AutoConfig](https://support.mozilla.org/en-US/kb/customizing-firefox-using-autoconfig) file). The bookmark and login managers use [dmenu](https://tools.suckless.org/dmenu/).
+~ 500 nonempty lines total, in a couple of Bash scripts, Awk, Python, and [JavaScript for the browser side](vm/disp/usr/share/split-browser-disp/firefox/sb.js) (formerly deployed as a legacy extension, now as a [Mozilla AutoConfig](https://support.mozilla.org/en-US/kb/customizing-firefox-using-autoconfig) file). The bookmark and login managers use [dmenu](https://tools.suckless.org/dmenu/).
 
 
 ## Bookmarks
 
 Bookmarks are stored in a text file, `~/.local/share/split-browser/bookmarks.tsv`. Each line consists of a timestamp, URL, and title, separated by tabs.
 
-Only printable ASCII characters are allowed by default. This can be broadened to UTF-8 by symlinking `/etc/split-browser/persist/20-utf-8.bash.EXAMPLE` without the `.EXAMPLE` suffix, either into the same directory (which will apply to _all_ persistent VMs based on the template), or into `/usr/local/etc/split-browser/persist/` on a _specific_ persistent VM.
+Only printable ASCII characters are allowed by default. This can be broadened to UTF-8 by symlinking `/etc/split-browser/20-utf-8.bash.EXAMPLE` without the `.EXAMPLE` suffix, either into the same directory (which will apply to _all_ persistent VMs based on the template), or into `/usr/local/etc/split-browser/` on a _specific_ persistent VM.
 
 
 ## Logins

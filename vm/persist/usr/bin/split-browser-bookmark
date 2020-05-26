@@ -2,7 +2,7 @@
 set -e -u -o pipefail
 shopt -s inherit_errexit nullglob
 
-for f in {,/usr/local}/etc/split-browser/persist/*.bash; do source "$f"; done
+for f in {,/usr/local}/etc/split-browser/*.bash; do source "$f"; done
 
 
 notify() {

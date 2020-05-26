@@ -3,9 +3,9 @@ set -e -u -o pipefail
 shopt -s inherit_errexit nullglob
 
 exec {saved_stdout}>&1 >&2
-for f in {,/usr/local}/etc/split-browser/disp/*.bash; do source "$f"; done
-export SB_INTO_FIREFOX=/run/split-browser/into-firefox \
-       SB_FROM_FIREFOX=/run/split-browser/from-firefox
+for f in {,/usr/local}/etc/split-browser-disp/*.bash; do source "$f"; done
+export SB_INTO_FIREFOX=/run/split-browser-disp/into-firefox \
+       SB_FROM_FIREFOX=/run/split-browser-disp/from-firefox
 
 
 while IFS=$'\t' read -r -a cmd; do
@@ -13,11 +13,11 @@ while IFS=$'\t' read -r -a cmd; do
         setup)
             cd -- "$SB_FIREFOX_DIR"
 
-            f=( /[u]sr{/local,}/share/split-browser/firefox/sb-load.js )
+            f=( /[u]sr{/local,}/share/split-browser-disp/firefox/sb-load.js )
             mkdir -p        defaults/pref/
             ln -s "${f[0]}" defaults/pref/
 
-            f=( /[u]sr{/local,}/share/split-browser/firefox/sb.js )
+            f=( /[u]sr{/local,}/share/split-browser-disp/firefox/sb.js )
             printf '%s\n' '' "${cmd[@]:1}" | cat - "${f[0]}" >sb.js
 
             mkfifo -- "$SB_FROM_FIREFOX"

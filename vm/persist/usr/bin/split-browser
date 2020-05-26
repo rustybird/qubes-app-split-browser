@@ -2,7 +2,7 @@
 set -e -u -o pipefail
 shopt -s inherit_errexit nullglob
 
-for f in {,/usr/local}/etc/split-browser/persist/*.bash; do source "$f"; done
+for f in {,/usr/local}/etc/split-browser/*.bash; do source "$f"; done
 export SB_CMD_INPUT="${SB_CMD_INPUT:-/run/split-browser/cmd-$$}"
 
 
@@ -23,8 +23,8 @@ for arg; do
                  --pref='pref("extensions.torbutton.security_slider", 1);'
 
   --pref=<line>  additional browser preference line, appended after those
-                 stored in /etc/split-browser/persist/prefs/*.js and
-                 /usr/local/etc/split-browser/persist/prefs/*.js
+                 stored in /etc/split-browser/prefs/*.js and
+                 /usr/local/etc/split-browser/prefs/*.js
 
   <argument>     e.g. a URL; passed to the browser when starting (but not
                  when restarting due to Ctrl-Shift-u)
@@ -66,10 +66,10 @@ fi
 
 
 # Launch via qubes.VMShell in the DisposableVM, because a straightforward
-# 'qrexec-client-vm @dispvm splitBrowser' call would require the user to
-# manually create a policy in dom0. Transition to splitBrowser with the trick
-# described in /usr/lib/qubes/qrun-in-vm (not reused here, because it doesn't
-# preserve exit status).
+# 'qrexec-client-vm @dispvm split-browser-disp' call would require the user to
+# manually create a policy in dom0. Transition to split-browser-disp with the
+# trick described in /usr/lib/qubes/qrun-in-vm (not reused here, because it
+# doesn't preserve exit status).
 #
 # Sanitize stdout and handle those requests (one per line), e.g. to get a login
 # credential. The handler might then send commands into the input FIFO with
@@ -84,7 +84,7 @@ dispvm() (
     exec {fd}<>"$SB_CMD_INPUT".tmp
 
     d=/etc/qubes-rpc
-    bash_line="PATH=/usr/local$d:$d:\$PATH exec splitBrowser"
+    bash_line="PATH=/usr/local$d:$d:\$PATH exec split-browser-disp"
     printf '%s\n' "$bash_line" "$@" >&"$fd"  # 64 KB pipe capacity is plenty
     mv -- "$SB_CMD_INPUT"{.tmp,}
 
@@ -109,7 +109,7 @@ dispvm() (
 
 while :; do
     config_prefs=()
-    for f in {,/usr/local}/etc/split-browser/persist/prefs/*.js; do
+    for f in {,/usr/local}/etc/split-browser/prefs/*.js; do
         readarray -t -O ${#config_prefs[@]} config_prefs <"$f"
     done
     setup_cmd=( setup "${config_prefs[@]}" "${cli_prefs[@]}" )

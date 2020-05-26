@@ -37,7 +37,7 @@ install-persist:
 	mkdir -p -- '$(DESTDIR)$(PREFIX)/' '$(DESTDIR)$(etc)/'
 	cp -R -- persist/usr/* '$(DESTDIR)$(PREFIX)/'
 	cp -R -- persist/etc/* '$(DESTDIR)$(etc)/'
-	systemd-tmpfiles --create split-browser-persist.conf
+	systemd-tmpfiles --create split-browser.conf
 	/usr/lib/qubes/qubes-trigger-sync-appmenus.sh
 
 install: install-disp install-persist
