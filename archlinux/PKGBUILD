@@ -36,6 +36,7 @@ package_qubes-split-browser() {
 
     make -C ../vm PREFIX=/usr DESTDIR="$pkgdir" install-persist
     install -D -m 644 -t "$pkgdir/usr/share/licenses/$pkgname/" ../LICENSE-0BSD
+    install -D -m 644 -t "$pkgdir/usr/share/doc/$pkgname/"      ../README.md
 }
 
 package_qubes-split-browser-disp() {
