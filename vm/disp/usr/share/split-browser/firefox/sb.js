@@ -47,8 +47,7 @@
   const sendReq = (...fields) => {
     const outRaw = SocketService
                    .createUnixDomainTransport(ReqSocket)
-                   .openOutputStream(Ci.nsITransport.OPEN_BLOCKING |
-                                     Ci.nsITransport.OPEN_UNBUFFERED, 0, 0);
+                   .openOutputStream(Ci.nsITransport.OPEN_BLOCKING, 0, 0);
     const outUni = new ConvOutputStream(outRaw, "UTF-8", 0, 0);
 
     try {
@@ -176,8 +175,7 @@
   new UnixServerSocket(ExtSocket, 0o644, -1).asyncListen({
     onSocketAccepted: ({}, transport) => {
       const inRaw = transport
-                    .openInputStream(Ci.nsITransport.OPEN_BLOCKING |
-                                     Ci.nsITransport.OPEN_UNBUFFERED, 0, 0);
+                    .openInputStream(Ci.nsITransport.OPEN_BLOCKING, 0, 0);
       const inUni = new ConvInputStream(inRaw, "UTF-8", 0, 0);
       const buf   = {};
       let   line  = "";
