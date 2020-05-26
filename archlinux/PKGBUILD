@@ -10,11 +10,13 @@ package_qubes-split-browser() {
     pkgdesc='Split Browser for Qubes'
     depends=(
         dmenu
-        oath-toolkit
-        pwgen
         python
         python-xcffib
         systemd
+    )
+    optdepends=(
+        'pwgen: generate passwords'
+        'oath-toolkit: authenticate by TOTP'
     )
     backup=(
         etc/split-browser/10-defaults.bash
@@ -36,8 +38,8 @@ package_qubes-split-browser-disp() {
     depends=(
         socat
         systemd
-        xdotool
     )
+    optdepends=( 'xdotool: autotype logins' )
     backup=(
         etc/split-browser-disp/10-defaults.bash
         etc/split-browser-disp/20-whonix-workstation.bash

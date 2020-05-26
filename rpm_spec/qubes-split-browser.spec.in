@@ -7,11 +7,11 @@ URL:            https://github.com/rustybird/qubes-split-browser
 Source0:        %{name}-%{version}.tar.gz
 
 Requires:       dmenu
-Requires:       oathtool
-Requires:       pwgen
 Requires:       python3
 Requires:       python3-xcffib
 Requires:       systemd
+Recommends:     oathtool
+Recommends:     pwgen
 Summary:        Split Browser for Qubes
 
 %description
@@ -34,7 +34,7 @@ gmake -C vm PREFIX=/usr DESTDIR="$RPM_BUILD_ROOT" install-persist install-disp
 %package disp
 Requires:       socat
 Requires:       systemd
-Requires:       xdotool
+Recommends:     xdotool
 Summary:        Split Browser for Qubes (DisposableVM side)
 
 %description disp
