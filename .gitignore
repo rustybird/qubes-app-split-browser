@@ -1,3 +1,4 @@
+debian/.debhelper/
 debian/files
 debian/qubes-split-browser*
 pkgs/
