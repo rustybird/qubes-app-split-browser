@@ -25,19 +25,6 @@ endif
 
 default:
 
-install-disp:
-ifeq ($(DESTDIR),)
-	if test -d '$(etc)/split-browser/disp/'; then
-	    mv -T '$(etc)/split-browser/disp/' '$(etc)/split-browser-disp/'
-	    rmdir --ignore-fail-on-non-empty '$(etc)/split-browser/'
-	fi
-	rm -rf '$(PREFIX)/share/split-browser/' '$(etc)/qubes-rpc/splitBrowser'
-endif
-	umask 022
-	mkdir -p -- '$(DESTDIR)$(PREFIX)/' '$(DESTDIR)$(etc)/'
-	cp -R -- disp/usr/* '$(DESTDIR)$(PREFIX)/'
-	cp -R -- disp/etc/* '$(DESTDIR)$(etc)/'
-
 install-persist:
 ifeq ($(DESTDIR),)
 	if test -d '$(etc)/split-browser/persist/'; then
@@ -55,3 +42,16 @@ ifeq ($(DESTDIR),)
 	systemd-tmpfiles --create split-browser.conf
 	/usr/lib/qubes/qubes-trigger-sync-appmenus.sh
 endif
+
+install-disp:
+ifeq ($(DESTDIR),)
+	if test -d '$(etc)/split-browser/disp/'; then
+	    mv -T '$(etc)/split-browser/disp/' '$(etc)/split-browser-disp/'
+	    rmdir --ignore-fail-on-non-empty '$(etc)/split-browser/'
+	fi
+	rm -rf '$(PREFIX)/share/split-browser/' '$(etc)/qubes-rpc/splitBrowser'
+endif
+	umask 022
+	mkdir -p -- '$(DESTDIR)$(PREFIX)/' '$(DESTDIR)$(etc)/'
+	cp -R -- disp/usr/* '$(DESTDIR)$(PREFIX)/'
+	cp -R -- disp/etc/* '$(DESTDIR)$(etc)/'
