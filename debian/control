@@ -11,6 +11,7 @@ Package: qubes-split-browser
 Architecture: all
 Depends:
     dmenu,
+    libnotify-bin,
     python3,
     python3-xcffib,
     systemd,

@@ -9,7 +9,11 @@ url=https://github.com/rustybird/qubes-split-browser
 package_qubes-split-browser() {
     pkgdesc='Split Browser for Qubes'
     depends=(
+        awk
+        bash
+        coreutils
         dmenu
+        libnotify
         python
         python-xcffib
         systemd
@@ -36,6 +40,7 @@ package_qubes-split-browser() {
 package_qubes-split-browser-disp() {
     pkgdesc='Split Browser for Qubes (DisposableVM side)'
     depends=(
+        bash
         socat
         systemd
     )

@@ -6,7 +6,11 @@ License:        ISC
 URL:            https://github.com/rustybird/qubes-split-browser
 Source0:        %{name}-%{version}.tar.gz
 
+Requires:       /bin/awk
+Requires:       bash
+Requires:       coreutils
 Requires:       dmenu
+Requires:       libnotify
 Requires:       python3
 Requires:       python3-xcffib
 Requires:       systemd
@@ -32,6 +36,7 @@ gmake -C vm PREFIX=/usr DESTDIR="$RPM_BUILD_ROOT" install-persist install-disp
 /usr/share/applications/*
 
 %package disp
+Requires:       bash
 Requires:       socat
 Requires:       systemd
 Recommends:     xdotool
