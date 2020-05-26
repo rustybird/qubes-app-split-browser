@@ -35,7 +35,7 @@ Ctrl-Shift-s     | Move downloads to a VM of your choice. **NOTE:** Don't choose
 
 Bookmarks are stored in a text file, `~/.local/share/split-browser/bookmarks.tsv`. Each line consists of a timestamp, URL, and title, separated by tabs.
 
-Only printable ASCII characters are allowed by default. This can be broadened to UTF-8 by symlinking `/etc/split-browser/20-utf-8.bash.EXAMPLE` without the `.EXAMPLE` suffix, either into the same directory (which will apply to _all_ persistent VMs based on the template), or into `/usr/local/etc/split-browser/` on a _specific_ persistent VM.
+Only printable ASCII characters are allowed by default, for security reasons. This can be broadened to UTF-8 by symlinking `/etc/split-browser/20-utf-8.bash.EXAMPLE` without the `.EXAMPLE` suffix, either into the same directory (which will apply to _all_ persistent VMs based on the TemplateVM), or into `/usr/local/etc/split-browser/` on a _specific_ persistent VM.
 
 
 ## Logins
