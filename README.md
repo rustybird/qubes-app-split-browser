@@ -80,7 +80,7 @@ TODO: build some sort of KeePassXC bridge?
 
 - Multiple Split Browser instances (e.g. one with Tor Browser's Security Level set to Standard and another set to Safest) can be run in parallel from the same persistent VM, this won't corrupt the bookmark and login collections.
 
-- Keep in mind that DisposableVMs know the name of the VM which spawned them. That's a potential privacy issue.
+- Keep in mind that a DisposableVM knows the name of the VM that spawned it, so don't name your persistent VM "rumplestiltskin" if an exploited browser mustn't find it out.
 
 - If you're starting Split Browser through its application launcher shortcuts, any diagnostic messages go into the syslog of the persistent VM:
 
