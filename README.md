@@ -80,8 +80,6 @@ TODO: build some sort of KeePassXC bridge?
 
 - Multiple Split Browser instances (e.g. one with Tor Browser's Security Level set to Standard and another set to Safest) can be run in parallel from the same persistent VM, this won't corrupt the bookmark and login collections.
 
-- Keep in mind that a DisposableVM knows the name of the VM that spawned it, so don't name your persistent VM "rumplestiltskin" if an exploited browser mustn't find it out.
-
 - If you're starting Split Browser through its application launcher shortcuts, any diagnostic messages go into the syslog of the persistent VM:
 
         journalctl -t qubes.StartApp+split-browser-dom0 \
@@ -95,6 +93,8 @@ TODO: build some sort of KeePassXC bridge?
         qvm-create --label=purple surfer
         qvm-prefs surfer default_dispvm whonix-ws-xx-dvm
         qvm-prefs surfer netvm ''
+
+   The DisposableVMs will know which persistent VM launched them, so don't name it "rumplestiltskin" if an exploited browser mustn't find out.
 
 2. Copy `vm/` into your persistent VM or its TemplateVM (e.g. fedora-xx) and run `sudo make install-persist`. Then install the `dmenu pwgen oathtool` packages in the TemplateVM.
 
