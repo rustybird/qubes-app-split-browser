@@ -76,7 +76,7 @@ TODO: build some sort of KeePassXC bridge?
 
 ## Notes
 
-- **Automatic extension updates are disabled.** Merely opening the browser should cause as little outgoing traffic as possible.
+- **Automatic extension updates are disabled [by default](vm/qubes-split-browser/etc/split-browser/prefs/11-no-updates.js#L2).** Merely opening the browser should cause as little outgoing traffic as possible.
 
 - Multiple Split Browser instances (e.g. one with Tor Browser's Security Level set to Standard and another set to Safest) can be run in parallel from the same persistent VM, this won't corrupt the bookmark and login collections.
 
