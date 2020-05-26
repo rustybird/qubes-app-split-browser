@@ -100,6 +100,6 @@ Here's an example of how a login directory structure could be organized:
 
 4. You can enable the Split Browser application launcher shortcuts for your persistent VM as usual through the Applications tab in Qube Settings, or alternatively run `split-browser -h` in a terminal to see the help message.
 
-TODO: document included `fedora/`, `debian/`, and `arch/` packaging
+TODO: document qubes-builder packaging
 
 TODO: consider recommending `systemctl disable onion-grater` in whonix-gw-xx, because Split Browser doesn't need to access the tor control port at all
