@@ -48,7 +48,7 @@
     const outRaw = SocketService
                    .createUnixDomainTransport(ReqSocket)
                    .openOutputStream(Ci.nsITransport.OPEN_BLOCKING, 0, 0);
-    const outUni = new ConvOutputStream(outRaw, "UTF-8", 0, 0);
+    const outUni = new ConvOutputStream(outRaw, "UTF-8");
 
     try {
       outUni.writeString(fields.join(FieldSep) + RecordSep);
