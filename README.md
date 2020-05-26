@@ -23,12 +23,12 @@ Combination      | Function
 **Ctrl-d**       | Bookmark current page
 Ctrl-Shift-Enter | Log into current page
 Ctrl-Shift-s     | Move downloads to a VM of your choice (except for the persistent VM, [unfortunately](https://github.com/QubesOS/qubes-issues/issues/3318))
-**Ctrl-Shift-u** | `New Identity` on steroids: Quit and restart in a new DisposableVM, which will get a different local IP address and thereby fresh Tor circuits. (Keep an eye on the list of running VMs to ensure that the old DisposableVM is really gone...)
+**Ctrl-Shift-u** | `New Identity` on steroids: Quit and restart the browser in a new DisposableVM, with fresh Tor circuits.
 
 
 ## Implementation
 
-~ 500 nonempty lines total, in a couple of Bash scripts, Awk, Python, and [JavaScript for the browser side](vm/qubes-split-browser-disp/usr/share/split-browser-disp/firefox/sb.js) (formerly deployed as a legacy extension, now as a [Mozilla AutoConfig](https://support.mozilla.org/en-US/kb/customizing-firefox-using-autoconfig) file). The bookmark and login managers use [dmenu](https://tools.suckless.org/dmenu/).
+~ 500 nonempty lines total, in a couple of Bash scripts, Awk, Python, and [JavaScript on the browser side](vm/qubes-split-browser-disp/usr/share/split-browser-disp/firefox/sb.js) (deployed as a [Mozilla AutoConfig](https://support.mozilla.org/en-US/kb/customizing-firefox-using-autoconfig) file). The bookmark and login managers use [dmenu](https://tools.suckless.org/dmenu/).
 
 
 ## Bookmarks
@@ -40,7 +40,7 @@ Only printable ASCII characters are allowed by default. This can be broadened to
 
 ## Logins
 
-Login credentials are stored in an arbitrarily deep directory tree, `~/.local/share/split-browser/logins/` (TODO: set up an automounted encrypted filesystem?), where each directory has a `urls.txt` file containing patterns, one per line. A pattern's first letter decides how it is interpreted:
+Login credentials are stored in an arbitrarily deep directory tree, `~/.local/share/split-browser/logins/`, where each directory contains a `urls.txt` file with patterns, one per line. A pattern's first letter decides how it is interpreted:
 
 First letter | Type           | Scope
 :-----------:|----------------|-------------------------------------------------
@@ -48,11 +48,11 @@ First letter | Type           | Scope
 `~`          | Regex          | Must match whole URL.
 `^`          | Literal string | Must match beginning of URL. The rest of the URL is considered to match if it starts with (or if the pattern ends with) `/`, `?`, or `#`.
 
-If any of the lines match and the user subsequently chooses this login option, the `login` executable in that directory (or if missing, `split-browser-login-fields` in `$PATH`) is called:
+If any of the lines match and the user subsequently chooses this login option, the `login` executable in that directory is called - if missing, it defaults to `split-browser-login-fields` in `$PATH`:
 
-`split-browser-login-fields` goes through each filename in the `fields/` child directory, in lexical order. If it ends in `.txt`, the file's *content* is sent to the browser as fake key presses. If it is executable, its *output* is sent instead. (It is an error for a file in `fields/` to fall into both or none of the two categories.) Split Browser advances to the webpage's next input field by sending a Tab key press and continues with the next file in `fields/` until all are done, at which point it sends an Enter key press.
+`split-browser-login-fields` goes through each filename in the `fields/` child directory, in lexical order. If it ends in `.txt`, the file's _content_ is sent to the browser as fake key presses. If it doesn't end in `.txt`, it must be an executable and its _output_ is sent instead. A Tab key press is sent to advance to the webpage's next input field and the next file in `fields/` is processed until all are done, at which point an Enter key press is sent.
 
-**To get started, just try the login keyboard shortcut (Ctrl-Shift-Enter) on any login page.** This will create a skeleton directory and pop up a terminal window there so you can have a look around, save your username, and change the generated password if necessary. Then ensure that the browser's focus is on the username field and press the keyboard shortcut again.
+**To get started, just try the login keyboard shortcut (Ctrl-Shift-Enter) on any login page.** This will create a skeleton directory for the page and pop up a terminal window there so you can have a look around, save your username, and possibly change the generated password or trim junk off the URL. Then ensure that the browser's focus is on the username field and press the keyboard shortcut again.
 
 Here's an example of how a login directory structure could be organized:
 
@@ -69,7 +69,9 @@ Here's an example of how a login directory structure could be organized:
                                     oathtool --totp --base32 foobarba7qux
             ...
 
-(TODO: build some sort of KeePassXC bridge?)
+TODO: set up an automounted encrypted filesystem?
+
+TODO: build some sort of KeePassXC bridge?
 
 
 ## Notes
@@ -88,17 +90,17 @@ Here's an example of how a login directory structure could be organized:
 
 ## Installation
 
-1. Create a new persistent VM or take an existing one, and configure it to launch torified DisposableVMs and (optionally) to have no network access itself:
+1. Create a new persistent VM or take an existing one, and configure it to launch torified DisposableVMs and (optionally, for safety against user error) to have no network access itself:
 
         qvm-create --label=purple surfer
         qvm-prefs surfer default_dispvm whonix-ws-xx-dvm
         qvm-prefs surfer netvm ''
 
-2. Copy `vm/` into your persistent VM or its TemplateVM (e.g. fedora-xx) and run `sudo make install-persist`. Then install the `dmenu oathtool pwgen` packages in the TemplateVM.
+2. Copy `vm/` into your persistent VM or its TemplateVM (e.g. fedora-xx) and run `sudo make install-persist`. Then install the `dmenu pwgen oathtool` packages in the TemplateVM.
 
 3. Copy `vm/` into your "template for DisposableVMs" (e.g. whonix-ws-xx-dvm) or its TemplateVM (e.g. whonix-ws-xx) and run `sudo make install-disp`. Then install the `xdotool` package in the TemplateVM, and ensure that an extracted Tor Browser is available in `~/.tb/tor-browser/` (e.g. by running the Tor Browser Downloader `update-torbrowser` in whonix-ws-xx).
 
-4. You can enable the Split Browser application launcher shortcuts for your persistent VM as usual through the Applications tab in Qube Settings, or alternatively run `split-browser -h` in a terminal to see the help message.
+4. You can enable the Split Browser application launcher shortcuts for your persistent VM as usual through the Applications tab in Qube Settings, or alternatively run `split-browser` in a terminal (with `-h` to see the help message).
 
 TODO: document qubes-builder packaging
 
