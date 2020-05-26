@@ -44,10 +44,6 @@
   const ReqSocket = new File(Environment.get("SB_REQ_SOCKET"));
 
 
-  const isMainWindow = win =>
-    win.document.documentElement.getAttribute("windowtype") ===
-    "navigator:browser";
-
   const sendReq = (...fields) => {
     const outRaw = SocketService
                    .createUnixDomainTransport(ReqSocket)
@@ -88,15 +84,6 @@
     sendReq(...fields, uri.asciiSpec, titleForAscii, urlForUtf8, titleForUtf8);
   }
 
-  const newTab = url => {
-    const browser = WindowMediator.getMostRecentBrowserWindow().gBrowser;
-
-    browser.selectedTab = browser.addTab(url, {
-      triggeringPrincipal: ScriptSecurity.getSystemPrincipal(),
-      fromExternal: true
-    });
-  }
-
   const restart = () => {
     const cancel = new PrBool();
 
@@ -117,6 +104,15 @@
       workdir: PrefBranch.getComplexValue("browser.download.dir",
                                           Ci.nsIPrefLocalizedString).data
     });
+
+  const newTab = url => {
+    const browser = WindowMediator.getMostRecentBrowserWindow().gBrowser;
+
+    browser.selectedTab = browser.addTab(url, {
+      triggeringPrincipal: ScriptSecurity.getSystemPrincipal(),
+      fromExternal: true
+    });
+  }
 
   const onKey = e => {
     const k = e.key.toLowerCase();
@@ -144,6 +140,10 @@
     addOrRemoveEventListener("keydown", onKey, true);
     addOrRemoveEventListener("keyup",   onKey, true);
   }
+
+  const isMainWindow = win =>
+    win.document.documentElement.getAttribute("windowtype") ===
+    "navigator:browser";
 
   const windowReady = e => {
     const win = e.currentTarget;
