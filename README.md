@@ -35,12 +35,12 @@ Ctrl-Shift-s     | Move downloads to a VM of your choice. **NOTE:** Don't choose
 
 Bookmarks are stored in a text file, `~/.local/share/split-browser/bookmarks.tsv`. Each line consists of a timestamp, URL, and title, separated by tabs.
 
-Only printable ASCII characters are allowed by default, for security reasons. This can be broadened to UTF-8 by symlinking `/etc/split-browser/20-utf-8.bash.EXAMPLE` without the `.EXAMPLE` suffix, either into the same directory (which will apply to _all_ persistent VMs based on the TemplateVM), or into `/usr/local/etc/split-browser/` on a _specific_ persistent VM.
+To reduce attack surface, only printable ASCII characters are allowed by default. This can be broadened to UTF-8 by symlinking `/etc/split-browser/20-utf-8.bash.EXAMPLE` without the `.EXAMPLE` suffix, either into the same directory (which will apply to _all_ persistent VMs based on the TemplateVM), or into `/usr/local/etc/split-browser/` on a _specific_ persistent VM.
 
 
 ## Logins
 
-Login credentials are stored in an arbitrarily deep directory tree, `~/.local/share/split-browser/logins/`, where each directory contains a `urls.txt` file with patterns, one per line. A pattern's first letter decides how it is interpreted:
+Login credentials are stored in an arbitrarily deep and freely organizable directory tree, `~/.local/share/split-browser/logins/`, where each directory contains a `urls.txt` file with patterns, one per line. A pattern's first letter decides how it is interpreted:
 
 First letter | Type           | Scope
 :-----------:|----------------|-------------------------------------------------
@@ -50,7 +50,7 @@ First letter | Type           | Scope
 
 If any of the lines match and the user subsequently chooses this login option, the `login` executable in that directory is called - if missing, it defaults to `split-browser-login-fields` in `$PATH`:
 
-`split-browser-login-fields` goes through each filename in the `fields/` child directory, in lexical order. If it ends in `.txt`, the file's _content_ is sent to the browser as fake key presses. If it doesn't end in `.txt`, it must be an executable and its _output_ is sent instead. A Tab key press is sent to advance to the webpage's next input field and the next file in `fields/` is processed until all are done, at which point an Enter key press is sent.
+`split-browser-login-fields` goes through each filename in the `fields/` child directory, in lexical order. If it ends in `.txt` and isn't executable, the file's _content_ is sent to the browser as fake key presses. If it doesn't end in `.txt` and is executable, its _output_ is sent instead. A Tab key press is sent to advance to the webpage's next input field and the next file in `fields/` is processed until all are done, at which point an Enter key press is sent.
 
 **To get started, just try the login keyboard shortcut (Ctrl-Shift-Enter) on any login page.** This will create a skeleton directory for the page and pop up a terminal window there so you can have a look around, save your username, and possibly change the generated password or trim junk off the URL. Then ensure that the browser's focus is on the username field and press the keyboard shortcut again.
 
