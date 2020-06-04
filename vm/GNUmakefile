@@ -52,7 +52,9 @@ ifeq ($(DESTDIR),)
 	    rmdir --ignore-fail-on-non-empty '$(etc)/split-browser/'; \
 	fi
 	rm -rf '$(PREFIX)/share/split-browser/' \
-	       '$(etc)/qubes-rpc/splitBrowser'
+	       '$(etc)/qubes-rpc/splitBrowser' \
+	       '$(etc)/split-browser-disp/10-defaults.bash' \
+	       '$(etc)/split-browser-disp/20-whonix-workstation.bash'
 endif
 	umask 022
 	mkdir -p -- '$(DESTDIR)$(PREFIX)/' '$(DESTDIR)$(etc)/'
