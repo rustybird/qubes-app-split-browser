@@ -10,7 +10,7 @@ In this setup, the DisposableVM's browser can send various requests to the persi
 - Let the user choose a bookmark to load
 - Let the user authorize logging into the current page
 
-**But if the browser gets exploited, it won't be able to read all your bookmarks or login credentials and send them to the attacker.** And you can restart the browser DisposableVM frequently (which should take less than a minute) to "shake off" such an attack.
+**But if the browser gets exploited, it won't be able to read all your bookmarks or login credentials and send them to the attacker.** And you can restart the DisposableVM frequently (which should only take a few seconds) to "shake off" such an attack.
 
 
 ## Keyboard shortcuts
