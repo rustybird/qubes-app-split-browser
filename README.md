@@ -22,7 +22,7 @@ Combination      | Function
 **Alt-b**        | Open bookmarks
 **Ctrl-d**       | Bookmark current page
 Ctrl-Shift-Enter | Log into current page
-Ctrl-Shift-s     | Move downloads to a VM of your choice. **NOTE:** Don't choose the persistent VM unless you have updated to qubes-core-dom0-linux >= 4.0.25, or the [DisposableVM will crash](https://github.com/QubesOS/qubes-issues/issues/3318)!
+Ctrl-Shift-s     | Move downloads to a VM of your choice. _NOTE: Don't choose the persistent VM unless you have updated to qubes-core-dom0-linux >= 4.0.25, or the [DisposableVM will crash](https://github.com/QubesOS/qubes-issues/issues/3318)!_
 **Ctrl-Shift-u** | `New Identity` on steroids: Quit and restart the browser in a new DisposableVM, with fresh Tor circuits.
 
 
@@ -69,9 +69,9 @@ Here's an example of how a login directory structure could be organized:
                                     oathtool --totp --base32 foobarba7qux
             ...
 
-TODO: set up an automounted encrypted filesystem?
+_TODO: set up an automounted encrypted filesystem?_
 
-TODO: build some sort of KeePassXC bridge?
+_TODO: build some sort of KeePassXC bridge?_
 
 
 ## Notes
@@ -102,6 +102,6 @@ TODO: build some sort of KeePassXC bridge?
 
 4. You can enable the Split Browser application launcher shortcuts for your persistent VM as usual through the Applications tab in Qube Settings, or alternatively run `split-browser` in a terminal (with `-h` to see the help message).
 
-TODO: document qubes-builder packaging
+_TODO: document qubes-builder packaging_
 
-TODO: consider recommending `systemctl disable onion-grater` in whonix-gw-xx, because Split Browser doesn't need to access the tor control port at all
+_TODO: consider recommending `systemctl disable onion-grater` in whonix-gw-xx, because Split Browser doesn't need to access the tor control port at all_
