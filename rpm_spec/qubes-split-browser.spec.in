@@ -6,7 +6,7 @@ License:        0BSD
 URL:            https://github.com/rustybird/qubes-split-browser
 Source0:        %{name}-%{version}.tar.gz
 
-Requires:       /bin/awk
+Requires:       %{_bindir}/awk
 Requires:       bash >= 4.4
 Requires:       coreutils
 Requires:       dmenu
