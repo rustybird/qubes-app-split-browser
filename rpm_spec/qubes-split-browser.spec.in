@@ -19,11 +19,12 @@ Recommends:     pwgen
 Summary:        Split Browser for Qubes
 
 %description
-Handle persistent bookmarks and logins in a Qubes VM,
-and communicate with throwaway Tor Browser instances in DisposableVMs.
+Handle persistent bookmarks and logins in a Qubes VM, and communicate with
+throwaway Tor Browser (or Firefox) instances in DisposableVMs.
 
 %prep
 %setup -q
+patch -p1 -i rpm_spec/lib64.diff
 
 %install
 gmake -C vm PREFIX=/usr DESTDIR="$RPM_BUILD_ROOT" install-persist install-disp
@@ -45,7 +46,7 @@ Recommends:     xdotool
 Summary:        Split Browser for Qubes (DisposableVM side)
 
 %description disp
-Present a throwaway Tor Browser instance in a Qubes DisposableVM,
+Present a throwaway Tor Browser (or Firefox) instance in a Qubes DisposableVM,
 and communicate with a VM that handles persistent bookmarks and logins.
 
 %files disp

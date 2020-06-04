@@ -19,8 +19,8 @@ Depends:
 Recommends: pwgen
 Suggests: oathtool
 Description: Split Browser for Qubes
- Handle persistent bookmarks and logins in a Qubes VM,
- and communicate with throwaway Tor Browser instances in DisposableVMs.
+  Handle persistent bookmarks and logins in a Qubes VM, and communicate with
+  throwaway Tor Browser (or Firefox) instances in DisposableVMs.
 
 Package: qubes-split-browser-disp
 Architecture: all
@@ -30,5 +30,5 @@ Depends:
     ${misc:Depends}
 Recommends: xdotool
 Description: Split Browser for Qubes (DisposableVM side)
- Present a throwaway Tor Browser instance in a Qubes DisposableVM,
- and communicate with a VM that handles persistent bookmarks and logins.
+  Present a throwaway Tor Browser (or Firefox) instance in a Qubes DisposableVM,
+  and communicate with a VM that handles persistent bookmarks and logins.

@@ -2,7 +2,7 @@
 
 Everyone loves the [Whonix approach](https://www.whonix.org/wiki/Qubes) of running Tor Browser and the tor daemon in two separate [Qubes](https://www.qubes-os.org/) VMs, e.g. anon-whonix and sys-whonix.
 
-Let's take it a step further and **run Tor Browser in a [DisposableVM](https://www.qubes-os.org/doc/dispvm/) connecting through the tor VM, while storing bookmarks and logins in a persistent VM** - with carefully restricted data flow.
+Let's take it a step further and **run Tor Browser (or Firefox) in a [DisposableVM](https://www.qubes-os.org/doc/dispvm/) connecting through the tor VM (or another network-providing VM), while storing bookmarks and logins in a persistent VM** - with carefully restricted data flow.
 
 In this setup, the DisposableVM's browser can send various requests to the persistent VM:
 
@@ -15,7 +15,7 @@ In this setup, the DisposableVM's browser can send various requests to the persi
 
 ## Keyboard shortcuts
 
-The bold ones override standard Tor Browser shortcuts:
+The bold ones override standard browser shortcuts:
 
 Combination      | Function
 -----------------|--------------------------------------------------------------
@@ -87,10 +87,12 @@ _TODO: build some sort of KeePassXC bridge?_
         journalctl -t qubes.StartApp+split-browser-dom0 \
                    -t qubes.StartApp+split-browser-safest-dom0
 
+- Non-"Tor Browser" versions of Firefox should also work: Symlink `[/usr/local]/etc/split-browser-disp/22-firefox.bash.EXAMPLE` (or copy it, if you need to adjust the Firefox location) without the `.EXAMPLE` suffix.
+
 
 ## Installation
 
-1. Create a new persistent VM or take an existing one, and configure it to launch torified DisposableVMs and (optionally, for safety against user error) to have no network access itself:
+1. Create a new persistent VM or take an existing one, and configure it to launch the right DisposableVMs and (optionally, for safety against user error) to have no network access itself:
 
         qvm-create --label=purple surfer
         qvm-prefs surfer default_dispvm whonix-ws-xx-dvm
