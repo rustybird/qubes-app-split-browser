@@ -53,3 +53,6 @@ and communicate with a VM that handles persistent bookmarks and logins.
 %config(noreplace) /etc/split-browser-disp/
 /usr/lib/tmpfiles.d/split-browser-disp.conf
 /usr/share/split-browser-disp/
+
+%changelog
+@CHANGELOG@
