@@ -35,6 +35,8 @@ Ctrl-Shift-s     | Move downloads to a VM of your choice. _NOTE: Don't choose th
 
 Bookmarks are stored in a text file, `~/.local/share/split-browser/bookmarks.tsv`. Each line consists of a timestamp, URL, and title, separated by tabs.
 
+You can instantly search through tens of thousands of bookmarks.
+
 To reduce attack surface, only printable ASCII characters are allowed by default. This can be broadened to UTF-8: Symlink `[/usr/local]/etc/split-browser/20-utf-8.bash.EXAMPLE` without the `.EXAMPLE` suffix.
 
 
