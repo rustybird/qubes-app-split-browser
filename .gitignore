@@ -1,5 +1,7 @@
-debian/.debhelper/
+debian/*.debhelper
+debian/*.substvars
 debian/debhelper-build-stamp
 debian/files
-debian/qubes-split-browser*
+debian/qubes-split-browser/
+debian/qubes-split-browser-disp/
 pkgs/
