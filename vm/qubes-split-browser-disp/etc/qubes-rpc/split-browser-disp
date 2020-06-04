@@ -13,6 +13,8 @@ while IFS=$'\t' read -r -a cmd; do
         setup)
             cd -- "$SB_FIREFOX_DIR"
 
+            [[ -w . && -w defaults/pref/ ]] ||
+            sudo install -d -m u+rwx -o "$EUID" . defaults/pref/
             f=( /[u]sr{/local,}/share/split-browser-disp/firefox/sb-load.js )
             ln -s "${f[0]}" defaults/pref/
             f=( /[u]sr{/local,}/share/split-browser-disp/firefox/sb.js )

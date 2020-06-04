@@ -38,6 +38,7 @@ gmake -C vm PREFIX=/usr DESTDIR="$RPM_BUILD_ROOT" install-persist install-disp
 
 %package disp
 Requires:       bash >= 4.4
+Requires:       coreutils
 Requires:       socat
 Requires:       systemd
 Recommends:     xdotool
