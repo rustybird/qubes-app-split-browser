@@ -52,7 +52,8 @@ if [[ ${#matching_sites[@]} -gt 0 ]]; then
         sleep "$SB_LOGIN_SECURITY_DELAY_SECONDS"
     fi
 
-    site=$(printf '%s\n' "${matching_sites[@]}" | sb_dmenu -p 'Log into')
+    site=$(printf '%s\n' "${matching_sites[@]}" |
+           SB_SCREEN=logins sb_dmenu -p 'Log into')
     cd -- "${site:?}"
 
     if [[ -e login ]]; then
@@ -62,7 +63,7 @@ if [[ ${#matching_sites[@]} -gt 0 ]]; then
     fi
 else
     prompt="Name a login entry for: $(shorten "$url" 50)"
-    site=$(sb_dmenu -p "$prompt" </dev/null)
+    site=$(SB_SCREEN='logins - add' sb_dmenu -p "$prompt" </dev/null)
     mkdir -p -- "$site"
     cd       -- "$site"
 

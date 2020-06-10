@@ -37,7 +37,7 @@ case "$1" in
             echo  # select an empty line in dmenu initially
             split-browser-bookmark-pretty <"$SB_BOOKMARK_FILE"
         } |
-        sb_dmenu -i -l 20 |
+        SB_SCREEN=bookmarks sb_dmenu -i -l 20 |
         split-browser-bookmark-pretty2url |
         while read -r url; do ${url:+split-browser-cmd newtab "$url"}; done
     ;;

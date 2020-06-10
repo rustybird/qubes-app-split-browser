@@ -8,5 +8,6 @@ SB_BOOKMARK_PRETTY_TITLE_LEN=70
 SB_ELLIPSIS=$'\u2026'
 SB_STAR=$'\u2605'
 
-sb_dmenu() { x11-unoverride-redirect stdbuf -oL dmenu "$@"; }
+sb_dmenu() { _NET_WM_NAME="Split Browser - $SB_SCREEN" \
+             x11-unoverride-redirect stdbuf -oL dmenu "$@"; }
 sb_pwgen() { pwgen -s 64 1; }
