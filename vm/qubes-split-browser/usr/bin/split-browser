@@ -81,14 +81,14 @@ fi
 dispvm() (
     trap 'rm -f -- "$SB_CMD_INPUT"{.tmp,}' EXIT
     mkfifo  -- "$SB_CMD_INPUT".tmp
-    exec {fd}<>"$SB_CMD_INPUT".tmp
+    exec {cmd_input_fd}<>"$SB_CMD_INPUT".tmp
 
     d=/etc/qubes-rpc
     bash_line="PATH=/usr/local$d:$d:\$PATH exec split-browser-disp"
-    printf '%s\n' "$bash_line" "$@" >&"$fd"  # 64 KB pipe capacity is plenty
+    printf '%s\n' "$bash_line" "$@" >&"$cmd_input_fd"  # 64 KB pipe capacity
     mv -- "$SB_CMD_INPUT"{.tmp,}
 
-    qrexec-client-vm -T @dispvm qubes.VMShell <&"$fd" |
+    qrexec-client-vm -T @dispvm qubes.VMShell <&"$cmd_input_fd" |
     LC_ALL=C sanitize |
     while IFS=$'\t' read -r -a req; do
         case "${req[0]}" in
