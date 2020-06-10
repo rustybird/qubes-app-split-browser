@@ -62,7 +62,7 @@ if [[ ${#matching_sites[@]} -gt 0 ]]; then
         split-browser-login-fields
     fi
 else
-    prompt="Name a login entry for: $(shorten "$url" 50)"
+    prompt="Name a login database entry for: $(shorten "$url" 50)"
     site=$(SB_SCREEN='logins - add' sb_dmenu -p "$prompt" </dev/null)
     mkdir -p -- "$site"
     cd       -- "$site"

@@ -42,7 +42,7 @@ To reduce attack surface, only printable ASCII characters are allowed by default
 
 ## Logins
 
-Login credentials are stored in an arbitrarily deep and freely organizable directory tree, `~/.local/share/split-browser/logins/`, where each directory contains a `urls.txt` file with patterns, one per line. A pattern's first letter decides how it is interpreted:
+Login credentials are stored in a freely organizable, arbitrarily nested directory tree `~/.local/share/split-browser/logins/`, where each database entry (e.g. `rusty/github/factor1/`) is a directory containing a `urls.txt` file with patterns, one per line. A pattern's first letter decides how it is interpreted:
 
 First letter | Type           | Scope
 :-----------:|----------------|-------------------------------------------------
@@ -50,11 +50,11 @@ First letter | Type           | Scope
 `~`          | Regex          | Must match whole URL.
 `^`          | Literal string | Must match beginning of URL. The rest of the URL is considered to match if it starts with (or if the pattern ends with) `/`, `?`, or `#`.
 
-If any of the lines match and the user subsequently chooses this login option, the `login` executable in that directory is called - if missing, it defaults to `split-browser-login-fields` in `$PATH`:
+If any of the lines match and the user subsequently chooses this database entry, the `login` executable in the directory is called - if missing, it defaults to `split-browser-login-fields` in `$PATH`:
 
 `split-browser-login-fields` goes through each filename in the `fields/` child directory, in lexical order. If it ends in `.txt` and isn't executable, the file's _content_ is sent to the browser as fake key presses. If it doesn't end in `.txt` and is executable, its _output_ is sent instead. A Tab key press is sent to advance to the webpage's next input field and the next file in `fields/` is processed until all are done, at which point an Enter key press is sent.
 
-**To get started, just try the login keyboard shortcut (Ctrl-Shift-Enter) on any login page.** This will create a skeleton directory for the page and pop up a terminal window there so you can have a look around, save your username, and possibly change the generated password or trim junk off the URL. Then ensure that the browser's focus is on the username field and press the keyboard shortcut again.
+**To get started, just try the login keyboard shortcut (Ctrl-Shift-Enter) on any login page.** This will prompt you to create a skeleton directory that will become the database entry for the page, and pop up a terminal window there so you can have a look around, save your username, and possibly change the generated password or trim junk off the URL. Then ensure that the browser's focus is on the username field and press the keyboard shortcut again.
 
 Here's an example of how a login directory structure could be organized:
 
