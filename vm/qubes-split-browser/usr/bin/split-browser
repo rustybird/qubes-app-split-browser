@@ -79,6 +79,7 @@ fi
 # configuration for each persistent VM.)
 
 dispvm() (
+    exec {saved_stdout_fd}>&1 >&2
     trap 'rm -f -- "$SB_CMD_INPUT"{.tmp,}' EXIT
     mkfifo  -- "$SB_CMD_INPUT".tmp
     exec {cmd_input_fd}<>"$SB_CMD_INPUT".tmp
@@ -94,10 +95,10 @@ dispvm() (
         case "${req[0]}" in
             bookmark|login)
                 page_info=( "${req[@]:$first_page_info_field:2}" )
-                split-browser-"${req[0]}" "${req[1]}" "${page_info[@]}" >&2 &
+                split-browser-"${req[0]}" "${req[1]}" "${page_info[@]}" &
             ;;
             restart)
-                echo x
+                echo x >&"$saved_stdout_fd"
             ;;
         esac
     done
