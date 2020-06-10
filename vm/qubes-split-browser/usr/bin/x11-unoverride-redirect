@@ -1,41 +1,48 @@
 #!/usr/bin/python3
 #
-# Run given command; switch OverrideRedirect off on one new X11 window.
+# Run given command; switch override_redirect off on one new X11 window.
 # Useful for working around https://github.com/QubesOS/qubes-issues/issues/2311
 #
 # Example: x11-unoverride-redirect dmenu -i
 
-import sys
 import subprocess
+import sys
 import xcffib
-import xcffib.xproto
+from xcffib import xproto
+from xcffib.xproto import CW
 
-conn = xcffib.connect()
 
-conn.core.ChangeWindowAttributesChecked(
-  conn.get_setup().roots[0].root,
-  xcffib.xproto.CW.EventMask,
-  [xcffib.xproto.EventMask.SubstructureNotify]
-).check()
+def adjust_window(window, core):
+    yield core.ChangeWindowAttributesChecked(window, CW.OverrideRedirect, [0])
+    yield core.UnmapWindowChecked(window)
+    yield core.MapWindowChecked(window)
 
-cmd = subprocess.Popen(sys.argv[1:], bufsize=0)
+def main():
+    connection = xcffib.connect()
+    core = connection.core
 
-for ev in iter(conn.wait_for_event, None):
-  if cmd.poll() is not None:  # cmd finished
-    break
+    core.ChangeWindowAttributesChecked(
+        connection.setup.roots[0].root, CW.EventMask,
+        [xproto.EventMask.SubstructureNotify]
+    ).check()
 
-  if isinstance(ev, xcffib.xproto.CreateNotifyEvent) and ev.override_redirect:
-    for cookie in [
-      conn.core.ChangeWindowAttributesChecked(
-        ev.window, xcffib.xproto.CW.OverrideRedirect, [False]),
-      conn.core.UnmapWindowChecked(ev.window),
-      conn.core.MapWindowChecked(ev.window)
-    ]: cookie.check()
-    break
+    command = subprocess.Popen(sys.argv[1:], bufsize=0)
 
-conn.disconnect()
-cmd.wait()
-status = cmd.returncode
-if status < 0:
-  status = 128 - status
-sys.exit(status)
+    for ev in iter(connection.wait_for_event, None):
+        if command.poll() is not None:  # command finished
+            break
+        if isinstance(ev, xproto.CreateNotifyEvent) and ev.override_redirect:
+            for cookie in list(adjust_window(ev.window, core)):
+                cookie.check()
+            break
+
+    connection.disconnect()
+    command.wait()
+    status = command.returncode
+    if status < 0:
+        status = 128 - status
+    return status
+
+
+if __name__ == '__main__':
+    sys.exit(main())
