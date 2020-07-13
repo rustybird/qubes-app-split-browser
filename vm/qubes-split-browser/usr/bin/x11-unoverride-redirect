@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 #
 # Run given command; switch override_redirect off on one new X11 window.
-# Also set a fixed size hint, and change the title to $_NET_WM_NAME (or blank).
+# Also change the title to $_NET_WM_NAME (or blank), and set a fixed size hint.
 # Useful for working around https://github.com/QubesOS/qubes-issues/issues/2311
 #
 # Example: x11-unoverride-redirect dmenu -i
