@@ -81,7 +81,7 @@ fi
 dispvm() (
     exec {saved_stdout_fd}>&1 >&2
     trap 'rm -f -- "$SB_CMD_INPUT"{.tmp,}' EXIT
-    mkfifo  -- "$SB_CMD_INPUT".tmp
+    mkfifo -- "$SB_CMD_INPUT".tmp
     exec {cmd_input_fd}<>"$SB_CMD_INPUT".tmp
 
     d=/etc/qubes-rpc
