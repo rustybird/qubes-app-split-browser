@@ -35,6 +35,7 @@ def adjust_window(window, core):
     attributes_cookie = core.GetWindowAttributes(window)
     geometry_cookie = core.GetGeometry(window)
     yield core.ChangePropertyChecked(
+        # pylint: disable=no-member,protected-access
         PropMode.Replace, window, Atom._NET_WM_NAME, Atom.UTF8_STRING, 8,
         *title_property())
     yield core.ChangePropertyChecked(

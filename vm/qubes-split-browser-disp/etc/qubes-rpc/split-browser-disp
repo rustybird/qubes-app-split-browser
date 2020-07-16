@@ -3,6 +3,7 @@ set -e -u -o pipefail
 shopt -s inherit_errexit nullglob
 
 exec {saved_stdout_fd}>&1 >&2
+# shellcheck disable=SC1090
 for f in {,/usr/local}/etc/split-browser-disp/*.bash; do source "$f"; done
 export SB_INTO_FIREFOX=/run/split-browser-disp/into-firefox \
        SB_FROM_FIREFOX=/run/split-browser-disp/from-firefox
@@ -22,6 +23,7 @@ while IFS=$'\t' read -r -a cmd; do
 
             mkfifo -- "$SB_FROM_FIREFOX"
             cat      <"$SB_FROM_FIREFOX" >&"$saved_stdout_fd" &
+            # shellcheck disable=SC2064
             trap "wait $! || exit \$?" EXIT
             trap 'exit 0' USR1
             trap 'exit 1' USR2

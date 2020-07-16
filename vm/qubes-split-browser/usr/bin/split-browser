@@ -2,6 +2,7 @@
 set -e -u -o pipefail
 shopt -s inherit_errexit nullglob
 
+# shellcheck disable=SC1090
 for f in {,/usr/local}/etc/split-browser/*.bash; do source "$f"; done
 export SB_CMD_INPUT="${SB_CMD_INPUT:-/run/split-browser/cmd-$$}"
 

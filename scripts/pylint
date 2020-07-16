@@ -1,0 +1,8 @@
+#!/bin/bash
+set -e -u -o pipefail
+
+readarray -d '' files < <(git grep -zl '^#!/usr/bin/python')
+wait $!
+
+set -x
+pylint "$@" -- "${files[@]?}"

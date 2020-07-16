@@ -1,0 +1,15 @@
+extends: eslint:recommended
+parserOptions:
+  ecmaVersion: 2019
+globals:
+  Components: readonly
+  Cu:         readonly
+  Cc:         readonly
+  Ci:         readonly
+  pref:       readonly
+rules:
+  no-empty-pattern:
+    - off
+  semi:
+    - error
+    - always

@@ -2,6 +2,7 @@
 set -e -u -o pipefail
 shopt -s inherit_errexit nullglob globstar
 
+# shellcheck disable=SC1090
 for f in {,/usr/local}/etc/split-browser/*.bash; do source "$f"; done
 
 

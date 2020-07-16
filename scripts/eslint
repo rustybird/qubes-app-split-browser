@@ -1,0 +1,8 @@
+#!/bin/bash
+set -e -u -o pipefail
+
+readarray -d '' files < <(git ls-files -z '*.js')
+wait $!
+
+set -x
+eslint "$@" -- "${files[@]?}"

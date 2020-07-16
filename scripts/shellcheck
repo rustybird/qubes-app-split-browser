@@ -1,0 +1,11 @@
+#!/bin/bash
+set -e -u -o pipefail
+
+readarray -d '' programs < <(git grep -zl '^#!/bin/bash')
+wait $!
+readarray -d '' configs  < <(git ls-files -z '*.bash*')
+wait $!
+
+set -x
+shellcheck                               "$@" -- "${programs[@]?}"
+shellcheck --shell=bash --exclude=SC2034 "$@" -- "${configs[@]?}"
