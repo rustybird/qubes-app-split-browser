@@ -18,7 +18,7 @@ while IFS=$'\t' read -r -a cmd; do
             f=( /[u]sr{/local,}/share/split-browser-disp/firefox/sb-load.js )
             ln -s "${f[0]}" defaults/pref/
             f=( /[u]sr{/local,}/share/split-browser-disp/firefox/sb.js )
-            printf '%s\n' '' "${cmd[@]:1}" | cat - "${f[0]}" >sb.js
+            printf '%s\n' '' "${cmd[@]:1}" ';' | cat - "${f[0]}" >sb.js
 
             mkfifo -- "$SB_FROM_FIREFOX"
             cat      <"$SB_FROM_FIREFOX" >&"$saved_stdout_fd" &
