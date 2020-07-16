@@ -11,8 +11,8 @@ for file in fields/*; do
         field=$("$file")
     fi
 
-    [[ $field != *[$'\t\n']* ]]
-    fields+=( "$field" )
+    [[ $field != *$'\t'* ]]
+    fields+=( "${field//$'\n'/$'\r'}" )
 done
 [[ ${#fields[@]} -gt 0 ]]
 
