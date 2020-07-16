@@ -2,19 +2,26 @@
 set -e -u -o pipefail
 shopt -s inherit_errexit nullglob
 
+
+fail() {
+    printf '%s: error: %q %s\n' "${0##*/}" "$PWD/$1" "$2" >&2
+    exit 1
+}
+
+
 fields=()
 for file in fields/*; do
     if [[ $file == *.txt ]]; then
-        [[ ! -x $file ]]
+        [[ ! -x $file ]] || fail "$file" 'ends in .txt but is also executable'
         field=$(cat "$file")
     else
         field=$("$file")
     fi
 
-    [[ $field != *$'\t'* ]]
+    [[ $field != *$'\t'* ]] || fail "$file" 'contains a tab character'
     fields+=( "${field//$'\n'/$'\r'}" )
 done
-[[ ${#fields[@]} -gt 0 ]]
+[[ ${#fields[@]} -gt 0 ]] || fail fields/ 'is empty'
 
 for i in "${!fields[@]}"; do
     [[ $i == 0        ]] || split-browser-cmd helper xdotool key Tab
