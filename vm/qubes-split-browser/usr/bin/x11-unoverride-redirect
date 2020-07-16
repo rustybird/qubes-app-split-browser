@@ -56,7 +56,7 @@ def main():
         [xproto.EventMask.SubstructureNotify]
     ).check()
 
-    command = subprocess.Popen(sys.argv[1:], bufsize=0)
+    command = subprocess.Popen(sys.argv[1:])
 
     for ev in iter(connection.wait_for_event, None):
         if command.poll() is not None:  # command finished
