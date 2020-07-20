@@ -1,5 +1,6 @@
 #!/bin/bash
 set -e -u -o pipefail
+shopt -s inherit_errexit
 
 readarray -d '' programs < <(git grep -zl '^#!/bin/bash')
 wait $!
