@@ -80,7 +80,8 @@ sanitize_ascii() {  # replace any byte with _ but printable ASCII, tab, newline
 # split-browser-cmd. (This is essentially a crappy bidirectional RPC system
 # implemented *inside* a qrexec RPC call's data streams. It would be much nicer
 # to do multiple qrexec calls back and forth, but that requires lots of policy
-# configuration for each persistent VM.)
+# configuration for each persistent VM.) Also strictly sanitize stderr and
+# distinguish it with a prefix.
 
 dispvm() (
     exec {saved_stdout_fd}>&1 >&2
@@ -93,7 +94,12 @@ dispvm() (
     printf '%s\n' "$bash_line" "$@" >&"$cmd_input_fd"  # 64 KB pipe capacity
     mv -- "$SB_CMD_INPUT"{.tmp,}
 
-    qrexec-client-vm -T @dispvm qubes.VMShell <&"$cmd_input_fd" |
+    (
+        trap 'wait $! || exit $?' EXIT
+
+        { qrexec-client-vm -T @dispvm qubes.VMShell; } \
+        <&"$cmd_input_fd" 2> >(sanitize_ascii | sed -u 's/^/disp: /' >&2)
+    ) |
     sanitize_"$SB_CHARSET" |
     while IFS=$'\t' read -r -a req; do
         case "${req[0]}" in
