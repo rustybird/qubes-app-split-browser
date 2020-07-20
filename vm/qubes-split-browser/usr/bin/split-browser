@@ -112,6 +112,9 @@ dispvm() (
             restart)
                 echo x >&"$saved_stdout_fd"
             ;;
+            *)
+                printf 'Unknown request from DisposableVM: %s\n' "${req[0]}"
+            ;;
         esac
     done
 )
