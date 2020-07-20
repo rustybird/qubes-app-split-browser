@@ -102,6 +102,8 @@ dispvm() (
     ) |
     sanitize_"$SB_CHARSET" |
     while IFS=$'\t' read -r -a req; do
+        [[ $SB_CHARSET == ascii ]] || req[0]=$(sanitize_ascii <<<"${req[0]}")
+
         case "${req[0]}" in
             bookmark|login)
                 page_info=( "${req[@]:$first_page_info_field:2}" )
