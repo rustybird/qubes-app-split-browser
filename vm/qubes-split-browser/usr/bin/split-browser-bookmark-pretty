@@ -3,19 +3,22 @@
 BEGIN {
     FS = "\t"
 
-    date_len  = ENVIRON["SB_BOOKMARK_PRETTY_DATE_LEN"]
-    title_len = ENVIRON["SB_BOOKMARK_PRETTY_TITLE_LEN"]
-    prefix    = ENVIRON["SB_BOOKMARK_PRETTY_PREFIX"]
-    fs        = ENVIRON["SB_BOOKMARK_PRETTY_FS"]
-    trunc     = ENVIRON["SB_BOOKMARK_PRETTY_TRUNC"]
+    prefix          = ENVIRON["SB_BOOKMARK_PRETTY_PREFIX"]
+    fs              = ENVIRON["SB_BOOKMARK_PRETTY_FS"]
+    trunc           = ENVIRON["SB_BOOKMARK_PRETTY_TRUNC"]
+    date_len        = ENVIRON["SB_BOOKMARK_PRETTY_DATE_LEN"]
+    title_len       = ENVIRON["SB_BOOKMARK_PRETTY_TITLE_LEN"]
+    title_len_trunc = title_len - length(trunc)
+    title_len_fmt   = "%-" title_len "s"
 }
 
 {
-    date  = substr($1, 1, date_len)
-    url   = $2
-    title = length($3) >  title_len ?
-            substr($3, 1, title_len - length(trunc)) trunc :
-            sprintf("%-"  title_len "s", $3)
-
-    print prefix date fs title fs url
+    print prefix \
+          substr($1, 1, date_len) \
+          fs \
+          (length($3) > title_len ?
+           substr($3, 1, title_len_trunc) trunc :
+           sprintf(title_len_fmt, $3)) \
+          fs \
+          $2
 }

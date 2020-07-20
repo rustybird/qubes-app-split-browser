@@ -1,13 +1,14 @@
 #!/usr/bin/awk -f
 
 BEGIN {
-    date_len  = ENVIRON["SB_BOOKMARK_PRETTY_DATE_LEN"]
-    title_len = ENVIRON["SB_BOOKMARK_PRETTY_TITLE_LEN"]
-    prefix    = ENVIRON["SB_BOOKMARK_PRETTY_PREFIX"]
-    fs        = ENVIRON["SB_BOOKMARK_PRETTY_FS"]
+    url_offset = 1 \
+                 + length(ENVIRON["SB_BOOKMARK_PRETTY_PREFIX"]) \
+                 + ENVIRON["SB_BOOKMARK_PRETTY_DATE_LEN"] \
+                 + ENVIRON["SB_BOOKMARK_PRETTY_TITLE_LEN"] \
+                 + 2 * length(ENVIRON["SB_BOOKMARK_PRETTY_FS"])
 }
 
 {
-    print substr($0, 1 + length(prefix) + date_len + title_len + 2*length(fs))
+    print substr($0, url_offset)
     fflush()
 }
