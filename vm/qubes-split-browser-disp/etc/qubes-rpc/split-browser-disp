@@ -40,5 +40,8 @@ while IFS=$'\t' read -r -a cmd; do
         newtab)
             socat -u STDIN UNIX-CONNECT:"$SB_INTO_FIREFOX" <<<"${cmd[1]}"
         ;;
+        *)
+            printf 'Unknown command from persistent VM: %s\n' "${cmd[0]}"
+        ;;
     esac
 done
