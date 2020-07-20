@@ -53,14 +53,14 @@ done
 
 if [[ ${SB_CHARSET-} == utf-8 ]]; then
     sanitize() {
-        stdbuf -oL tr '\0' _ |
-        PYTHONIOENCODING=utf-8:strict \
+        LC_ALL=C stdbuf -oL tr '\0' _ |
+        LC_ALL=C PYTHONIOENCODING=utf-8:strict \
         python3 -Suc $'import sys\nfor l in sys.stdin: sys.stdout.write(l)'
     }
     first_page_info_field=4
 else  # printable ASCII
     sanitize() {
-        stdbuf -oL tr -c '\040-\176\t\n' _
+        LC_ALL=C stdbuf -oL tr -c '\040-\176\t\n' _
     }
     first_page_info_field=2
 fi
@@ -91,7 +91,7 @@ dispvm() (
     mv -- "$SB_CMD_INPUT"{.tmp,}
 
     qrexec-client-vm -T @dispvm qubes.VMShell <&"$cmd_input_fd" |
-    LC_ALL=C sanitize |
+    sanitize |
     while IFS=$'\t' read -r -a req; do
         case "${req[0]}" in
             bookmark|login)
