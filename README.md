@@ -28,7 +28,7 @@ Ctrl-Shift-s     | Move downloads to a VM of your choice
 
 ## Implementation
 
-~ 500 nonempty lines total, in a couple of Bash scripts, Awk, Python, and [JavaScript on the browser side](vm/qubes-split-browser-disp/usr/share/split-browser-disp/firefox/sb.js) (deployed as a [Mozilla AutoConfig](https://support.mozilla.org/en-US/kb/customizing-firefox-using-autoconfig) file). The bookmark and login managers use [dmenu](https://tools.suckless.org/dmenu/).
+~ 600 nonempty lines total, in a couple of Bash scripts, Awk, Python, and [JavaScript on the browser side](vm/qubes-split-browser-disp/usr/share/split-browser-disp/firefox/sb.js) (deployed as a [Mozilla AutoConfig](https://support.mozilla.org/en-US/kb/customizing-firefox-using-autoconfig) file). The bookmark and login managers use [dmenu](https://tools.suckless.org/dmenu/).
 
 
 ## Bookmarks
