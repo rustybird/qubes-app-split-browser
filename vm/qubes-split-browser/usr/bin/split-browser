@@ -96,12 +96,12 @@ dispvm() (
     printf '%s\n' "$bash_line" "$@" >&"$cmd_fd"  # 64 KB pipe capacity
     mv -- "$SB_CMD_INPUT"{.tmp,}
 
-    (
-        trap 'wait $! || exit $?' EXIT
-
-        { qrexec-client-vm -T @dispvm qubes.VMShell; } \
-        <&"$cmd_fd" 2> >(sanitize_ascii | sed -u 's/^/disp: /' >&2)
-    ) |
+    {
+        qrexec-client-vm -T @dispvm qubes.VMShell <&"$cmd_fd" \
+                         2>&1 >&"$req_fd" {req_fd}>&- |
+        sanitize_ascii                    {req_fd}>&- |
+        sed -u 's/^/disp: /'  >&2         {req_fd}>&-
+    } {req_fd}>&1 |
     sanitize_"$SB_CHARSET" |
     while IFS= read -r req_line; do
         readarray -d $'\t' -t req <<<"$req_line"
