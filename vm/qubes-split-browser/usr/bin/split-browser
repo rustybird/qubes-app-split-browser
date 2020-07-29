@@ -54,10 +54,10 @@ done
 # to replace).
 
 if [[ ${SB_CHARSET-} == utf-8 ]]; then
-    first_page_info_field=4
+    first_page_info_field_for_charset=4
 else
     SB_CHARSET=ascii
-    first_page_info_field=2
+    first_page_info_field_for_charset=2
 fi
 
 sanitize_utf-8() {  # replace null byte with _; then validate as UTF-8
@@ -108,11 +108,12 @@ dispvm() (
         req[-1]=${req[-1]%$'\n'}
 
         [[ $SB_CHARSET == ascii ]] || req[0]=$(sanitize_ascii <<<"${req[0]}")
+        req=( "${req[@]::2}" "${req[@]:$first_page_info_field_for_charset:2}" )
 
         case "${req[0]}" in
             bookmark|login)
-                page_info=( "${req[@]:$first_page_info_field:2}" )
-                split-browser-"${req[0]}" "${req[1]}" "${page_info[@]}" &
+                # shellcheck disable=SC2145
+                split-browser-"${req[@]}" &
             ;;
             restart)
                 echo x >&"$saved_stdout_fd"
