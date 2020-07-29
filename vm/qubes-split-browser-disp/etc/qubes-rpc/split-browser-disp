@@ -10,7 +10,10 @@ export SB_INTO_FIREFOX=/run/split-browser-disp/into-firefox \
        SB_FROM_FIREFOX=/run/split-browser-disp/from-firefox
 
 
-while IFS=$'\t' read -r -a cmd; do
+while IFS= read -r cmd_line; do
+    readarray -d $'\t' -t cmd <<<"$cmd_line"
+    cmd[-1]=${cmd[-1]%$'\n'}
+
     case "${cmd[0]}" in
         setup)
             cd -- "$SB_FIREFOX_DIR"

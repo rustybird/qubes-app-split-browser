@@ -102,7 +102,10 @@ dispvm() (
         <&"$cmd_input_fd" 2> >(sanitize_ascii | sed -u 's/^/disp: /' >&2)
     ) |
     sanitize_"$SB_CHARSET" |
-    while IFS=$'\t' read -r -a req; do
+    while IFS= read -r req_line; do
+        readarray -d $'\t' -t req <<<"$req_line"
+        req[-1]=${req[-1]%$'\n'}
+
         [[ $SB_CHARSET == ascii ]] || req[0]=$(sanitize_ascii <<<"${req[0]}")
 
         case "${req[0]}" in

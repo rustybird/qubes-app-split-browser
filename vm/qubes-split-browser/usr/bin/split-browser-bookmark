@@ -41,7 +41,7 @@ case "$1" in
         } |
         SB_SCREEN=bookmarks sb_dmenu -i -l 20 |
         split-browser-bookmark-pretty2url |
-        while read -r url; do ${url:+split-browser-cmd newtab "$url"}; done
+        while IFS= read -r url; do ${url:+split-browser-cmd newtab "$url"}; done
     ;;
     add)
         [[ $# == 3 ]]
