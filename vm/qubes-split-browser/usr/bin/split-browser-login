@@ -1,4 +1,5 @@
 #!/bin/bash
+
 set -e -u -o pipefail
 shopt -s inherit_errexit nullglob globstar
 
@@ -6,7 +7,7 @@ shopt -s inherit_errexit nullglob globstar
 for f in {,/usr/local}/etc/split-browser/*.bash; do source "$f"; done
 
 
-shorten() {
+truncate() {
     local str=$1
     local len=$2
 
@@ -31,11 +32,20 @@ for f in */**/urls.txt; do
         pattern=${line:1}
 
         case "$mode" in
-            '=') [[ $url == "$pattern" ]] ;;
-            '^') sep='[/?#]'; if [[ $pattern == *$sep ]]; then sep=''; fi
-                 [[ $url == "$pattern" || $url == "$pattern"$sep* ]] ;;
-            '~') [[ $url =~ ^($pattern)$ ]] ;;
-              *) false ;;
+            '=')
+                [[ $url == "$pattern" ]]
+            ;;
+            '^')
+                sep='[/?#]'
+                [[ $pattern != *$sep ]] || sep=
+                [[ $url == "$pattern" || $url == "$pattern"$sep* ]]
+            ;;
+            '~')
+                [[ $url =~ ^($pattern)$ ]]
+            ;;
+            *)
+                false
+            ;;
         esac || continue
 
         matching_sites+=( "${f%/*}" )
@@ -63,7 +73,7 @@ if [[ ${#matching_sites[@]} -gt 0 ]]; then
         split-browser-login-fields
     fi
 else
-    prompt="Name a login database entry for: $(shorten "$url" 50)"
+    prompt="Name a login database entry for: $(truncate "$url" 50)"
     site=$(SB_SCREEN='logins - add' sb_dmenu -p "$prompt" </dev/null)
     mkdir -p -- "$site"
     cd       -- "$site"

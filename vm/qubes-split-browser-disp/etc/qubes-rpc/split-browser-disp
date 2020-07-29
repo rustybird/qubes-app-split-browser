@@ -1,8 +1,9 @@
 #!/bin/bash
+
 set -e -u -o pipefail
 shopt -s inherit_errexit nullglob
-
 exec {saved_stdout_fd}>&1 >&2
+
 # shellcheck disable=SC1090
 for f in {,/usr/local}/etc/split-browser-disp/*.bash; do source "$f"; done
 export SB_INTO_FIREFOX=/run/split-browser-disp/into-firefox \
