@@ -2,6 +2,7 @@
 
 set -e -u -o pipefail
 shopt -s inherit_errexit nullglob
+export -n IFS=$'\t'
 
 # shellcheck disable=SC1090
 for f in {,/usr/local}/etc/split-browser/*.bash; do source "$f"; done
@@ -136,11 +137,6 @@ while :; do
     master_cmd=( master "${args[@]}" )
     args=()  # on restart, don't load given URLs again
 
-    IFS_bak=$IFS
-    IFS=$'\t'
-    init=( "${setup_cmd[*]}" "${master_cmd[*]}" )
-    IFS=$IFS_bak
-
-    restart=$(dispvm "${init[@]}")
+    restart=$(dispvm "${setup_cmd[*]}" "${master_cmd[*]}")
     [[ $restart ]] || exit 0
 done

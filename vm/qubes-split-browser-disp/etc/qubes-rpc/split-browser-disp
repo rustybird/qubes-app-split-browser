@@ -2,6 +2,7 @@
 
 set -e -u -o pipefail
 shopt -s inherit_errexit nullglob
+export -n IFS=$'\t'
 exec {saved_stdout_fd}>&1 >&2
 
 # shellcheck disable=SC1090
