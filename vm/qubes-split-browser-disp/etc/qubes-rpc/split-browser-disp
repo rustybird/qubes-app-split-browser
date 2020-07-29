@@ -43,7 +43,7 @@ while IFS= read -r cmd_line; do
             "${cmd[@]:1}"
         ;;
         autotype)
-            if type xdotool >/dev/null; then xdotool type "${cmd[*]:1}"; fi
+            if type xdotool >/dev/null; then xdotool type -- "${cmd[*]:1}"; fi
         ;;
         newtab)
             socat -u STDIN UNIX-CONNECT:"$SB_INTO_FIREFOX" <<<"${cmd[1]}"
