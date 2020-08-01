@@ -29,11 +29,10 @@ case "$1" in
     get)
         [[ $# == 1 ]]
 
-        export SB_BOOKMARK_PRETTY_DATE_LEN \
+        export SB_ELLIPSIS \
+               SB_BOOKMARK_PRETTY_DATE_LEN \
                SB_BOOKMARK_PRETTY_TITLE_LEN \
-               SB_BOOKMARK_PRETTY_FS="  " \
-               SB_BOOKMARK_PRETTY_PREFIX="$SB_STAR " \
-               SB_BOOKMARK_PRETTY_TRUNC="$SB_ELLIPSIS"
+               SB_BOOKMARK_PRETTY_OFS='  '
 
         {
             echo  # select an empty line in dmenu initially

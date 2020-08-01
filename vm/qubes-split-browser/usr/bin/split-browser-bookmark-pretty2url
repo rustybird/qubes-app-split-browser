@@ -2,10 +2,9 @@
 
 BEGIN {
     url_offset = 1 \
-                 + length(ENVIRON["SB_BOOKMARK_PRETTY_PREFIX"]) \
                  + ENVIRON["SB_BOOKMARK_PRETTY_DATE_LEN"] \
                  + ENVIRON["SB_BOOKMARK_PRETTY_TITLE_LEN"] \
-                 + 2 * length(ENVIRON["SB_BOOKMARK_PRETTY_FS"])
+                 + 2 * length(ENVIRON["SB_BOOKMARK_PRETTY_OFS"])
 }
 
 {

@@ -1,24 +1,26 @@
 #!/usr/bin/awk -f
 
 BEGIN {
-    FS = "\t"
+    FS  = "\t"
+    OFS = ENVIRON["SB_BOOKMARK_PRETTY_OFS"]
 
-    prefix          = ENVIRON["SB_BOOKMARK_PRETTY_PREFIX"]
-    fs              = ENVIRON["SB_BOOKMARK_PRETTY_FS"]
-    trunc           = ENVIRON["SB_BOOKMARK_PRETTY_TRUNC"]
-    date_len        = ENVIRON["SB_BOOKMARK_PRETTY_DATE_LEN"]
-    title_len       = ENVIRON["SB_BOOKMARK_PRETTY_TITLE_LEN"]
-    title_len_trunc = title_len - length(trunc)
-    title_len_fmt   = "%-" title_len "s"
+    date_len  = ENVIRON["SB_BOOKMARK_PRETTY_DATE_LEN"]  + 0
+    title_len = ENVIRON["SB_BOOKMARK_PRETTY_TITLE_LEN"] + 0
+    ellipsis  = ENVIRON["SB_ELLIPSIS"]
+
+    if (title_len < length(ellipsis))
+        ellipsis = ""
+
+    truncated_title_len = title_len - length(ellipsis)
+    padding_for_titles  = sprintf("%-" title_len "s", "")
 }
 
 {
-    print prefix \
-          substr($1, 1, date_len) \
-          fs \
-          (length($3) > title_len ?
-           substr($3, 1, title_len_trunc) trunc :
-           sprintf(title_len_fmt, $3)) \
-          fs \
+    title_padding_needed = title_len - length($3)
+
+    print substr($1, 1, date_len),
+          (title_padding_needed >= 0 ?
+           $3 substr(padding_for_titles, 1, title_padding_needed) :
+           substr($3, 1, truncated_title_len) ellipsis),
           $2
 }
