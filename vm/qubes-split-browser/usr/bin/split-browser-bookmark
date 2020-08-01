@@ -14,7 +14,7 @@ notify() {
     body=${body//</&lt;}   # What kind of protocol doesn't allow
     body=${body//>/&gt;}   # clients to pass a string as plain text?
 
-    notify-send --expire-time=4000 "$summary" "$body"
+    notify-send --expire-time=4000 -- "$summary" "$body"
 }
 
 
@@ -50,7 +50,7 @@ case "$1" in
         set -o noclobber
         : >"$SB_BOOKMARK_FILE".tmp
 
-        if old=$(grep -m 1 -F $'\t'"$url"$'\t' "$SB_BOOKMARK_FILE"); then
+        if old=$(grep -m 1 -F -- $'\t'"$url"$'\t' "$SB_BOOKMARK_FILE"); then
             rm -- "$SB_BOOKMARK_FILE".tmp
             notify 'Already bookmarked' "$url" "${old##*$'\t'}"
         else

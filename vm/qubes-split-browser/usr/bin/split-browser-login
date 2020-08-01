@@ -56,8 +56,8 @@ if [[ ${#matching_sites[@]} -gt 0 ]]; then
         # in case the window manager's focus stealing prevention is too lax
 
         ms=$(( SB_LOGIN_SECURITY_DELAY_SECONDS * 1000 ))
-        notify-send --expire-time="$ms" --urgency=low "$SB_ELLIPSIS"
-        sleep "$SB_LOGIN_SECURITY_DELAY_SECONDS"
+        notify-send --expire-time="$ms" --urgency=low -- "$SB_ELLIPSIS"
+        sleep -- "$SB_LOGIN_SECURITY_DELAY_SECONDS"
     fi
 
     site=$(printf '%s\n' "${matching_sites[@]}" |
