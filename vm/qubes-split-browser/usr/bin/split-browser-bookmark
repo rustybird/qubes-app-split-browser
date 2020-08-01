@@ -8,8 +8,7 @@ for f in {,/usr/local}/etc/split-browser/*.bash; do source "$f"; done
 
 
 notify() {
-    local summary=$1
-    local body=$2$'\n\n'$3
+    local summary=$1 body=$2$'\n\n'$3
 
     body=${body//&/&amp;}  # Yeah I don't like this either.
     body=${body//</&lt;}   # What kind of protocol doesn't allow
@@ -51,9 +50,9 @@ case "$1" in
         set -o noclobber
         : >"$SB_BOOKMARK_FILE".tmp
 
-        if old_entry=$(grep -m 1 -F $'\t'"$url"$'\t' "$SB_BOOKMARK_FILE"); then
+        if old=$(grep -m 1 -F $'\t'"$url"$'\t' "$SB_BOOKMARK_FILE"); then
             rm -- "$SB_BOOKMARK_FILE".tmp
-            notify 'Already bookmarked' "$url" "${old_entry##*$'\t'}"
+            notify 'Already bookmarked' "$url" "${old##*$'\t'}"
         else
             cp --reflink=auto -- "$SB_BOOKMARK_FILE"{,.tmp}
             cat >>"$SB_BOOKMARK_FILE".tmp <<<"$date"$'\t'"$url"$'\t'"$title"

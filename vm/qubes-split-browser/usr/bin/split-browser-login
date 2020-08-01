@@ -8,12 +8,9 @@ for f in {,/usr/local}/etc/split-browser/*.bash; do source "$f"; done
 
 
 truncate() {
-    local str=$1
-    local len=$2
+    local str=$1 len=$2
 
-    if [[ ${#str} -gt $len ]]; then
-        str=${str::$(( len - ${#SB_ELLIPSIS} ))}$SB_ELLIPSIS
-    fi
+    [[ ${#str} -le $len ]] || str=${str::len - ${#SB_ELLIPSIS}}$SB_ELLIPSIS
     printf %s "$str"
 }
 

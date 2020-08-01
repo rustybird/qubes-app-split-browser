@@ -108,7 +108,7 @@ dispvm() (
         req[-1]=${req[-1]%$'\n'}
 
         [[ $SB_CHARSET == ascii ]] || req[0]=$(sanitize_ascii <<<"${req[0]}")
-        req=( "${req[@]::2}" "${req[@]:$first_page_info_field_for_charset:2}" )
+        req=( "${req[@]::2}" "${req[@]:first_page_info_field_for_charset:2}" )
 
         case "${req[0]}" in
             bookmark|login)
