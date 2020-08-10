@@ -47,11 +47,12 @@ END
 done
 
 
-# When the DisposableVM sends us a request, the page URL and title are supplied
-# in two versions each: printable ASCII, and UTF-8. Printable ASCII *URLs* use
-# Punycode IDNs and percent-encoding. Printable ASCII *titles* actually come in
-# as UTF-8 normalized to NFKD (so that there are slightly fewer illegal bytes
-# to replace).
+# When the DisposableVM sends us a request, the page URL and title fields are
+# supplied in two versions each: printable ASCII, and UTF-8. Printable ASCII
+# *URLs* use Punycode IDNs and percent-encoding. Printable ASCII *titles*
+# actually come in as UTF-8 (normalized to NFKD, which tends to look better
+# than the other normalization forms after all bytes outside of the printable
+# ASCII range have been sanitized).
 
 if [[ ${SB_CHARSET-} == utf-8 ]]; then
     first_page_info_field_for_charset=4
