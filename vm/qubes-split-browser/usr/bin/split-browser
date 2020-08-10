@@ -54,21 +54,18 @@ done
 # than the other normalization forms after all bytes outside of the printable
 # ASCII range have been sanitized).
 
-if [[ ${SB_CHARSET-} == utf-8 ]]; then
-    first_page_info_field_for_charset=4
-else
-    SB_CHARSET=ascii
-    first_page_info_field_for_charset=2
-fi
+[[ ${SB_CHARSET-} == utf-8 ]] || SB_CHARSET=ascii
+
+declare -A first_page_field=( [ascii]=2 [utf-8]=4 )
+
+sanitize_ascii() {  # replace any byte with _ but printable ASCII, tab, newline
+    LC_ALL=C stdbuf -oL tr -c '\040-\176\t\n' _
+}
 
 sanitize_utf-8() {  # replace null byte with _; then validate as UTF-8
     LC_ALL=C stdbuf -oL tr '\0' _ |
     LC_ALL=C PYTHONIOENCODING=utf-8:strict \
     python3 -Suc $'import sys\nfor l in sys.stdin: sys.stdout.write(l)'
-}
-
-sanitize_ascii() {  # replace any byte with _ but printable ASCII, tab, newline
-    LC_ALL=C stdbuf -oL tr -c '\040-\176\t\n' _
 }
 
 
@@ -109,7 +106,7 @@ dispvm() (
         req[-1]=${req[-1]%$'\n'}
 
         [[ $SB_CHARSET == ascii ]] || req[0]=$(sanitize_ascii <<<"${req[0]}")
-        req=( "${req[@]::2}" "${req[@]:first_page_info_field_for_charset:2}" )
+        req=( "${req[@]::2}" "${req[@]:${first_page_field[$SB_CHARSET]}:2}" )
 
         case "${req[0]}" in
             bookmark|login)
