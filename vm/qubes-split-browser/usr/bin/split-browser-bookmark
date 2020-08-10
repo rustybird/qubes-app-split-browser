@@ -47,11 +47,15 @@ case "$1" in
         title=$3
 
         date=$(date --rfc-3339=seconds)
-        set -o noclobber
-        : >"$SB_BOOKMARK_FILE".tmp
+
+        while :; do
+            exec {lock_fd}>>"$SB_BOOKMARK_FILE"
+            flock -- "$lock_fd"
+            [[ ! /dev/fd/$lock_fd -ef $SB_BOOKMARK_FILE ]] || break
+            exec {lock_fd}>&-
+        done
 
         if old=$(grep -m 1 -F -- $'\t'"$url"$'\t' "$SB_BOOKMARK_FILE"); then
-            rm -- "$SB_BOOKMARK_FILE".tmp
             notify 'Already bookmarked' "$url" "${old##*$'\t'}"
         else
             cp --reflink=auto -- "$SB_BOOKMARK_FILE"{,.tmp}
