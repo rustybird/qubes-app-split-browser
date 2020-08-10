@@ -17,6 +17,9 @@ notify() {
     body=${body//\"/&quot;}
     body=${body//\'/&apos;}
 
+    # Replace \ with \\ for GLib's g_strcompress() in libnotify's notify-send
+    body=${body//\\/\\\\}
+
     notify-send --expire-time=4000 -- "$summary" "$body"
 }
 
