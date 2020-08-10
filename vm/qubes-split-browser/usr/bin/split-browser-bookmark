@@ -28,6 +28,9 @@ case "$1" in
     get)
         [[ $# == 1 ]]
 
+        [[ $SB_BOOKMARK_PRETTY_DATE_LEN -le 25 ]] ||
+        SB_BOOKMARK_PRETTY_DATE_LEN=25
+
         export SB_ELLIPSIS \
                SB_BOOKMARK_PRETTY_DATE_LEN \
                SB_BOOKMARK_PRETTY_TITLE_LEN \
