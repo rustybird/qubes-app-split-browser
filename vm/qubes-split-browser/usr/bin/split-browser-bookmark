@@ -21,7 +21,7 @@ notify() {
 if [[ ! -e $SB_BOOKMARK_FILE ]]; then
     d=$(dirname -- "$SB_BOOKMARK_FILE")
     mkdir -p -- "$d"
-    touch -- "$SB_BOOKMARK_FILE"
+    : >>"$SB_BOOKMARK_FILE"
 fi
 
 case "$1" in
