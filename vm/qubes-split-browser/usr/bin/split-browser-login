@@ -79,6 +79,7 @@ else
 
     if [[ ! -e fields && ! -e login ]]; then
         mkdir fields
+        set -o noclobber
         : >fields/01-user.txt
         sb_pwgen >fields/02-pass.txt
     fi
