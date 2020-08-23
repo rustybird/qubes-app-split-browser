@@ -1,3 +1,9 @@
+qubes-split-browser (0.12.3-1) unstable; urgency=medium
+
+  * New upstream release
+
+ -- Rusty Bird <rustybird@net-c.com>  Sun, 23 Aug 2020 14:54:14 +0000
+
 qubes-split-browser (0.12.2-1) unstable; urgency=medium
 
   * New upstream release
