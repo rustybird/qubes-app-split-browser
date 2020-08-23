@@ -22,8 +22,15 @@ cd       -- "$SB_LOGIN_DIR"
 url=$2
 #title=$3
 
+urls_textfile=urls.txt
+login_executable=login
+fields_dir=fields
+user_textfile=01-user.txt
+pass_textfile=02-pass.txt
+
 matching_sites=()
-for f in */**/urls.txt; do
+
+for f in */**/"$urls_textfile"; do
     while IFS= read -r line; do
         mode=${line::1}
         pattern=${line:1}
@@ -64,8 +71,8 @@ if [[ ${#matching_sites[@]} -gt 0 ]]; then
            SB_SCREEN=logins sb_dmenu -p 'Log into')
     cd -- "${site:?}"
 
-    if [[ -e login ]]; then
-        ./login
+    if [[ -e "$login_executable" ]]; then
+        ./"$login_executable"
     else
         split-browser-login-fields
     fi
@@ -75,13 +82,13 @@ else
     mkdir -p -- "$site"
     cd       -- "$site"
 
-    printf '=%s\n' "$url" >>urls.txt
+    printf '=%s\n' "$url" >>"$urls_textfile"
 
-    if [[ ! -e fields && ! -e login ]]; then
-        mkdir fields
+    if [[ ! -e  "$fields_dir" && ! -e "$login_executable" ]]; then
         set -o noclobber
-        : >fields/01-user.txt
-        sb_pwgen >fields/02-pass.txt
+        mkdir  -- "$fields_dir"
+        :        >"$fields_dir/$user_textfile"
+        sb_pwgen >"$fields_dir/$pass_textfile"
     fi
 
     exec qubes-run-terminal
