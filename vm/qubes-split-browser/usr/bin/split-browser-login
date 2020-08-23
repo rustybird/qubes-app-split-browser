@@ -82,6 +82,9 @@ else
     mkdir -p -- "$site"
     cd       -- "$site"
 
+    exec {lock_fd}<.
+    flock -- "$lock_fd"
+
     printf '=%s\n' "$url" >>"$urls_textfile"
 
     if [[ ! -e  "$fields_dir" && ! -e "$login_executable" ]]; then
@@ -91,5 +94,5 @@ else
         sb_pwgen >"$fields_dir/$pass_textfile"
     fi
 
-    exec qubes-run-terminal
+    exec qubes-run-terminal {lock_fd}<&-
 fi
