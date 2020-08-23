@@ -14,9 +14,17 @@ truncate() {
     printf %s "$str"
 }
 
+mkcd() {
+    if [[ ! -e $1 ]]; then
+        mkdir -p           -- "$1"
+        sync --file-system -- "$1"
+    fi
 
-mkdir -p -- "$SB_LOGIN_DIR"
-cd       -- "$SB_LOGIN_DIR"
+    cd -- "$1"
+}
+
+
+mkcd "$SB_LOGIN_DIR"
 
 [[ $1 == get && $# == [23] ]]
 url=$2
@@ -79,8 +87,7 @@ if [[ ${#matching_sites[@]} -gt 0 ]]; then
 else
     prompt="Name a login database entry for: $(truncate "$url" 50)"
     site=$(SB_SCREEN='logins - add' sb_dmenu -p "$prompt" </dev/null)
-    mkdir -p -- "$site"
-    cd       -- "$site"
+    mkcd "$site"
 
     exec {lock_fd}<.
     flock -- "$lock_fd"
@@ -89,12 +96,16 @@ else
         mkdir -p -- "$fields_dir".tmp
         :          >"$fields_dir".tmp/"$user_textfile"
         sb_pwgen   >"$fields_dir".tmp/"$pass_textfile"
+        sync     -- "$fields_dir".tmp/{"$user_textfile","$pass_textfile",}
         mv -T    -- "$fields_dir"{.tmp,}
+        sync .
     fi
 
     [[ ! -e "$urls_textfile" ]] || cp --reflink=auto -- "$urls_textfile"{,.tmp}
     printf '=%s\n' "$url" >>"$urls_textfile".tmp
+    sync                 -- "$urls_textfile".tmp
     mv -T                -- "$urls_textfile"{.tmp,}
+    sync .
 
     exec qubes-run-terminal {lock_fd}<&-
 fi

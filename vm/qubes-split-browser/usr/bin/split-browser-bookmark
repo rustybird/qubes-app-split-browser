@@ -28,6 +28,7 @@ if [[ ! -e $SB_BOOKMARK_FILE ]]; then
     d=$(dirname -- "$SB_BOOKMARK_FILE")
     mkdir -p -- "$d"
     : >>"$SB_BOOKMARK_FILE"
+    sync --file-system -- "$SB_BOOKMARK_FILE"
 fi
 
 case "$1" in
@@ -71,7 +72,10 @@ case "$1" in
 
             cp --reflink=auto     -- "$SB_BOOKMARK_FILE"{,.tmp}
             printf '%s\n' "$entry" >>"$SB_BOOKMARK_FILE".tmp
+            sync                  -- "$SB_BOOKMARK_FILE".tmp
             mv -T                 -- "$SB_BOOKMARK_FILE"{.tmp,}
+            d=$(dirname           -- "$SB_BOOKMARK_FILE")
+            sync -- "$d"
 
             notify "$SB_STAR  Page bookmarked" "$url" "$title"
         fi
