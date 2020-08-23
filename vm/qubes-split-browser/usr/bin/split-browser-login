@@ -18,7 +18,7 @@ truncate() {
 mkdir -p -- "$SB_LOGIN_DIR"
 cd       -- "$SB_LOGIN_DIR"
 
-[[ $1 == get && $# == 3 ]]
+[[ $1 == get && $# == [23] ]]
 url=$2
 #title=$3
 
