@@ -86,13 +86,15 @@ else
     flock -- "$lock_fd"
 
     if [[ ! -e  "$fields_dir" && ! -e "$login_executable" ]]; then
-        set -o noclobber
-        mkdir  -- "$fields_dir"
-        :        >"$fields_dir/$user_textfile"
-        sb_pwgen >"$fields_dir/$pass_textfile"
+        mkdir -p -- "$fields_dir".tmp
+        :          >"$fields_dir".tmp/"$user_textfile"
+        sb_pwgen   >"$fields_dir".tmp/"$pass_textfile"
+        mv -T    -- "$fields_dir"{.tmp,}
     fi
 
-    printf '=%s\n' "$url" >>"$urls_textfile"
+    [[ ! -e "$urls_textfile" ]] || cp --reflink=auto -- "$urls_textfile"{,.tmp}
+    printf '=%s\n' "$url" >>"$urls_textfile".tmp
+    mv -T                -- "$urls_textfile"{.tmp,}
 
     exec qubes-run-terminal {lock_fd}<&-
 fi
