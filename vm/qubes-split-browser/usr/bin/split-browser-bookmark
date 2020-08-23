@@ -69,7 +69,7 @@ case "$1" in
         else
             cp --reflink=auto -- "$SB_BOOKMARK_FILE"{,.tmp}
             cat >>"$SB_BOOKMARK_FILE".tmp <<<"$date"$'\t'"$url"$'\t'"$title"
-            mv -- "$SB_BOOKMARK_FILE"{.tmp,}
+            mv -T -- "$SB_BOOKMARK_FILE"{.tmp,}
             notify "$SB_STAR  Page bookmarked" "$url" "$title"
         fi
     ;;
