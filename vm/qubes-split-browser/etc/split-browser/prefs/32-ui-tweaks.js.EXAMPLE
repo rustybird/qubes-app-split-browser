@@ -1,8 +1,5 @@
 pref("browser.urlbar.trimURLs", false);
 pref("reader.color_scheme", "sepia");
-pref("security.insecure_connection_icon.enabled", true);
-pref("security.insecure_connection_icon.pbmode.enabled", true);
 pref("security.insecure_connection_text.enabled", true);
 pref("security.insecure_connection_text.pbmode.enabled", true);
-pref("spellchecker.dictionary", "en-US");
 pref("view_source.wrap_long_lines", true);
