@@ -92,7 +92,7 @@ else
     exec {lock_fd}<.
     flock -- "$lock_fd"
 
-    if [[ ! -e  "$fields_dir" && ! -e "$login_executable" ]]; then
+    if [[ ! -e "$fields_dir" && ! -e "$login_executable" ]]; then
         mkdir -p -- "$fields_dir".tmp
         :          >"$fields_dir".tmp/"$user_textfile"
         sb_pwgen   >"$fields_dir".tmp/"$pass_textfile"
