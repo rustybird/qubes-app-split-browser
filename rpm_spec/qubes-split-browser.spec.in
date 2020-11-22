@@ -3,7 +3,7 @@ Version:        @VERSION@
 Release:        1%{?dist}
 BuildArch:      noarch
 License:        0BSD
-URL:            https://github.com/rustybird/qubes-split-browser
+URL:            https://github.com/rustybird/qubes-app-split-browser
 Source0:        %{name}-%{version}.tar.gz
 
 Requires:       %{_bindir}/awk

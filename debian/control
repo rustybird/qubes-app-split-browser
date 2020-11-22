@@ -4,8 +4,8 @@ Priority: optional
 Maintainer: Rusty Bird <rustybird@net-c.com>
 Build-Depends: debhelper (>= 10)
 Standards-Version: 4.5.0
-Homepage: https://github.com/rustybird/qubes-split-browser
-Vcs-Git:  https://github.com/rustybird/qubes-split-browser.git
+Homepage: https://github.com/rustybird/qubes-app-split-browser
+Vcs-Git:  https://github.com/rustybird/qubes-app-split-browser.git
 
 Package: qubes-split-browser
 Architecture: all

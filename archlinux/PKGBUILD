@@ -4,7 +4,7 @@ pkgver=$(cat version)
 pkgrel=1
 arch=( any )
 license=( BSD )
-url=https://github.com/rustybird/qubes-split-browser
+url=https://github.com/rustybird/qubes-app-split-browser
 
 _backup() {
     readarray -d '' backup < <(set -e -o pipefail
