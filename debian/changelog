@@ -1,3 +1,13 @@
+qubes-split-browser (0.12.4-1) unstable; urgency=medium
+
+  [ Rusty Bird ]
+  * Remove obsolete (Firefox ESR 68 era) prefs
+  * Code style tweaks
+  * split-browser-login: Remove stray space
+  * Rename this Git repo to qubes-app-split-browser
+
+ -- Frédéric Pierret (fepitre) <frederic.pierret@qubes-os.org>  Mon, 30 Nov 2020 11:52:50 +0100
+
 qubes-split-browser (0.12.3-1) unstable; urgency=medium
 
   * New upstream release
