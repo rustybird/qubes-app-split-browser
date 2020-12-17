@@ -33,6 +33,7 @@ install-persist:
 ifeq ($(DESTDIR),)
 	systemd-tmpfiles --create split-browser.conf
 	/usr/lib/qubes/qubes-trigger-sync-appmenus.sh
+	update-desktop-database
 endif
 
 install-disp:
