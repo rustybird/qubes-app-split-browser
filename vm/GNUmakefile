@@ -26,16 +26,6 @@ endif
 default:
 
 install-persist:
-ifeq ($(DESTDIR),)
-	if test -d '$(etc)/split-browser/persist/'; then \
-	    mv     '$(etc)/split-browser/persist/'* \
-	           '$(etc)/split-browser/'; \
-	    rmdir  '$(etc)/split-browser/persist/'; \
-	fi
-	rm -f '$(PREFIX)/lib/tmpfiles.d/split-browser-persist.conf' \
-	      '$(PREFIX)/share/applications/split-browser-high.desktop' \
-	      '$(etc)/split-browser/prefs/20-whonix-gateway.js'
-endif
 	umask 022
 	mkdir -p -- '$(DESTDIR)$(PREFIX)/' '$(DESTDIR)$(etc)/'
 	cp -R -- qubes-split-browser/usr/* '$(DESTDIR)$(PREFIX)/'
@@ -46,17 +36,6 @@ ifeq ($(DESTDIR),)
 endif
 
 install-disp:
-ifeq ($(DESTDIR),)
-	if test -d '$(etc)/split-browser/disp/'; then \
-	    mv -T  '$(etc)/split-browser/disp/' \
-	           '$(etc)/split-browser-disp/'; \
-	    rmdir --ignore-fail-on-non-empty '$(etc)/split-browser/'; \
-	fi
-	rm -rf '$(PREFIX)/share/split-browser/' \
-	       '$(etc)/qubes-rpc/splitBrowser' \
-	       '$(etc)/split-browser-disp/10-defaults.bash' \
-	       '$(etc)/split-browser-disp/20-whonix-workstation.bash'
-endif
 	umask 022
 	mkdir -p -- '$(DESTDIR)$(PREFIX)/' '$(DESTDIR)$(etc)/'
 	cp -R -- qubes-split-browser-disp/usr/* '$(DESTDIR)$(PREFIX)/'
