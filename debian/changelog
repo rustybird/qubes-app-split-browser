@@ -1,3 +1,16 @@
+qubes-split-browser (0.13.0-1) unstable; urgency=medium
+
+  * README.md: Rephrase
+  * README.md: Uppercase "XX" version placeholder, as in qubes-doc
+  * README.md: "default DisposableVM Template", as in Qube Settings
+  * README.md: Add qubes-repo-contrib install instructions
+  * Remove cruft
+  * (packaging): debian: Update standards version
+  * sb.js: Code style tweaks
+  * Register Split Browser as an available HTTP(S) handler
+
+ -- Rusty Bird <rustybird@net-c.com>  Thu, 17 Dec 2020 13:32:58 +0000
+
 qubes-split-browser (0.12.4-1) unstable; urgency=medium
 
   [ Rusty Bird ]
