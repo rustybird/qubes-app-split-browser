@@ -1,2 +1,0 @@
-rm_conffile /etc/split-browser-disp/10-defaults.bash           0.10.0-1
-rm_conffile /etc/split-browser-disp/20-whonix-workstation.bash 0.10.0-1

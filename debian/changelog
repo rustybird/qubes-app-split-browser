@@ -1,3 +1,16 @@
+qubes-split-browser (0.13.0-1) unstable; urgency=medium
+
+  * README.md: Rephrase
+  * README.md: Uppercase "XX" version placeholder, as in qubes-doc
+  * README.md: "default DisposableVM Template", as in Qube Settings
+  * README.md: Add qubes-repo-contrib install instructions
+  * Remove cruft
+  * (packaging): debian: Update standards version
+  * sb.js: Code style tweaks
+  * Register Split Browser as an available HTTP(S) handler
+
+ -- Rusty Bird <rustybird@net-c.com>  Thu, 17 Dec 2020 13:32:58 +0000
+
 qubes-split-browser (0.12.4-1) unstable; urgency=medium
 
   [ Rusty Bird ]
@@ -7,57 +20,3 @@ qubes-split-browser (0.12.4-1) unstable; urgency=medium
   * Rename this Git repo to qubes-app-split-browser
 
  -- Frédéric Pierret (fepitre) <frederic.pierret@qubes-os.org>  Mon, 30 Nov 2020 11:52:50 +0100
-
-qubes-split-browser (0.12.3-1) unstable; urgency=medium
-
-  * New upstream release
-
- -- Rusty Bird <rustybird@net-c.com>  Sun, 23 Aug 2020 14:54:14 +0000
-
-qubes-split-browser (0.12.2-1) unstable; urgency=medium
-
-  * New upstream release
-
- -- Rusty Bird <rustybird@net-c.com>  Mon, 10 Aug 2020 13:09:11 +0000
-
-qubes-split-browser (0.12.1-1) unstable; urgency=medium
-
-  * New upstream release
-
- -- Rusty Bird <rustybird@net-c.com>  Sat, 01 Aug 2020 21:37:48 +0000
-
-qubes-split-browser (0.12.0-1) unstable; urgency=medium
-
-  * New upstream release
-
- -- Rusty Bird <rustybird@net-c.com>  Wed, 29 Jul 2020 14:30:34 +0000
-
-qubes-split-browser (0.11.3-1) unstable; urgency=medium
-
-  * New upstream release
-
- -- Rusty Bird <rustybird@net-c.com>  Mon, 20 Jul 2020 16:07:53 +0000
-
-qubes-split-browser (0.11.2-1) unstable; urgency=medium
-
-  * New upstream release
-
- -- Rusty Bird <rustybird@net-c.com>  Thu, 16 Jul 2020 22:55:02 +0000
-
-qubes-split-browser (0.11.1-1) unstable; urgency=medium
-
-  * New upstream release
-
- -- Rusty Bird <rustybird@net-c.com>  Wed, 10 Jun 2020 14:57:55 +0000
-
-qubes-split-browser (0.11.0-1) unstable; urgency=medium
-
-  * New upstream release
-
- -- Rusty Bird <rustybird@net-c.com>  Thu, 04 Jun 2020 14:07:23 +0000
-
-qubes-split-browser (0.10.0-1) unstable; urgency=medium
-
-  * New upstream release
-
- -- Rusty Bird <rustybird@net-c.com>  Tue, 26 May 2020 16:01:34 +0000

@@ -35,7 +35,7 @@ Ctrl-Shift-s     | Move downloads to a VM of your choice
 
 Bookmarks are stored in a text file, `~/.local/share/split-browser/bookmarks.tsv`. Each line consists of a timestamp, URL, and title, separated by tabs.
 
-You can instantly search through tens of thousands of bookmarks.
+The bookmark manager can instantly search through tens of thousands of bookmarks.
 
 To reduce attack surface, only printable ASCII characters are allowed by default. This can be broadened to UTF-8: Symlink `[/usr/local]/etc/split-browser/20-utf-8.bash.EXAMPLE` without the `.EXAMPLE` suffix.
 
@@ -52,7 +52,7 @@ First letter | Type           | Scope
 
 If any of the lines match and the user subsequently chooses this database entry, the `login` executable in the directory is called - if missing, it defaults to `split-browser-login-fields` in `$PATH`:
 
-`split-browser-login-fields` goes through each filename in the `fields/` child directory, in lexical order. If it ends in `.txt` and isn't executable, the file's _content_ is collected. If it doesn't end in `.txt` and is executable, its _output_ is collected instead. All these collected fields are finally sent to the browser as fake key presses, with Tab between fields and Enter after the last.
+`split-browser-login-fields` goes through each filename in the `fields/` child directory, in lexical order. If it ends in `.txt` (and isn't executable), the file's _content_ is collected. If it is executable (and doesn't end in `.txt`), its _output_ is collected instead. All these collected fields are finally "auto-typed" into the browser using fake key presses, with Tab between fields and Enter after the last.
 
 **To get started, just try the login keyboard shortcut (Ctrl-Shift-Enter) on any login page.** This will prompt you to create a skeleton directory that will become the database entry for the page, and pop up a terminal window there so you can have a look around, save your username, and possibly change the generated password or trim junk off the URL. Then ensure that the browser's focus is on the username field and press the keyboard shortcut again.
 
@@ -78,7 +78,7 @@ _TODO: build some sort of KeePassXC bridge?_
 
 ## Notes
 
-- Multiple Split Browser instances (e.g. one with Tor Browser's Security Level set to Standard and another set to Safest) can be run in parallel, even from the same persistent VM. This won't corrupt the bookmark and login collections.
+- Multiple Split Browser instances (e.g. one with Tor Browser's Security Level set to Standard and another set to Safest) can run in parallel, even from the same persistent VM. This won't corrupt the bookmark and login collections.
 
 - If you're starting Split Browser through its application launcher shortcuts, any diagnostic messages go into the syslog of the persistent VM:
 
@@ -93,17 +93,21 @@ _TODO: build some sort of KeePassXC bridge?_
 1. Create a new persistent VM or take an existing one, and configure it to launch the right DisposableVMs and (optionally, for safety against user error) to have no network access itself:
 
         qvm-create --label=purple surfer
-        qvm-prefs surfer default_dispvm whonix-ws-xx-dvm
+        qvm-prefs surfer default_dispvm whonix-ws-XX-dvm
         qvm-prefs surfer netvm ''
 
    The DisposableVMs will know which persistent VM launched them, so don't name it "rumplestiltskin" if an exploited browser mustn't find out.
 
-2. Copy `vm/` into your persistent VM or its TemplateVM (e.g. fedora-xx) and run `sudo make install-persist`. Then install the `dmenu pwgen oathtool` packages in the TemplateVM.
+2. Install the `qubes-split-browser` package from [qubes-repo-contrib](https://www.qubes-os.org/doc/installing-contributed-packages/) in your persistent VM's TemplateVM (e.g. fedora-XX).
 
-3. Copy `vm/` into your persistent VM's "template for DisposableVMs" (e.g. whonix-ws-xx-dvm) or the latter's TemplateVM (e.g. whonix-ws-xx) and run `sudo make install-disp`. Then install the `xdotool` package in the TemplateVM, and ensure that an extracted Tor Browser is available in `~/.tb/tor-browser/` (e.g. by running the Tor Browser Downloader `update-torbrowser` in whonix-ws-xx).
+   _Or install manually:_ Copy `vm/` into your persistent VM or its TemplateVM (e.g. fedora-XX) and run `sudo make install-persist`; then install the `dmenu pwgen oathtool` packages in the TemplateVM.
+
+3. Install the `qubes-split-browser-disp` package from qubes-repo-contrib in your persistent VM's default DisposableVM Template's TemplateVM (e.g. whonix-ws-XX).
+
+   _Or install manually:_ Copy `vm/` into your persistent VM's default DisposableVM Template (e.g. whonix-ws-XX-dvm) or the latter's TemplateVM (e.g. whonix-ws-XX) and run `sudo make install-disp`; then install the `xdotool` package in the TemplateVM.
+
+   Either way, also ensure that an extracted Tor Browser will be available in `~/.tb/tor-browser/` (e.g. by running the Tor Browser Downloader `update-torbrowser` in whonix-ws-XX).
 
 4. You can enable the Split Browser application launcher shortcuts for your persistent VM as usual through the Applications tab in Qube Settings, or alternatively run `split-browser` in a terminal (with `-h` to see the help message).
 
-_TODO: document qubes-builder packaging_
-
-_TODO: consider recommending `systemctl disable onion-grater` in whonix-gw-xx, because Split Browser doesn't need to access the tor control port at all_
+_TODO: consider recommending `systemctl disable onion-grater` in whonix-gw-XX, because Split Browser doesn't need to access the tor control port at all_

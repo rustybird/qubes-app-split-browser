@@ -75,7 +75,7 @@
     try {
       urlForUtf8 = decodeURI(uri.displaySpec);
       if (urlForUtf8.indexOf("%") !== -1 || urlForUtf8.search(BadByte) !== -1)
-        throw URIError();
+        throw new URIError;
     } catch ({}) {
       urlForUtf8 = uri.displaySpec;
     }
@@ -84,7 +84,7 @@
   };
 
   const restart = () => {
-    const cancel = new PrBool();
+    const cancel = new PrBool;
 
     ObserverService.notifyObservers(cancel, "quit-application-requested", null);
 

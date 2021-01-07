@@ -6,6 +6,7 @@ Keywords=Firefox;Tor
 Categories=Network;WebBrowser;Security
 Icon=web-browser
 Type=Application
+MimeType=x-scheme-handler/https;x-scheme-handler/http
 Exec=split-browser --safest %u
 Terminal=false
 StartupNotify=false
