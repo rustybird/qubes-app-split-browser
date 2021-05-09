@@ -1,7 +1,7 @@
 # Maintainer: Rusty Bird <rustybird@net-c.com>
 pkgname=( qubes-split-browser{,-disp} )
 pkgver=$(cat version)
-pkgrel=1
+pkgrel=$(cat rel)
 arch=( any )
 license=( BSD )
 url=https://github.com/rustybird/qubes-app-split-browser
