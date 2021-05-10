@@ -1,6 +1,6 @@
 Name:           qubes-split-browser
 Version:        @VERSION@
-Release:        @REL@%{?dist}
+Release:        1%{?dist}
 BuildArch:      noarch
 License:        0BSD
 URL:            https://github.com/rustybird/qubes-app-split-browser
