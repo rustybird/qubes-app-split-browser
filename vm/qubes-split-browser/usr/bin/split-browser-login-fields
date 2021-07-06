@@ -11,6 +11,7 @@ fail() {
 
 
 fields=()
+
 for file in fields/*; do
     if [[ $file == *.txt ]]; then
         [[ ! -x $file ]] || fail "$file" 'ends in .txt but is also executable'
@@ -22,6 +23,7 @@ for file in fields/*; do
     [[ $field != *$'\t'* ]] || fail "$file" 'contains a tab character'
     fields+=( "${field//$'\n'/$'\r'}" )
 done
+
 [[ ${#fields[@]} -gt 0 ]] || fail fields/ 'is empty'
 
 # shellcheck disable=SC2145

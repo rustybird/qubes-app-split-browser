@@ -44,7 +44,9 @@ package_qubes-split-browser-disp() {
         socat
         systemd
     )
-    optdepends=( 'xdotool: autotype logins' )
+    optdepends=(
+        'xdotool: autotype logins'
+    )
 
     make -C ../vm PREFIX=/usr DESTDIR="$pkgdir" install-disp
     install -D -m 644 -t "$pkgdir/usr/share/licenses/$pkgname/" ../LICENSE-0BSD
