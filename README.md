@@ -63,12 +63,14 @@ Here's an example of how a login directory structure could be organized:
             github/
                 factor1/
                     urls.txt: ^https://github.com/login
-                    fields/01-user.txt: rustybird
-                    fields/02-pass.txt: correct horse battery staple
+                    fields/
+                        01-user.txt: rustybird
+                        02-pass.txt: correct horse battery staple
                 factor2/
                     urls.txt: =https://github.com/sessions/two-factor
-                    fields/01-totp: #!/bin/sh
-                                    oathtool --totp --base32 foobarba7qux
+                    fields/
+                        01-totp: #!/bin/sh
+                                 oathtool --totp --base32 foobarba7qux
             ...
 
 _TODO: set up an automounted encrypted filesystem?_
