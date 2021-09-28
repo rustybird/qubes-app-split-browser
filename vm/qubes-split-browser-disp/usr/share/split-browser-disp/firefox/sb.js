@@ -104,15 +104,6 @@
                                           Ci.nsIPrefLocalizedString).data
     });
 
-  const newTab = url => {
-    const browser = WindowMediator.getMostRecentBrowserWindow().gBrowser;
-
-    browser.selectedTab = browser.addTab(url, {
-      triggeringPrincipal: ScriptSecurity.getSystemPrincipal(),
-      fromExternal: true
-    });
-  };
-
   const onKey = e => {
     const k = e.key.toLowerCase();
     let f;
@@ -188,8 +179,17 @@
         input.close();
       }
 
-      if (line.slice(-1) === RecordSep)
-        newTab(line.slice(0, -1));
+      if (line.slice(-1) !== RecordSep)
+        return;
+
+      const url     = line.slice(0, -1);
+      const browser = WindowMediator.getMostRecentBrowserWindow().gBrowser;
+      const params  = {
+        triggeringPrincipal: ScriptSecurity.getSystemPrincipal(),
+        fromExternal: true
+      };
+
+      browser.selectedTab = browser.addTab(url, params);
     }
   });
 })();
