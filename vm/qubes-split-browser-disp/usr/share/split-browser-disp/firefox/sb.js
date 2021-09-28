@@ -182,14 +182,15 @@
       if (line.slice(-1) !== RecordSep)
         return;
 
-      const url     = line.slice(0, -1);
+      const urls    = line.slice(0, -1).split(FieldSep);
       const browser = WindowMediator.getMostRecentBrowserWindow().gBrowser;
       const params  = {
+        skipAnimation: urls.length > 1,
         triggeringPrincipal: ScriptSecurity.getSystemPrincipal(),
         fromExternal: true
       };
 
-      browser.selectedTab = browser.addTab(url, params);
+      browser.selectedTab = urls.map(url => browser.addTab(url, params))[0];
     }
   });
 })();
