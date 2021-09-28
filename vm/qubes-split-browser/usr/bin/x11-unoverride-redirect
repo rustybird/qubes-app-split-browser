@@ -57,18 +57,17 @@ def main():
         [xproto.EventMask.SubstructureNotify]
     ).check()
 
-    command = subprocess.Popen(sys.argv[1:])
+    with subprocess.Popen(sys.argv[1:]) as command:
+        for ev in iter(connection.wait_for_event, None):
+            if command.poll() is not None:  # command finished
+                break
+            if isinstance(ev, xproto.CreateNotifyEvent) \
+               and ev.override_redirect:
+                for cookie in list(adjust_window(ev.window, core)):
+                    cookie.check()
+                break
+        connection.disconnect()
 
-    for ev in iter(connection.wait_for_event, None):
-        if command.poll() is not None:  # command finished
-            break
-        if isinstance(ev, xproto.CreateNotifyEvent) and ev.override_redirect:
-            for cookie in list(adjust_window(ev.window, core)):
-                cookie.check()
-            break
-
-    connection.disconnect()
-    command.wait()
     status = command.returncode
     if status < 0:
         status = 128 - status
