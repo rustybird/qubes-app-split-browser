@@ -1,3 +1,16 @@
+qubes-split-browser (0.14.0-1) unstable; urgency=medium
+
+  * Revert "(packaging): Don't hardcode package release number"
+  * README.md: Reformat example login directory structure
+  * Code style tweaks
+  * Remove obsolete pref
+  * (packaging): rpm_spec: Sort file list alphabetically
+  * x11-unoverride-redirect: Fix pylint consider-using-with warning
+  * sb.js: Inline newTab()
+  * Support multiple URL arguments for 'split-browser-cmd newtab'
+
+ -- Rusty Bird <rustybird@net-c.com>  Tue, 28 Sep 2021 17:36:40 +0000
+
 qubes-split-browser (0.13.1-1) unstable; urgency=medium
 
   [ Rusty Bird ]
