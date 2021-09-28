@@ -52,8 +52,8 @@ and communicate with a VM that handles persistent bookmarks and logins.
 
 %files disp
 %license LICENSE-0BSD
-/etc/qubes-rpc/*
 %config(noreplace) /etc/split-browser-disp/
+/etc/qubes-rpc/*
 /usr/lib/tmpfiles.d/split-browser-disp.conf
 /usr/share/split-browser-disp/
 
