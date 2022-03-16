@@ -1,3 +1,12 @@
+qubes-split-browser (0.14.1-1) unstable; urgency=medium
+
+  * (packaging): debian: Update standards version
+  * Update copyright year
+  * Remove obsolete pref
+  * Fix occasional browser launch failure in DisposableVM
+
+ -- Rusty Bird <rustybird@net-c.com>  Wed, 16 Mar 2022 11:34:41 +0000
+
 qubes-split-browser (0.14.0-1) unstable; urgency=medium
 
   * Revert "(packaging): Don't hardcode package release number"
