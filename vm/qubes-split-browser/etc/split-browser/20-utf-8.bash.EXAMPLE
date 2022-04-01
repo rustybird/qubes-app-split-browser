@@ -1,2 +1,0 @@
-# allow page titles and decoded URLs beyond printable ASCII
-SB_CHARSET=utf-8
