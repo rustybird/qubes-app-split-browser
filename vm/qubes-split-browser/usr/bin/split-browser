@@ -95,8 +95,8 @@ dispvm() (
     mv -T -- "$SB_CMD_INPUT"{.tmp,}
 
     {
-        qrexec-client-vm -T @dispvm qubes.VMShell+WaitForSession <&"$cmd_fd" \
-                         2>&1 >&"$req_fd" {req_fd}>&- |
+        qrexec-client-vm -T "$SB_DISP" qubes.VMShell+WaitForSession \
+                         2>&1 >&"$req_fd" {req_fd}>&- <&"$cmd_fd" |
         sanitize_ascii                    {req_fd}>&- |
         sed -u 's/^/disp: /'  >&2         {req_fd}>&-
     } {req_fd}>&1 |
