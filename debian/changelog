@@ -1,3 +1,15 @@
+qubes-split-browser (0.15.0-1) unstable; urgency=medium
+
+  [ Frédéric Pierret (fepitre) ]
+  * Add gitlab-ci
+
+  [ Rusty Bird ]
+  * README.md: Update link
+  * Add $SB_DISP variable to override default @dispvm
+  * (packaging): debian: Update standards version
+
+ -- Rusty Bird <rustybird@net-c.com>  Mon, 30 May 2022 10:31:18 +0000
+
 qubes-split-browser (0.14.1-1) unstable; urgency=medium
 
   * (packaging): debian: Update standards version
