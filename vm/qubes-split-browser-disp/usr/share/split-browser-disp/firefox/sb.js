@@ -99,7 +99,7 @@
       command: "/bin/bash",
       arguments: ["-lc",
                   "exec /usr/lib/qubes/qvm-move-to-vm.kde * &>/dev/null"],
-      environment: {},
+      environment: { LC_CTYPE: "C.UTF-8" },
       workdir: PrefBranch.getComplexValue("browser.download.dir",
                                           Ci.nsIPrefLocalizedString).data
     });
