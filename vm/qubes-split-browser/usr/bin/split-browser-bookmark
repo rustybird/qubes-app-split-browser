@@ -11,14 +11,15 @@ notify() {
     local summary=$1 body=$2$'\n\n'$3
 
     # XML-escape for the notification server
-    body=${body//&/&amp;}
-    body=${body//</&lt;}
-    body=${body//>/&gt;}
-    body=${body//\"/&quot;}
-    body=${body//\'/&apos;}
+    body=${body//'&'/'&amp;'}
+    body=${body//'<'/'&lt;'}
+    body=${body//'>'/'&gt;'}
+    body=${body//'"'/'&quot;'}
+    body=${body//"'"/'&apos;'}
 
     # Escape backslash for GLib's g_strcompress() in libnotify's notify-send
-    body=${body//\\/\\\\}
+    # shellcheck disable=SC1003
+    body=${body//'\'/'\\'}
 
     notify-send --expire-time=4000 -- "$summary" "$body"
 }
