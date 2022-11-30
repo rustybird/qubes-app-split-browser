@@ -1,3 +1,10 @@
+qubes-split-browser (0.15.2-1) unstable; urgency=medium
+
+  * split-browser: Simplify Python oneliner
+  * split-browser-{login,bookmark}: Allow notify-send to fail
+
+ -- Rusty Bird <rustybird@net-c.com>  Wed, 30 Nov 2022 14:23:52 +0000
+
 qubes-split-browser (0.15.1-1) unstable; urgency=medium
 
   * (packaging): debian: Bump debhelper compat to 12
