@@ -21,7 +21,7 @@ notify() {
     # shellcheck disable=SC1003
     body=${body//'\'/'\\'}
 
-    notify-send --expire-time=4000 -- "$summary" "$body"
+    notify-send --expire-time=4000 -- "$summary" "$body" || true
 }
 
 
