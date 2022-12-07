@@ -1,3 +1,9 @@
+qubes-split-browser (0.15.3-1) unstable; urgency=medium
+
+  * Hide display language notification
+
+ -- Rusty Bird <rustybird@net-c.com>  Wed, 07 Dec 2022 20:15:54 +0000
+
 qubes-split-browser (0.15.2-1) unstable; urgency=medium
 
   * split-browser: Simplify Python oneliner
