@@ -23,7 +23,7 @@ for arg; do
 
 
   --safest       set Tor Browser's Security Level to Safest; equivalent to
-                 --pref='pref("extensions.torbutton.security_slider", 1);'
+                 --pref='lockPref("browser.security_level.security_slider", 1);'
 
   --pref=<line>  additional browser preference line, appended after those
                  stored in /etc/split-browser/prefs/*.js and
@@ -35,7 +35,7 @@ for arg; do
 END
         ;;
         --safest|--high)  # --high is deprecated
-            cli_prefs+=( 'pref("extensions.torbutton.security_slider", 1);' )
+            cli_prefs+=( 'lockPref("browser.security_level.security_slider", 1);' )
         ;;
         --pref=*)
             cli_prefs+=( "${arg#*=}" )
