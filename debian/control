@@ -3,7 +3,7 @@ Section: web
 Priority: optional
 Maintainer: Rusty Bird <rustybird@net-c.com>
 Build-Depends: debhelper-compat (= 12)
-Standards-Version: 4.6.1
+Standards-Version: 4.6.2
 Homepage: https://github.com/rustybird/qubes-app-split-browser
 Vcs-Git:  https://github.com/rustybird/qubes-app-split-browser.git
 
