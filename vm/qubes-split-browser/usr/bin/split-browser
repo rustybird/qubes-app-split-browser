@@ -89,9 +89,13 @@ dispvm() (
     mkfifo -- "$SB_CMD_INPUT".tmp
     exec {cmd_fd}<>"$SB_CMD_INPUT".tmp
 
+    # 1031 is fcntl.F_SETPIPE_SZ in Python 3.10+
+    python3 -Sc 'import fcntl; fcntl.fcntl(0, 1031, 1024**2)' <&"$cmd_fd" ||
+    true
+
     d=/etc/qubes-rpc
     bash_line="PATH=/usr/local$d:$d:\$PATH exec split-browser-disp"
-    printf '%s\n' "$bash_line" "$@" >&"$cmd_fd"  # 64 KB pipe capacity
+    printf '%s\n' "$bash_line" "$@" >&"$cmd_fd"
     mv -T -- "$SB_CMD_INPUT"{.tmp,}
 
     {
