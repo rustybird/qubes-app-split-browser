@@ -1,3 +1,11 @@
+qubes-split-browser (0.15.5-1) unstable; urgency=medium
+
+  * (packaging): debian: Update standards version
+  * Update copyright year
+  * split-browser: Increase pipe capacity
+
+ -- Rusty Bird <rustybird@net-c.com>  Mon, 16 Jan 2023 12:57:19 +0000
+
 qubes-split-browser (0.15.4-1) unstable; urgency=medium
 
   * split-browser: Fix '--safest' Security Level for Tor Browser 12
