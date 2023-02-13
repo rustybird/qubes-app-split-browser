@@ -67,7 +67,7 @@ Here's an example of how a login directory structure could be organized:
                         01-user.txt: rustybird
                         02-pass.txt: correct horse battery staple
                 factor2/
-                    urls.txt: =https://github.com/sessions/two-factor
+                    urls.txt: =https://github.com/sessions/two-factor/app
                     fields/
                         01-totp: #!/bin/sh
                                  oathtool --totp --base32 foobarba7qux
