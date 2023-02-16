@@ -32,8 +32,8 @@ install-persist:
 	cp -R -- qubes-split-browser/etc/* '$(DESTDIR)$(etc)/'
 ifeq ($(DESTDIR),)
 	systemd-tmpfiles --create split-browser.conf
+	if type update-desktop-database >/dev/null; then update-desktop-database; fi
 	/usr/lib/qubes/qubes-trigger-sync-appmenus.sh
-	update-desktop-database
 endif
 
 install-disp:
