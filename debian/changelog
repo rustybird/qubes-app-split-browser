@@ -1,3 +1,15 @@
+qubes-split-browser (0.16.0-1) unstable; urgency=medium
+
+  * README.md: Update URL in example login directory structure
+  * GNUmakefile: Don't fail if update-desktop-database is missing
+  * GNUmakefile: Sync app menus even on AppVM
+  * Remove orphaned pref
+  * Update download warning pref for Tor Browser 12.5
+  * Generate passwords without pwgen
+  * Default to shorter passwords from a larger range of characters
+
+ -- Rusty Bird <rustybird@net-c.com>  Sun, 25 Jun 2023 14:30:05 +0000
+
 qubes-split-browser (0.15.5-1) unstable; urgency=medium
 
   * (packaging): debian: Update standards version
