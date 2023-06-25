@@ -26,7 +26,6 @@ package_qubes-split-browser() {
         systemd
     )
     optdepends=(
-        'pwgen: generate passwords'
         'oath-toolkit: authenticate by TOTP'
     )
 

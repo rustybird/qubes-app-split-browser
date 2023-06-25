@@ -7,6 +7,14 @@ shopt -s inherit_errexit nullglob globstar
 for f in {,/usr/local}/etc/split-browser/*.bash; do source "$f"; done
 
 
+passgen() (
+    export LC_ALL=C
+    read -rN "$SB_LOGIN_PASSGEN_LEN" pass \
+         < <(tr -dc "$SB_LOGIN_PASSGEN_ALPHABET" </dev/random)
+    [[ ${#pass} == "$SB_LOGIN_PASSGEN_LEN" ]]
+    printf '%s\n' "$pass"
+)
+
 truncate() {
     local str=$1 len=$2
 
@@ -95,7 +103,7 @@ else
     if [[ ! -e "$fields_dir" && ! -e "$login_executable" ]]; then
         mkdir -p -- "$fields_dir".tmp
         :          >"$fields_dir".tmp/"$user_textfile"
-        sb_pwgen   >"$fields_dir".tmp/"$pass_textfile"
+        passgen    >"$fields_dir".tmp/"$pass_textfile"
         sync     -- "$fields_dir".tmp/{"$user_textfile","$pass_textfile",}
         mv -T    -- "$fields_dir"{.tmp,}
         sync .

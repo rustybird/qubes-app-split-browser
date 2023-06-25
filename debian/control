@@ -16,7 +16,6 @@ Depends:
     python3-xcffib,
     systemd,
     ${misc:Depends}
-Recommends: pwgen
 Suggests: oathtool
 Description: Split Browser for Qubes
  Handle persistent bookmarks and logins in a Qubes VM, and communicate with

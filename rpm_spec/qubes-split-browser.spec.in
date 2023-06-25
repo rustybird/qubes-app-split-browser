@@ -16,7 +16,6 @@ Requires:       python3
 Requires:       python3-xcffib
 Requires:       systemd
 Recommends:     oathtool
-Recommends:     pwgen
 Summary:        Split Browser for Qubes
 
 %description
