@@ -1,10 +1,14 @@
 # Maintainer: Rusty Bird <rustybird@net-c.com>
 pkgname=( qubes-split-browser{,-disp} )
-pkgver=$(cat version)
-pkgrel=1
+pkgver=@VERSION@
+pkgrel=@REL@
+pkgdesc="Split Browser for Qubes OS"
 arch=( any )
 license=( BSD )
-url=https://github.com/rustybird/qubes-app-split-browser
+url=https://github.com/QubesOS/qubes-app-split-browser
+_pkgnvr="${pkgname}-${pkgver}-${pkgrel}"
+source=("${_pkgnvr}.tar.gz")
+sha256sums=(SKIP)
 
 _backup() {
     readarray -d '' backup < <(set -e -o pipefail
@@ -28,10 +32,10 @@ package_qubes-split-browser() {
     optdepends=(
         'oath-toolkit: authenticate by TOTP'
     )
-
-    make -C ../vm PREFIX=/usr DESTDIR="$pkgdir" install-persist
-    install -D -m 644 -t "$pkgdir/usr/share/licenses/$pkgname/" ../LICENSE-0BSD
-    install -D -m 644 -t "$pkgdir/usr/share/doc/$pkgname/"      ../README.md
+    cd "${_pkgnvr}"
+    make -C vm PREFIX=/usr DESTDIR="$pkgdir" install-persist
+    install -D -m 644 -t "$pkgdir/usr/share/licenses/$pkgname/" LICENSE-0BSD
+    install -D -m 644 -t "$pkgdir/usr/share/doc/$pkgname/"      README.md
     _backup etc/split-browser/
 }
 
@@ -46,8 +50,8 @@ package_qubes-split-browser-disp() {
     optdepends=(
         'xdotool: autotype logins'
     )
-
-    make -C ../vm PREFIX=/usr DESTDIR="$pkgdir" install-disp
-    install -D -m 644 -t "$pkgdir/usr/share/licenses/$pkgname/" ../LICENSE-0BSD
+    cd "${_pkgnvr}"
+    make -C vm PREFIX=/usr DESTDIR="$pkgdir" install-disp
+    install -D -m 644 -t "$pkgdir/usr/share/licenses/$pkgname/" LICENSE-0BSD
     _backup etc/split-browser-disp/
 }
