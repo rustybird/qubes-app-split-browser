@@ -1,3 +1,10 @@
+qubes-split-browser (0.16.1-1) unstable; urgency=medium
+
+  * Add builderv2 integration
+  * archlinux: update packaging
+
+ -- Frédéric Pierret (fepitre) <frederic.pierret@qubes-os.org>  Sun, 06 Aug 2023 10:26:32 +0200
+
 qubes-split-browser (0.16.0-1) unstable; urgency=medium
 
   * README.md: Update URL in example login directory structure
