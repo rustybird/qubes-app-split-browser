@@ -1,16 +1,16 @@
-# Split Browser for Qubes
+# Split Browser for Qubes OS
 
-Everyone loves the [Whonix approach](https://www.whonix.org/wiki/Qubes) of running Tor Browser and the tor daemon in two separate [Qubes](https://www.qubes-os.org/) VMs, e.g. anon-whonix and sys-whonix.
+Everyone loves the [Whonix approach](https://www.whonix.org/wiki/Qubes) of running Tor Browser and the tor daemon in two separate [Qubes OS](https://www.qubes-os.org/) qubes, e.g. anon-whonix and sys-whonix.
 
-Let's take it a step further and **run Tor Browser (or Firefox) in a [DisposableVM](https://www.qubes-os.org/doc/how-to-use-disposables/) connecting through the tor VM (or another network-providing VM), while storing bookmarks and logins in a persistent VM** - with carefully restricted data flow.
+Let's take it a step further and **run Tor Browser (or Firefox) in a [disposable](https://www.qubes-os.org/doc/how-to-use-disposables/) connecting through the tor qube (or another network-providing qube), while storing bookmarks and logins in a persistent qube** - with carefully restricted data flow.
 
-In this setup, the DisposableVM's browser can send various requests to the persistent VM:
+In this setup, the disposable's browser can send various requests to the persistent qube:
 
 - Bookmark the current page
 - Let the user choose a bookmark to load
 - Let the user authorize logging into the current page
 
-**But if the browser gets exploited, it won't be able to read all your bookmarks or login credentials and send them to the attacker.** And you can restart the DisposableVM frequently (which should only take a few seconds) to "shake off" such an attack.
+**But if the browser gets exploited, it won't be able to read all your bookmarks or login credentials and send them to the attacker.** And you can restart the disposable frequently (which should only take a few seconds) to "shake off" such an attack.
 
 
 ## Keyboard shortcuts
@@ -22,8 +22,8 @@ Combination      | Function
 **Alt-b**        | Open bookmarks
 **Ctrl-d**       | Bookmark current page
 Ctrl-Shift-Enter | Log into current page
-Ctrl-Shift-s     | Move downloads to a VM of your choice
-**Ctrl-Shift-u** | `New Identity` on steroids: Quit and restart the browser in a new DisposableVM, with fresh Tor circuits.
+Ctrl-Shift-s     | Move downloads to a qube of your choice
+**Ctrl-Shift-u** | `New Identity` on steroids: Quit and restart the browser in a new disposable, with fresh Tor circuits.
 
 
 ## Implementation
@@ -80,9 +80,9 @@ _TODO: build some sort of KeePassXC bridge?_
 
 ## Notes
 
-- Multiple Split Browser instances (e.g. one with Tor Browser's Security Level set to Standard and another set to Safest) can run in parallel, even from the same persistent VM. This won't corrupt the bookmark and login collections.
+- Multiple Split Browser instances (e.g. one with Tor Browser's Security Level set to Standard and another set to Safest) can run in parallel, even from the same persistent qube. This won't corrupt the bookmark and login collections.
 
-- If you're starting Split Browser through its application launcher shortcuts, any diagnostic messages go into the syslog of the persistent VM:
+- If you're starting Split Browser through its application launcher shortcuts, any diagnostic messages go into the syslog of the persistent qube:
 
         journalctl -t qubes.StartApp+split-browser-dom0 \
                    -t qubes.StartApp+split-browser-safest-dom0
@@ -92,24 +92,24 @@ _TODO: build some sort of KeePassXC bridge?_
 
 ## Installation
 
-1. Create a new persistent VM or take an existing one, and configure it to launch the right DisposableVMs and (optionally, for safety against user error) to have no network access itself:
+1. Create a new persistent qube or take an existing one, and configure it to launch the right disposables and (optionally, for safety against user error) to have no network access itself:
 
         qvm-create --label=purple surfer
         qvm-prefs surfer default_dispvm whonix-ws-XX-dvm
         qvm-prefs surfer netvm ''
 
-   The DisposableVMs will know which persistent VM launched them, so don't name it "rumplestiltskin" if an exploited browser mustn't find out.
+   The disposables will know which persistent qube launched them, so don't name it "rumplestiltskin" if an exploited browser mustn't find out.
 
-2. Install the `qubes-split-browser` package from [qubes-repo-contrib](https://www.qubes-os.org/doc/installing-contributed-packages/) in your persistent VM's TemplateVM (e.g. fedora-XX).
+2. Install the `qubes-split-browser` package from [qubes-repo-contrib](https://www.qubes-os.org/doc/installing-contributed-packages/) in your persistent qube's TemplateVM (e.g. fedora-XX).
 
-   _Or install manually:_ Copy `vm/` into your persistent VM or its TemplateVM (e.g. fedora-XX) and run `sudo make install-persist`; then install the `dmenu oathtool` packages in the TemplateVM.
+   _Or install manually:_ Copy `vm/` into your persistent qube or its TemplateVM (e.g. fedora-XX) and run `sudo make install-persist`; then install the `dmenu oathtool` packages in the TemplateVM.
 
-3. Install the `qubes-split-browser-disp` package from qubes-repo-contrib in your persistent VM's default DisposableVM Template's TemplateVM (e.g. whonix-ws-XX).
+3. Install the `qubes-split-browser-disp` package from qubes-repo-contrib in your persistent qube's default disposable template's TemplateVM (e.g. whonix-ws-XX).
 
-   _Or install manually:_ Copy `vm/` into your persistent VM's default DisposableVM Template (e.g. whonix-ws-XX-dvm) or the latter's TemplateVM (e.g. whonix-ws-XX) and run `sudo make install-disp`; then install the `xdotool` package in the TemplateVM.
+   _Or install manually:_ Copy `vm/` into your persistent qube's default disposable template (e.g. whonix-ws-XX-dvm) or the latter's TemplateVM (e.g. whonix-ws-XX) and run `sudo make install-disp`; then install the `xdotool` package in the TemplateVM.
 
    Either way, also ensure that an extracted Tor Browser will be available in `~/.tb/tor-browser/` (e.g. by running the Tor Browser Downloader `update-torbrowser` in whonix-ws-XX).
 
-4. You can enable the Split Browser application launcher shortcuts for your persistent VM as usual through the Applications tab in Qube Settings, or alternatively run `split-browser` in a terminal (with `-h` to see the help message).
+4. You can enable the Split Browser application launcher shortcuts for your persistent qube as usual through the Applications tab in Qube Settings, or alternatively run `split-browser` in a terminal (with `-h` to see the help message).
 
 _TODO: consider recommending `systemctl disable onion-grater` in whonix-gw-XX, because Split Browser doesn't need to access the tor control port at all_

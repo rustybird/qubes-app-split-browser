@@ -47,7 +47,7 @@ END
 done
 
 
-# When the DisposableVM sends us a request, the page URL and title fields are
+# When the disposable sends us a request, the page URL and title fields are
 # supplied in two versions each: printable ASCII, and UTF-8. Printable ASCII
 # *URLs* use Punycode IDNs and percent-encoding. Printable ASCII *titles*
 # actually come in as UTF-8 (normalized to NFKD, which tends to look better
@@ -69,7 +69,7 @@ sanitize_utf-8() {  # replace null byte with _; then validate as UTF-8
 }
 
 
-# Launch via qubes.VMShell in the DisposableVM, because a straightforward
+# Launch via qubes.VMShell in the disposable, because a straightforward
 # 'qrexec-client-vm @dispvm split-browser-disp' call would require the user to
 # manually create a policy in dom0. Transition to split-browser-disp with the
 # trick described in /usr/lib/qubes/qrun-in-vm (not reused here, because it
@@ -80,10 +80,10 @@ sanitize_utf-8() {  # replace null byte with _; then validate as UTF-8
 # split-browser-cmd. (This is essentially a crappy bidirectional RPC system
 # implemented *inside* a qrexec RPC call's data streams. It would be much nicer
 # to do multiple qrexec calls back and forth, but that requires lots of policy
-# configuration for each persistent VM.) Also strictly sanitize stderr and
+# configuration for each persistent qube.) Also strictly sanitize stderr and
 # distinguish it with a prefix.
 
-dispvm() (
+disp() (
     exec {saved_stdout_fd}>&1 >&2
     trap 'rm -f -- "$SB_CMD_INPUT"{.tmp,}' EXIT
     mkfifo -- "$SB_CMD_INPUT".tmp
@@ -121,7 +121,7 @@ dispvm() (
                 echo x >&"$saved_stdout_fd"
             ;;
             *)
-                printf 'Unknown request from DisposableVM: %s\n' "${req[0]}"
+                printf 'Unknown request from disposable side: %s\n' "${req[0]}"
             ;;
         esac
     done
@@ -140,6 +140,6 @@ while :; do
     master_cmd=( master "${args[@]}" )
     args=()  # on restart, don't load given URLs again
 
-    restart=$(dispvm "${setup_cmd[*]}" "${master_cmd[*]}")
+    restart=$(disp "${setup_cmd[*]}" "${master_cmd[*]}")
     [[ $restart ]] || exit 0
 done

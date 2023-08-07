@@ -162,7 +162,7 @@
     }
   });
 
-  // listen for URL load commands from the persistent VM
+  // listen for URL load commands from the persistent qube
   IntoFirefox.asyncListen({
     onSocketAccepted: ({}, transport) => {
       const input = new ConvInputStream(

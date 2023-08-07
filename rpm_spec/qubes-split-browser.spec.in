@@ -16,11 +16,11 @@ Requires:       python3
 Requires:       python3-xcffib
 Requires:       systemd
 Recommends:     oathtool
-Summary:        Split Browser for Qubes
+Summary:        Split Browser for Qubes OS
 
 %description
-Handle persistent bookmarks and logins in a Qubes VM, and communicate with
-throwaway Tor Browser (or Firefox) instances in DisposableVMs.
+Handle persistent bookmarks and logins in a Qubes OS qube, and communicate with
+throwaway Tor Browser (or Firefox) instances in disposables.
 
 %prep
 %setup -q
@@ -43,11 +43,11 @@ Requires:       coreutils
 Requires:       socat
 Requires:       systemd
 Recommends:     xdotool
-Summary:        Split Browser for Qubes (DisposableVM side)
+Summary:        Split Browser for Qubes OS (disposable side)
 
 %description disp
-Present a throwaway Tor Browser (or Firefox) instance in a Qubes DisposableVM,
-and communicate with a VM that handles persistent bookmarks and logins.
+Present a throwaway Tor Browser (or Firefox) instance in a Qubes OS disposable,
+and communicate with a qube that handles persistent bookmarks and logins.
 
 %files disp
 %license LICENSE-0BSD
