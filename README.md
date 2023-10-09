@@ -1,6 +1,6 @@
 # Split Browser for Qubes OS
 
-Everyone loves the [Whonix approach](https://www.whonix.org/wiki/Qubes) of running Tor Browser and the tor daemon in two separate [Qubes OS](https://www.qubes-os.org/) qubes, e.g. anon-whonix and sys-whonix.
+Everyone loves the [Whonix approach](https://www.whonix.org/wiki/Qubes) of running Tor Browser and the tor daemon in two separate [Qubes OS](https://www.qubes-os.org/) qubes (virtual machines), e.g. anon-whonix and sys-whonix.
 
 Let's take it a step further and **run Tor Browser (or Firefox) in a [disposable](https://www.qubes-os.org/doc/how-to-use-disposables/) connecting through the tor qube (or another network-providing qube), while storing bookmarks and logins in a persistent qube** - with carefully restricted data flow.
 
