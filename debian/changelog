@@ -1,3 +1,15 @@
+qubes-split-browser (0.16.2-1) unstable; urgency=medium
+
+  * (packaging): archlinux: Fix URL
+  * (packaging): debian: Add 'Rules-Requires-Root: no'
+  * (packaging): Drop builder v1 exceptions for CentOS 7, Debian 8
+  * "VM" -> "qube", etc.
+  * README.md: Clarify "qube" for people unfamiliar with Qubes OS
+  * 32-ui-tweaks.js.EXAMPLE: Hide bookmarks toolbar on about:newtab
+  * 21-tor-browser.bash: Set new TOR_PROVIDER variable for TB 13
+
+ -- Rusty Bird <rustybird@net-c.com>  Mon, 09 Oct 2023 16:13:43 +0000
+
 qubes-split-browser (0.16.1-1) unstable; urgency=medium
 
   * Add builderv2 integration
