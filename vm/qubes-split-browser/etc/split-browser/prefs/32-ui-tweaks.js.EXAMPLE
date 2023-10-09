@@ -1,3 +1,4 @@
+pref("browser.toolbars.bookmarks.visibility", "never");
 pref("browser.urlbar.trimURLs", false);
 pref("reader.color_scheme", "sepia");
 pref("security.insecure_connection_text.enabled", true);
