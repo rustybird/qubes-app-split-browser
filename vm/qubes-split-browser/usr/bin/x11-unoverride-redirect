@@ -18,7 +18,6 @@ XCB_ICCCM_NUM_WM_SIZE_HINTS_ELEMENTS = 18
 XCB_ICCCM_SIZE_HINT_P_MIN_SIZE = 1 << 4
 XCB_ICCCM_SIZE_HINT_P_MAX_SIZE = 1 << 5
 
-
 def title_property():
     env = os.getenvb(b'_NET_WM_NAME', b'')
     return len(env), env
@@ -29,20 +28,6 @@ def fixed_size_property(width, height):
     hint[5], hint[6] = hint[7], hint[8] = width, height
     return XCB_ICCCM_NUM_WM_SIZE_HINTS_ELEMENTS, struct.pack(
         f'=I{XCB_ICCCM_NUM_WM_SIZE_HINTS_ELEMENTS - 2}iI', *hint)
-
-def adjust_window(window, width, height, core):
-    yield core.ChangeWindowAttributesChecked(window, CW.OverrideRedirect, [0])
-    attributes_cookie = core.GetWindowAttributes(window)
-    yield core.ChangePropertyChecked(
-        # pylint: disable=no-member,protected-access
-        PropMode.Replace, window, Atom._NET_WM_NAME, Atom.UTF8_STRING, 8,
-        *title_property())
-    yield core.ChangePropertyChecked(
-        PropMode.Replace, window, Atom.WM_NORMAL_HINTS, Atom.WM_SIZE_HINTS, 32,
-        *fixed_size_property(width, height))
-    if attributes_cookie.reply().map_state != xproto.MapState.Unmapped:
-        yield core.UnmapWindowChecked(window)
-        yield core.MapWindowChecked(window)
 
 def main():
     connection = xcffib.connect()
@@ -56,17 +41,50 @@ def main():
         [xproto.EventMask.SubstructureNotify]
     ).check()
 
+    window = None
+
     with subprocess.Popen(sys.argv[1:]) as command:
         for ev in iter(connection.wait_for_event, None):
             if command.poll() is not None:  # command finished
                 break
-            if isinstance(ev, xproto.CreateNotifyEvent) \
-               and ev.override_redirect:
-                for cookie in list(
-                    adjust_window(ev.window, ev.width, ev.height, core)
-                ):
-                    cookie.check()
-                break
+
+            if window is None:
+                if isinstance(ev, xproto.CreateNotifyEvent) \
+                   and ev.override_redirect:
+                    window = ev.window
+
+                    cookies = [
+                        core.ChangeWindowAttributesChecked(
+                            window, CW.OverrideRedirect, [0]),
+                    ]
+                    connection.flush()
+
+                    cookies += [
+                        core.ChangePropertyChecked(
+                            PropMode.Replace, window,
+                            # pylint: disable=no-member,protected-access
+                            Atom._NET_WM_NAME, Atom.UTF8_STRING,
+                            8, *title_property()),
+                        core.ChangePropertyChecked(
+                            PropMode.Replace, window,
+                            Atom.WM_NORMAL_HINTS, Atom.WM_SIZE_HINTS,
+                            32, *fixed_size_property(ev.width, ev.height)),
+                    ]
+                    connection.flush()
+            elif window == ev.window:
+                if isinstance(ev, xproto.MapNotifyEvent):
+                    if ev.sequence < cookies[0].sequence:
+                        cookies += [
+                            core.UnmapWindowChecked(window),
+                            core.MapWindowChecked(window),
+                        ]
+                        connection.flush()
+                    break
+                if isinstance(ev, xproto.DestroyNotifyEvent):
+                    break
+
+        for c in cookies:
+            c.check()
         connection.disconnect()
 
     status = command.returncode
