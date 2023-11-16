@@ -23,24 +23,23 @@ def title_property():
     env = os.getenvb(b'_NET_WM_NAME', b'')
     return len(env), env
 
-def fixed_size_property(geometry):
+def fixed_size_property(width, height):
     hint = [0] * XCB_ICCCM_NUM_WM_SIZE_HINTS_ELEMENTS
     hint[0] = XCB_ICCCM_SIZE_HINT_P_MIN_SIZE | XCB_ICCCM_SIZE_HINT_P_MAX_SIZE
-    hint[5], hint[6] = hint[7], hint[8] = geometry.width, geometry.height
+    hint[5], hint[6] = hint[7], hint[8] = width, height
     return XCB_ICCCM_NUM_WM_SIZE_HINTS_ELEMENTS, struct.pack(
         f'=I{XCB_ICCCM_NUM_WM_SIZE_HINTS_ELEMENTS - 2}iI', *hint)
 
-def adjust_window(window, core):
+def adjust_window(window, width, height, core):
     yield core.ChangeWindowAttributesChecked(window, CW.OverrideRedirect, [0])
     attributes_cookie = core.GetWindowAttributes(window)
-    geometry_cookie = core.GetGeometry(window)
     yield core.ChangePropertyChecked(
         # pylint: disable=no-member,protected-access
         PropMode.Replace, window, Atom._NET_WM_NAME, Atom.UTF8_STRING, 8,
         *title_property())
     yield core.ChangePropertyChecked(
         PropMode.Replace, window, Atom.WM_NORMAL_HINTS, Atom.WM_SIZE_HINTS, 32,
-        *fixed_size_property(geometry_cookie.reply()))
+        *fixed_size_property(width, height))
     if attributes_cookie.reply().map_state != xproto.MapState.Unmapped:
         yield core.UnmapWindowChecked(window)
         yield core.MapWindowChecked(window)
@@ -63,7 +62,9 @@ def main():
                 break
             if isinstance(ev, xproto.CreateNotifyEvent) \
                and ev.override_redirect:
-                for cookie in list(adjust_window(ev.window, core)):
+                for cookie in list(
+                    adjust_window(ev.window, ev.width, ev.height, core)
+                ):
                     cookie.check()
                 break
         connection.disconnect()
