@@ -64,7 +64,11 @@
     const titleForAscii = titleForUtf8.normalize("NFKD");
     let   uri           = browser.currentURI;
 
-    if (["about:blank", "about:newtab"].includes(uri.asciiSpec))
+    if ([
+      "about:blank",
+      "about:newtab",
+      "chrome://browser/content/blanktab.html",
+    ].includes(uri.asciiSpec))
       return;
 
     const originalUrl = ReaderMode.getOriginalUrl(uri.asciiSpec);
