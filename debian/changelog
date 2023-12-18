@@ -1,3 +1,12 @@
+qubes-split-browser (0.16.3-1) unstable; urgency=medium
+
+  * x11-unoverride-redirect: Avoid GetGeometry() call
+  * x11-unoverride-redirect: Avoid GetWindowAttributes() call too
+  * sb.js: add blanktab.html to URLs skipped for bookmark/login
+  * Use rofi instead of dmenu (temporarily?)
+
+ -- Rusty Bird <rustybird@net-c.com>  Mon, 18 Dec 2023 17:50:17 +0000
+
 qubes-split-browser (0.16.2-1) unstable; urgency=medium
 
   * (packaging): archlinux: Fix URL
