@@ -28,7 +28,7 @@ Ctrl-Shift-s     | Move downloads to a qube of your choice
 
 ## Implementation
 
-~ 600 nonempty lines total, in a couple of Bash scripts, Awk, Python, and [JavaScript on the browser side](vm/qubes-split-browser-disp/usr/share/split-browser-disp/firefox/sb.js) (deployed as a [Mozilla AutoConfig](https://support.mozilla.org/en-US/kb/customizing-firefox-using-autoconfig) file). The bookmark and login managers use [dmenu](https://tools.suckless.org/dmenu/).
+~ 600 nonempty lines total, in a couple of Bash scripts, Awk, Python, and [JavaScript on the browser side](vm/qubes-split-browser-disp/usr/share/split-browser-disp/firefox/sb.js) (deployed as a [Mozilla AutoConfig](https://support.mozilla.org/en-US/kb/customizing-firefox-using-autoconfig) file). The bookmark and login managers use [rofi](https://github.com/davatorium/rofi) in dmenu mode.
 
 
 ## Bookmarks
@@ -102,7 +102,7 @@ _TODO: build some sort of KeePassXC bridge?_
 
 2. Install the `qubes-split-browser` package from [qubes-repo-contrib](https://www.qubes-os.org/doc/installing-contributed-packages/) in your persistent qube's TemplateVM (e.g. fedora-XX).
 
-   _Or install manually:_ Copy `vm/` into your persistent qube or its TemplateVM (e.g. fedora-XX) and run `sudo make install-persist`; then install the `dmenu oathtool` packages in the TemplateVM.
+   _Or install manually:_ Copy `vm/` into your persistent qube or its TemplateVM (e.g. fedora-XX) and run `sudo make install-persist`; then install the `rofi oathtool` packages in the TemplateVM.
 
 3. Install the `qubes-split-browser-disp` package from qubes-repo-contrib in your persistent qube's default disposable template's TemplateVM (e.g. whonix-ws-XX).
 

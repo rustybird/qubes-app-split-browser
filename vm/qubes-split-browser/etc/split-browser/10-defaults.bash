@@ -13,6 +13,10 @@ SB_ELLIPSIS=$'\u2026'
 SB_STAR=$'\u2605'
 
 sb_dmenu() {
-    _NET_WM_NAME="Split Browser - $SB_SCREEN" \
-    x11-unoverride-redirect stdbuf -oL dmenu "$@"
+    rofi -dmenu \
+         -normal-window \
+         -window-title "Split Browser - $SB_SCREEN" \
+         -theme-str 'window {width: 100%;}' \
+         -theme solarized \
+         "$@"
 }

@@ -45,7 +45,7 @@ case "$1" in
                SB_BOOKMARK_PRETTY_OFS='  '
 
         {
-            echo  # select an empty line in dmenu initially
+            echo  # select an empty line initially
             split-browser-bookmark-pretty <"$SB_BOOKMARK_FILE"
         } |
         SB_SCREEN=bookmarks sb_dmenu -i -l 20 |

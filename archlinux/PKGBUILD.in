@@ -22,10 +22,9 @@ package_qubes-split-browser() {
         awk
         bash
         coreutils
-        dmenu
         libnotify
         python
-        python-xcffib
+        rofi
         systemd
     )
     optdepends=(

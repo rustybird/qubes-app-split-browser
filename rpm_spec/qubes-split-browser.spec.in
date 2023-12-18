@@ -10,10 +10,9 @@ BuildRequires:  make
 Requires:       %{_bindir}/awk
 Requires:       bash >= 4.4
 Requires:       coreutils
-Requires:       dmenu
 Requires:       libnotify
 Requires:       python3
-Requires:       python3-xcffib
+Requires:       rofi
 Requires:       systemd
 Recommends:     oathtool
 Summary:        Split Browser for Qubes OS

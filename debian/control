@@ -11,10 +11,9 @@ Vcs-Git:  https://github.com/rustybird/qubes-app-split-browser.git
 Package: qubes-split-browser
 Architecture: all
 Depends:
-    dmenu,
     libnotify-bin,
     python3,
-    python3-xcffib,
+    rofi,
     systemd,
     ${misc:Depends}
 Suggests: oathtool
