@@ -1,0 +1,2 @@
+SB_FIREFOX_DIR=~/mullvad-browser/Browser
+SB_FIREFOX=( ./start-mullvad-browser )
