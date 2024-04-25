@@ -1,3 +1,4 @@
+pref("browser.startup.homepage", "chrome://browser/content/blanktab.html");
 pref("browser.toolbars.bookmarks.visibility", "never");
 pref("browser.urlbar.trimURLs", false);
 pref("reader.color_scheme", "sepia");
