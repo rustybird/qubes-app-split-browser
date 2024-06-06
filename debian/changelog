@@ -1,3 +1,11 @@
+qubes-split-browser (0.16.4-1) unstable; urgency=medium
+
+  * Update copyright year
+  * Add blank homepage to 32-ui-tweaks.js.EXAMPLE
+  * Add Mullvad Browser example configuration
+
+ -- Rusty Bird <rustybird@net-c.com>  Thu, 06 Jun 2024 11:14:13 +0000
+
 qubes-split-browser (0.16.3-1) unstable; urgency=medium
 
   * x11-unoverride-redirect: Avoid GetGeometry() call
