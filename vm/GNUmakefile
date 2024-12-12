@@ -31,7 +31,6 @@ install-persist:
 	cp -R -- qubes-split-browser/usr/* '$(DESTDIR)$(PREFIX)/'
 	cp -R -- qubes-split-browser/etc/* '$(DESTDIR)$(etc)/'
 ifeq ($(DESTDIR),)
-	rm -f -- '$(etc)/split-browser/prefs/13-no-tor-daemon.js'
 	systemd-tmpfiles --create split-browser.conf
 	if type update-desktop-database >/dev/null; then update-desktop-database; fi
 	qrexec-client-vm dom0 qubes.SyncAppMenus /etc/qubes-rpc/qubes.GetAppmenus
