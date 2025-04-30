@@ -4,8 +4,10 @@
 
   const CC = Components.Constructor;
 
-  const { ReaderMode } = Cu.import("resource://gre/modules/ReaderMode.jsm", {});
-  const { Subprocess } = Cu.import("resource://gre/modules/Subprocess.jsm", {});
+  const { ReaderMode } = ChromeUtils.importESModule(
+                           "resource://gre/modules/ReaderMode.sys.mjs");
+  const { Subprocess } = ChromeUtils.importESModule(
+                           "resource://gre/modules/Subprocess.sys.mjs");
 
   const AppStartup      = Cc["@mozilla.org/toolkit/app-startup;1"]
                           .getService(Ci.nsIAppStartup);
