@@ -1,3 +1,10 @@
+qubes-split-browser (0.16.7-1) unstable; urgency=medium
+
+  * .eslintrc.yml: Cu is now unused
+  * sb.js: Fix compatibility with Firefox 138+
+
+ -- Rusty Bird <rustybird@net-c.com>  Thu, 23 Oct 2025 17:41:01 +0000
+
 qubes-split-browser (0.16.6-1) unstable; urgency=medium
 
   * (packaging): debian: Update standards version
