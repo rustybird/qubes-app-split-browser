@@ -4,10 +4,23 @@
 
   const CC = Components.Constructor;
 
-  const { ReaderMode } = ChromeUtils.importESModule(
-                           "resource://gre/modules/ReaderMode.sys.mjs");
-  const { Subprocess } = ChromeUtils.importESModule(
-                           "resource://gre/modules/Subprocess.sys.mjs");
+  let ReaderMode;
+  try {
+    ({ ReaderMode } = ChromeUtils.importESModule(
+      "moz-src:///toolkit/components/reader/ReaderMode.sys.mjs"));
+  } catch({}) {
+    ({ ReaderMode } = ChromeUtils.importESModule(
+      "resource://gre/modules/ReaderMode.sys.mjs"));
+  }
+
+  let Subprocess;
+  try {
+    ({ Subprocess } = ChromeUtils.importESModule(
+      "moz-src:///toolkit/modules/subprocess/Subprocess.sys.mjs"));
+  } catch({}) {
+    ({ Subprocess } = ChromeUtils.importESModule(
+      "resource://gre/modules/Subprocess.sys.mjs"));
+  }
 
   const AppStartup      = Cc["@mozilla.org/toolkit/app-startup;1"]
                           .getService(Ci.nsIAppStartup);
