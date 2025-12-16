@@ -10,12 +10,17 @@ for f in {,/usr/local}/etc/split-browser/*.bash; do source "$f"; done
 notify() {
     local summary=$1 body=$2$'\n\n'$3
 
-    # XML-escape for the notification server
-    body=${body//'&'/'&amp;'}
-    body=${body//'<'/'&lt;'}
-    body=${body//'>'/'&gt;'}
-    body=${body//'"'/'&quot;'}
-    body=${body//"'"/'&apos;'}
+    if ! caps=$(dbus-send --print-reply --dest=org.freedesktop.Notifications \
+                          /org/freedesktop/Notifications \
+                          org.freedesktop.Notifications.GetCapabilities) ||
+       [[ $caps == *\"body-markup\"* ]]; then
+        # XML-escape for the notification server
+        body=${body//'&'/'&amp;'}
+        body=${body//'<'/'&lt;'}
+        body=${body//'>'/'&gt;'}
+        body=${body//'"'/'&quot;'}
+        body=${body//"'"/'&apos;'}
+    fi
 
     # Escape backslash for GLib's g_strcompress() in libnotify's notify-send
     # shellcheck disable=SC1003
