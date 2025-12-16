@@ -72,7 +72,7 @@ case "$1" in
         done
 
         if entry=$(grep -m 1 -F -- $'\t'"$url"$'\t' "$SB_BOOKMARK_FILE"); then
-            notify 'Already bookmarked' "$url" "${entry##*$'\t'}"
+            notify 'Already bookmarked!' "$url" "${entry##*$'\t'}"
         else
             entry=$date$'\t'$url$'\t'$title
 
@@ -83,7 +83,7 @@ case "$1" in
             d=$(dirname           -- "$SB_BOOKMARK_FILE")
             sync -- "$d"
 
-            notify "$SB_STAR  Page bookmarked" "$url" "$title"
+            notify 'Bookmark added' "$url" "$title"
         fi
     ;;
 esac

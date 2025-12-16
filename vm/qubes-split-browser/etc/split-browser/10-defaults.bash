@@ -10,7 +10,6 @@ SB_LOGIN_PASSGEN_ALPHABET='\041-\176'  # printable ASCII (no space), tr syntax
 SB_BOOKMARK_PRETTY_DATE_LEN=19  # with time zone: 25
 SB_BOOKMARK_PRETTY_TITLE_LEN=70
 SB_ELLIPSIS=$'\u2026'
-SB_STAR=$'\u2605'
 
 sb_dmenu() {
     rofi -dmenu \
