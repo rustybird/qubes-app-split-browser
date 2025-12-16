@@ -1,3 +1,10 @@
+qubes-split-browser (0.16.8-1) unstable; urgency=medium
+
+  * split-browser-bookmark: Don't XML-escape for plain text daemon
+  * split-browser-bookmark: Tweak notifications
+
+ -- Rusty Bird <rustybird@net-c.com>  Tue, 16 Dec 2025 20:03:07 +0000
+
 qubes-split-browser (0.16.7-1) unstable; urgency=medium
 
   * .eslintrc.yml: Cu is now unused
