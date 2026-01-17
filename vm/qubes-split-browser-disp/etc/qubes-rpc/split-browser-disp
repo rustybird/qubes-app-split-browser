@@ -35,6 +35,7 @@ while IFS= read -r cmd_line; do
         ;;
         master)
             (
+                exec {_dummy_writer_fd}>"$SB_FROM_FIREFOX"
                 systemd-run --user --quiet --wait --pipe --same-dir \
                             --property=ExitType=cgroup --unit=sb-firefox -- \
                             bash -es <<<"$(declare -x)"$'\nexec "$@"' -- \
@@ -42,7 +43,7 @@ while IFS= read -r cmd_line; do
                 sig=USR1 ||
                 sig=USR2
                 kill -s "$sig" $$
-            ) {_writer_fd}>"$SB_FROM_FIREFOX" &
+            ) &
         ;;
         helper)
             "${cmd[@]:1}"
