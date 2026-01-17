@@ -1,2 +1,2 @@
-SB_FIREFOX_DIR=/usr/lib/firefox
+SB_FIREFOX_DIR=( /[u]sr/lib{,64}/firefox /[u]sr/lib{,64}/firefox-esr )
 SB_FIREFOX=( ./firefox-bin )

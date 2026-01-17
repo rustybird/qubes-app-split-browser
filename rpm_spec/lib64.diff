@@ -1,6 +1,0 @@
---- a/vm/qubes-split-browser-disp/etc/split-browser-disp/22-firefox.bash.EXAMPLE
-+++ b/vm/qubes-split-browser-disp/etc/split-browser-disp/22-firefox.bash.EXAMPLE
-@@ -1,2 +1,2 @@
--SB_FIREFOX_DIR=/usr/lib/firefox
-+SB_FIREFOX_DIR=/usr/lib64/firefox
- SB_FIREFOX=( ./firefox-bin )

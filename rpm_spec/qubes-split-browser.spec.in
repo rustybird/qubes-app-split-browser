@@ -23,7 +23,6 @@ throwaway Tor Browser (or Firefox) instances in disposables.
 
 %prep
 %setup -q
-patch -p1 -i rpm_spec/lib64.diff
 
 %install
 gmake -C vm PREFIX=/usr DESTDIR="$RPM_BUILD_ROOT" install-persist install-disp
