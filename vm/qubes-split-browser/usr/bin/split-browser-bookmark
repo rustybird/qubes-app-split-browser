@@ -30,9 +30,11 @@ notify() {
 }
 
 
+IFS= read -r -d '' bookmark_file_dirname < <(dirname -z -- "$SB_BOOKMARK_FILE")
+wait $!
+
 if [[ ! -e $SB_BOOKMARK_FILE ]]; then
-    d=$(dirname -- "$SB_BOOKMARK_FILE")
-    mkdir -p -- "$d"
+    mkdir -p -- "$bookmark_file_dirname"
     : >>"$SB_BOOKMARK_FILE"
     sync --file-system -- "$SB_BOOKMARK_FILE"
 fi
@@ -80,8 +82,7 @@ case "$1" in
             printf '%s\n' "$entry" >>"$SB_BOOKMARK_FILE".tmp
             sync                  -- "$SB_BOOKMARK_FILE".tmp
             mv -T                 -- "$SB_BOOKMARK_FILE"{.tmp,}
-            d=$(dirname           -- "$SB_BOOKMARK_FILE")
-            sync -- "$d"
+            sync -- "$bookmark_file_dirname"
 
             notify 'Bookmark added' "$url" "$title"
         fi
