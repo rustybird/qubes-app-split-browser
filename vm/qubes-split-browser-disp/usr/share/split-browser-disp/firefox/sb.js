@@ -52,12 +52,19 @@
   const UnixServerSocket = CC("@mozilla.org/network/server-socket;1",
                               Ci.nsIServerSocket, "initWithFilename");
 
-  const FieldSep    = "\t";
-  const RecordSep   = "\n";
-  const BadByte     = new RegExp([FieldSep, RecordSep, "\0"].join("|"), "g");
-  const IntoFirefox = new UnixServerSocket(
-                        new File(Environment.get("SB_INTO_FIREFOX")),
-                        0o644, -1);
+  const FieldSep  = "\t";
+  const RecordSep = "\n";
+  const BadByte   = new RegExp([FieldSep, RecordSep, "\0"].join("|"), "g");
+
+  const IntoFirefoxFile = new File(Environment.get("SB_INTO_FIREFOX"));
+  try {
+    IntoFirefoxFile.remove(false);
+  } catch(e) {
+    if (e.result !== Cr.NS_ERROR_FILE_NOT_FOUND)
+      throw e;
+  }
+  const IntoFirefox = new UnixServerSocket(IntoFirefoxFile, 0o644, -1);
+
   const FromFirefox = new ConvOutputStream(
                         new FileOutputStream(
                           new File(Environment.get("SB_FROM_FIREFOX")),

@@ -6,6 +6,7 @@ globals:
   Cc:          readonly
   Ci:          readonly
   ChromeUtils: readonly
+  Cr:          readonly
   pref:        readonly
 rules:
   no-empty-pattern:
