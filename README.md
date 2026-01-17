@@ -90,6 +90,11 @@ _TODO: build some sort of KeePassXC bridge?_
 - Non-"Tor Browser" versions of Firefox should also work: Symlink `[/usr/local]/etc/split-browser-disp/22-firefox.bash.EXAMPLE` (or copy it, if you need to adjust the Firefox location) without the `.EXAMPLE` suffix.
 
 
+## Known bugs
+
+- With Tor Browser or Mullvad Browser: If Split Browser is started directly on a Security Level other then the default Standard (e.g. via `split-browser --safest` or the corresponding app menu entry) then manually changing the level in the same session is broken.
+
+
 ## Installation
 
 1. Create a new persistent qube or take an existing one, and configure it to launch the right disposables and (optionally, for safety against user error) to have no network access itself:
