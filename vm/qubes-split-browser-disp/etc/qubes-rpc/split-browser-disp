@@ -29,7 +29,9 @@ while IFS= read -r cmd_line; do
             mkfifo -- "$SB_FROM_FIREFOX"
             cat      <"$SB_FROM_FIREFOX" >&"$saved_stdout_fd" &
             reader_pid=$!
-            trap 'wait $reader_pid || exit $?' EXIT
+            # shellcheck disable=SC2034
+            exec {writer_fd}>"$SB_FROM_FIREFOX"
+            trap 'exec {writer_fd}>&-; wait $reader_pid || exit $?' EXIT
             trap 'exit 0' USR1
             trap 'exit 1' USR2
         ;;
