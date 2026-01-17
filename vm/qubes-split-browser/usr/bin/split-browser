@@ -100,9 +100,9 @@ disp() (
 
     {
         qrexec-client-vm -T "$SB_DISP" qubes.VMShell+WaitForSession \
-                         2>&1 >&"$req_fd" {req_fd}>&- <&"$cmd_fd" |
-        sanitize_ascii                    {req_fd}>&- |
-        sed -u 's/^/disp: /'  >&2         {req_fd}>&-
+                         2>&1 >&"$req_fd" <&"$cmd_fd" |
+        sanitize_ascii |
+        sed -u 's/^/disp: /' >&2
     } {req_fd}>&1 |
     sanitize_"$SB_CHARSET" |
     while IFS= read -r req_line; do
