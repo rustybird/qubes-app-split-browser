@@ -1,2 +1,2 @@
-SB_FIREFOX_DIR=( ~/.[l]ocal/share/mullvad-browser/Browser {/usr/lib,/opt}/[m]ullvad-browser )
+SB_FIREFOX_DIR=( "${XDG_DATA_HOME:-~/.local/share}"/[m]ullvad-browser/Browser {/usr/lib,/opt}/[m]ullvad-browser )
 SB_FIREFOX=( ./start-mullvad-browser )
