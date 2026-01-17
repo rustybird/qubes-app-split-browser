@@ -1,3 +1,17 @@
+qubes-split-browser (0.17.0-1) unstable; urgency=medium
+
+  * Support bookmark file directory name ending in newline
+  * Try a few $SB_FIREFOX_DIR variations per browser type
+  * Avoid a ShellCheck warning differently
+  * Keep a dummy writer FD to $SB_FROM_FIREFOX open
+  * Keep track of Firefox if it restarts itself
+  * Unlink stale $SB_INTO_FIREFOX socket file after restart
+  * Disable confirmation after manually changing Security Level
+  * Remove pointless Security Level lock for Safest launch
+  * Document known bug when launching on non-Standard level
+
+ -- Rusty Bird <rustybird@net-c.com>  Sat, 17 Jan 2026 03:06:15 +0000
+
 qubes-split-browser (0.16.8-1) unstable; urgency=medium
 
   * split-browser-bookmark: Don't XML-escape for plain text daemon
