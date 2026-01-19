@@ -1,3 +1,14 @@
+qubes-split-browser (0.17.2-1) unstable; urgency=medium
+
+  [ Frédéric Pierret (fepitre) ]
+  * ci: drop 4.1 and add 4.3
+
+  [ Rusty Bird ]
+  * Make the scope of the dummy writer FD more obvious
+  * No need to close the request FD here
+
+ -- Rusty Bird <rustybird@net-c.com>  Mon, 19 Jan 2026 14:42:51 +0000
+
 qubes-split-browser (0.17.1-1) unstable; urgency=medium
 
   * Better way to manage the dummy writer FD
