@@ -100,7 +100,7 @@ _TODO: build some sort of KeePassXC bridge?_
 1. Create a new persistent qube or take an existing one, and configure it to launch the right disposables and (optionally, for safety against user error) to have no network access itself:
 
         qvm-create --label=purple surfer
-        qvm-prefs surfer default_dispvm whonix-ws-XX-dvm
+        qvm-prefs surfer default_dispvm whonix-workstation-XX-dvm
         qvm-prefs surfer netvm ''
 
    The disposables will know which persistent qube launched them, so don't name it "rumplestiltskin" if an exploited browser mustn't find out.
@@ -109,12 +109,12 @@ _TODO: build some sort of KeePassXC bridge?_
 
    _Or install manually:_ Copy `vm/` into your persistent qube or its TemplateVM (e.g. fedora-XX) and run `sudo make install-persist`; then install the `rofi oathtool` packages in the TemplateVM.
 
-3. Install the `qubes-split-browser-disp` package from qubes-repo-contrib in your persistent qube's default disposable template's TemplateVM (e.g. whonix-ws-XX).
+3. Install the `qubes-split-browser-disp` package from qubes-repo-contrib in your persistent qube's default disposable template's TemplateVM (e.g. whonix-workstation-XX).
 
-   _Or install manually:_ Copy `vm/` into your persistent qube's default disposable template (e.g. whonix-ws-XX-dvm) or the latter's TemplateVM (e.g. whonix-ws-XX) and run `sudo make install-disp`; then install the `xdotool` package in the TemplateVM.
+   _Or install manually:_ Copy `vm/` into your persistent qube's default disposable template (e.g. whonix-workstation-XX-dvm) or the latter's TemplateVM (e.g. whonix-workstation-XX) and run `sudo make install-disp`; then install the `xdotool` package in the TemplateVM.
 
-   Either way, also ensure that an extracted Tor Browser will be available in `~/.tb/tor-browser/` (e.g. by running the Tor Browser Downloader `update-torbrowser` in whonix-ws-XX).
+   Either way, also ensure that an extracted Tor Browser will be available in `~/.tb/tor-browser/` (e.g. by running the Tor Browser Downloader `update-torbrowser` in whonix-workstation-XX).
 
 4. You can enable the Split Browser application launcher shortcuts for your persistent qube as usual through the Applications tab in Qube Settings, or alternatively run `split-browser` in a terminal (with `-h` to see the help message).
 
-_TODO: consider recommending `systemctl disable onion-grater` in whonix-gw-XX, because Split Browser doesn't need to access the tor control port at all_
+_TODO: consider recommending `systemctl disable onion-grater` in whonix-gateway-XX, because Split Browser doesn't need to access the tor control port at all_
