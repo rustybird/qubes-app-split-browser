@@ -7,6 +7,8 @@ exec {saved_stdout_fd}>&1 >&2
 
 # shellcheck disable=SC1090
 for f in {,/usr/local}/etc/split-browser-disp/*.bash; do source "$f"; done
+
+fail=/run/split-browser-disp/fail
 export SB_INTO_FIREFOX=/run/split-browser-disp/into-firefox \
        SB_FROM_FIREFOX=/run/split-browser-disp/from-firefox
 
@@ -27,22 +29,16 @@ while IFS= read -r cmd_line; do
             printf '%s\n' '' "${cmd[@]:1}" ';' | cat - "${f[0]}" >sb.js
 
             mkfifo -- "$SB_FROM_FIREFOX"
-            cat      <"$SB_FROM_FIREFOX" >&"$saved_stdout_fd" &
-            reader_pid=$!
-            trap 'wait $reader_pid || exit $?' EXIT
-            trap 'exit 0' USR1
-            trap 'exit 1' USR2
+            trap 'if [[ -e "$fail" ]]; then exit 1; else exit 0; fi' USR1
+            (
+                cat <"$SB_FROM_FIREFOX" >&"$saved_stdout_fd" || : >"$fail"
+                kill -s USR1 $$
+            ) &
         ;;
         master)
             (
                 exec {_dummy_writer_fd}>"$SB_FROM_FIREFOX"
-                systemd-run --user --quiet --wait --pipe --same-dir \
-                            --property=ExitType=cgroup --unit=sb-firefox -- \
-                            bash -es <<<"$(declare -x)"$'\nexec "$@"' -- \
-                            "${SB_FIREFOX[@]}" "${cmd[@]:1}" &&
-                sig=USR1 ||
-                sig=USR2
-                kill -s "$sig" $$
+                "${SB_FIREFOX[@]}" "${cmd[@]:1}" || : >"$fail"
             ) &
         ;;
         helper)
