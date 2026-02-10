@@ -1,3 +1,10 @@
+qubes-split-browser (0.17.3-1) unstable; urgency=medium
+
+  * README.md: Update to unabbreviated Whonix template names
+  * split-browser-disp: Avoid systemd-run kludge
+
+ -- Rusty Bird <rustybird@net-c.com>  Tue, 10 Feb 2026 18:29:12 +0000
+
 qubes-split-browser (0.17.2-1) unstable; urgency=medium
 
   [ Frédéric Pierret (fepitre) ]
