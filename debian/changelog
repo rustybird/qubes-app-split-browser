@@ -1,3 +1,9 @@
+qubes-split-browser (0.17.5-1) unstable; urgency=medium
+
+  * Revert "(packaging): debian: Update standards version"
+
+ -- Rusty Bird <rustybird@net-c.com>  Wed, 25 Feb 2026 16:43:55 +0000
+
 qubes-split-browser (0.17.4-1) unstable; urgency=medium
 
   * (packaging): debian: Update standards version
