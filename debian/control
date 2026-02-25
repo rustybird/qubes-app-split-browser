@@ -1,8 +1,9 @@
 Source: qubes-split-browser
 Section: web
+Priority: optional
 Maintainer: Rusty Bird <rustybird@net-c.com>
 Build-Depends: debhelper-compat (= 12)
-Standards-Version: 4.7.3
+Standards-Version: 4.7.2
 Rules-Requires-Root: no
 Homepage: https://github.com/rustybird/qubes-app-split-browser
 Vcs-Git:  https://github.com/rustybird/qubes-app-split-browser.git
